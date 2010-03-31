@@ -1,9 +1,10 @@
-= Patrick Austin Ward Dot Files 
+= Patrick Ward Dot Files 
 
-I've culled these config files together from a variety of sources – many of which I can no longer identify. I've tried to give credit where credit is due. Some excellent sources of inspiration and, well, direct code snippets, include: 
+I've culled these config files together from a variety of sources. 
 
-The excellent Advanced Command Line Screencast at: https://peepcode.com/products/advanced-command-line
+Some of which include: 
 
-Ryan Bates wonderful dotfiles at: http://github.com/ryanb/dotfiles
+* The excellent Advanced Command Line Screencast at: https://peepcode.com/products/advanced-command-line
 
-Use these as you will. Be brave, yet careful, lazy, yet prudent. 
+* Ryan Bates wonderful dotfiles at: http://github.com/ryanb/dotfiles
+
