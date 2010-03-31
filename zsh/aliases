@@ -1,0 +1,40 @@
+# cd 
+alias ..="cd .."
+
+# Utility
+alias reload="source ~/bin/dotfiles/zsh/aliases"
+alias ea="mate -w ~/bin/dotfiles/zsh/aliases && reload" # Edit aliases
+
+# processes
+alias tu="top -o cpu" # sort by cpu
+alias tm="top -o vsize" # sort by memory
+
+# listing files 
+alias ls="ls -F"
+alias l="ls -lAh"
+alias ll="ls -l"
+alias la="ls -A"
+
+# git
+alias gs="git status"
+alias gl="git pull"
+alias gp="git push"
+alias gd="git diff | mate"
+alias gc="git commit -v"
+alias gca="git commit -v -a"
+alias gco="git checkout"
+alias gb="git branch"
+alias gba="git branch -a"
+
+# rails 
+alias sc="script/console"
+alias ss="script/server"
+alias sg="script/generate"
+alias a="autotest -rails"
+alias tlog="tail -f log/development.log"
+alias scaffold="script/generate nifty_scaffold"
+alias migrate="rake db:migrate db:test:clone"
+alias rst="touch tmp/restart.txt"
+
+# Find common commands you've recently used 
+# history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
