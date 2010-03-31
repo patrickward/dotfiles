@@ -1,0 +1,2 @@
+# cd to ~/code/$1
+cd ~/code/$1;
