@@ -1,8 +1,10 @@
 = Patrick Ward Dot Files 
 
-I've culled these config files together from a variety of sources. 
+These are the dot files I'm currently using on the various Mac computers I use. I've culled them together from a variety of sources. So, fell free to use them as-is. 
 
-Some of which include: 
+For my emacs configuration, I've been using a forked version of the emacs-starter-kit which can be found at: http://github.com/patrickward/emacs-starter-kit
+
+Sources: 
 
 * The excellent Advanced Command Line Screencast at: https://peepcode.com/products/advanced-command-line
 
