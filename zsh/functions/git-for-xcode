@@ -1,6 +1,7 @@
 # Appends (or creates) the .gitignore and .gitattributes files that 
 # allow Git and Xcode to coexist. Run this function (git-for-xcode) 
 # directly in the folder that you want to generate the files in 
+# Parts of this were found via http://shanesbrain.net/2008/7/9/using-xcode-with-git
 
 GITI=.gitignore
 GITA=.gitattributes
