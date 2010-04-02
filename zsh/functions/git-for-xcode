@@ -1,0 +1,32 @@
+# Appends (or creates) the .gitignore and .gitattributes files that 
+# allow Git and Xcode to coexist. Run this function (git-for-xcode) 
+# directly in the folder that you want to generate the files in 
+
+GITI=.gitignore
+GITA=.gitattributes
+
+# Create the .gitignore file
+cat >> ${GITI} <<GIT1
+# xcode noise
+build/*
+*.pbxuser
+*.modelv3
+*.pyc
+*~.nib/
+
+# Textmate noise (when building xcode projects from within TM)
+*.tm_build_errors
+
+# osx noise 
+.DS_Store
+profile
+GIT1
+
+# Create the .gitattributes 
+cat >> ${GITA} <<GIT2
+# This essentially treats the xcode project file as binary. 
+# -crlf prevents Git from trying to fix newlines 
+# -diff prevents Git from showing it in diffs 
+# -merge prevents Git from trying to merge it 
+*.pbxproj -crlf -diff -merge
+GIT2
