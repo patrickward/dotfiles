@@ -12,11 +12,19 @@ fi
 export EDITOR='mate -w'
 
 # PATH
-export PATH="~/bin:/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/git/bin:$PATH"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/pgsql/bin:/usr/local/git/bin:$PATH"
+
 # MacPorts Installer addition
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
+
+# Prepend the home directory before everything
+PATH="$HOME/bin:$PATH"
+
+# Adding RVM (ruby version manager)
+if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
+
 # MANPATH
-export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/git/man:$MANPATH"
+export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/pgsql/man:/usr/local/git/man:$MANPATH"
 # MacPorts Installer addition
 export MANPATH="/opt/local/share/man:$MANPATH"
 
