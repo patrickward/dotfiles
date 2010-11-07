@@ -12,28 +12,14 @@
 
 require 'rake'
 require 'erb'
-require 'pathname'
 
 task :default do
   puts "This Rakefile installs updates the configuration directory and associated bundles."
   puts # blank line
-  puts "Usage: $ rake (update:dotfiles | update:bundles)"
+  puts "Usage: $ rake update:dotfiles"
 end 
 
 namespace :update do
-  
-  VIMBUNDLES = {
-    # plugins
-    :rails         => "git://github.com/tpope/vim-rails.git",
-    :surround      => "git://github.com/tpope/vim-surround.git",
-    :snipmate      => "git://github.com/msanders/snipmate.vim.git", 
-
-    # syntax definitions
-    :syntax_git       => "git://github.com/tpope/vim-git.git",
-    :syntax_fugitive  => "git://github.com/tpope/vim-fugitive.git", 
-    :syntax_markdown  => "git://github.com/tpope/vim-fugitive.git",
-    :syntax_rdoc      => "git://github.com/hallison/vim-rdoc.git",
-  }
   
   desc "update/install dot files into the current user's home directory"
   task :dotfiles do
@@ -65,41 +51,6 @@ namespace :update do
       end
     end
   end # task :install
-  
-  desc "update any vim bundles defined in the Rakefile"
-  task :bundles do
-    
-    bundle_home = Pathname.new( ENV['HOME'] ) + '.vim' + 'bundle'
-    mkdir_p bundle_home
-    
-    VIMBUNDLES.sort_by {|k,v| k.to_s }.each do |bundle, location|
-      target_path = bundle_home + bundle.to_s
-      
-      puts "*" * 72
-      puts "*** Installing #{bundle} to #{target_path} from #{location}"
-      puts # blank line 
-      
-      rm_rf target_path
-      
-      case location.match( /^(.*?):/ )[1]
-      when 'git'
-        sh "git clone #{location} #{target_path} > /dev/null"
-        rm_rf target_path + '.git'
-      when 'http'
-        mkdir_p target_path
-        sh "cd #{target_path} && curl -s '#{location}' | tar zx -"
-      end 
-      
-      docdir = target_path + 'doc'
-      if docdir.exist?
-        puts "doc dir exists; tagging" 
-        sh "vim -u NONE -esX -c 'helptags #{docdir}' -c quit"
-      end 
-      
-      puts # blank line
-    end 
-    
-  end # task :bundles
 
 end # namespace :update
 

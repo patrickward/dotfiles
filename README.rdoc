@@ -2,32 +2,21 @@
 
 This is the dotfiles configuration I use for my various 
 computers (primarily Mac OS X and Ubuntu Linux). It is based on the 
-work of others. See the credits section below for more details. 
+work of others. See the credits section below for more details.  
 
 == Installation: 
 
   $ git clone git@github.com:patrickward/dotfiles.git ~/bin/dotfiles
   $ cd ~/bin/dotfiles 
   $ rake update:dotfiles 
-  $ rake update:bundles
+
+== Vim 
+
+My Vim configuration is in its own repository: {dotvim}[https://github.com/patrickward/dotvim]
 
 == Contents  
 
 * My own personal settings
-
-Some plugins for Vim: 
-
-* {Rails}[https://github.com/tpope/vim-rails]
-* {Surround}[https://github.com/tpope/vim-surround]
-* {SnipMate}[https://github.com/msanders/snipmate.vim.git]
-
-Some syntax definitions for Vim: 
-
-* {Git}[https://github.com/tpope/vim-git]
-* {Git Fugitive}[https://github.com/tpope/vim-fugitive]
-* {Markdown}[https://github.com/tpope/vim-markdown]
-* {RDoc}[https://github.com/hallison/vim-rdoc]
-
 
 == Credits 
 
@@ -37,8 +26,10 @@ Some syntax definitions for Vim:
 [PeepCode]      Much of the configuration and general organization of 
                 the dotfiles comes from excellent {PeepCode screencasts}[http://www.peepcode.com].
 
-[Ben Bleything] The update:bundles task in the Rakefile comes from Ben's dotvim 
-                project on {github}[https://github.com/bleything/dotvim]. 
-
 [Others]        Authors of the plugins, syntax, etc. that are listed above. 
 
+== Copyright and License
+
+I don't claim a copyright on any of these config files. Use it as you see fit. 
+However, some of the included scripts and plugins may have copyrights. So, see those 
+files and projects for details. 
