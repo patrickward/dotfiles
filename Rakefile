@@ -26,10 +26,12 @@ namespace :update do
     # plugins
     :rails         => "git://github.com/tpope/vim-rails.git",
     :surround      => "git://github.com/tpope/vim-surround.git",
+    :snipmate      => "git://github.com/msanders/snipmate.vim.git", 
 
     # syntax definitions
     :syntax_git       => "git://github.com/tpope/vim-git.git",
-    :syntax_markdown  => "git://github.com/ujihisa/vim-markdown.git",
+    :syntax_fugitive  => "git://github.com/tpope/vim-fugitive.git", 
+    :syntax_markdown  => "git://github.com/tpope/vim-fugitive.git",
     :syntax_rdoc      => "git://github.com/hallison/vim-rdoc.git",
   }
   

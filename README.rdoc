@@ -10,7 +10,25 @@ work of others. See the credits section below for more details.
   $ cd ~/bin/dotfiles 
   $ rake update:dotfiles 
   $ rake update:bundles
-  
+
+== Contents  
+
+* My own personal settings
+
+Some plugins for Vim: 
+
+* {Rails}[https://github.com/tpope/vim-rails]
+* {Surround}[https://github.com/tpope/vim-surround]
+* {SnipMate}[https://github.com/msanders/snipmate.vim.git]
+
+Some syntax definitions for Vim: 
+
+* {Git}[https://github.com/tpope/vim-git]
+* {Git Fugitive}[https://github.com/tpope/vim-fugitive]
+* {Markdown}[https://github.com/tpope/vim-markdown]
+* {RDoc}[https://github.com/hallison/vim-rdoc]
+
+
 == Credits 
 
 [Ryan Bates]    The original Rakefile was based off of Ryan's dotfiles
@@ -18,7 +36,9 @@ work of others. See the credits section below for more details.
 
 [PeepCode]      Much of the configuration and general organization of 
                 the dotfiles comes from excellent {PeepCode screencasts}[http://www.peepcode.com].
-                
+
 [Ben Bleything] The update:bundles task in the Rakefile comes from Ben's dotvim 
                 project on {github}[https://github.com/bleything/dotvim]. 
+
+[Others]        Authors of the plugins, syntax, etc. that are listed above. 
 
