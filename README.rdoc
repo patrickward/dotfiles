@@ -1,8 +1,6 @@
-= Patrick Ward Dot Files 
+= Introduction
 
-These are the dot files I'm currently using on the various Mac computers I use. I've culled them together from a variety of sources. So, fell free to use them as-is. 
-
-For my emacs configuration, I've been using a forked version of the emacs-starter-kit which can be found at: http://github.com/patrickward/emacs-starter-kit
+Dot files configuration for my various computers (primarily Mac OS X and Ubuntu Linux)
 
 Sources: 
 
@@ -10,3 +8,17 @@ Sources:
 
 * Ryan Bates wonderful dotfiles at: http://github.com/ryanb/dotfiles
 
+* Indispensable Smash into Vim Screencast at: http://peepcode.com/products/smash-into-vim-i
+
+= Installation: 
+
+  git clone git@github.com:patrickward/dotfiles.git ~/bin/dotfiles
+  
+  rake install
+  
+= Submodules 
+  
+To update the git submodules, run the following: 
+  
+  git submodule init 
+  git submodule update 
