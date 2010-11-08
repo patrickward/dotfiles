@@ -16,7 +16,7 @@ alias ll="ls -l"
 alias la="ls -A"
 
 # git
-alias gs="git status"
+alias gs="git status --ignore-submodules"
 alias gl="git pull"
 alias gp="git push"
 alias gd="git diff | mate"
