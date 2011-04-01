@@ -29,6 +29,9 @@ export MANPATH="/usr/local/man:/usr/local/mysql/man:/usr/local/pgsql/man:/usr/lo
 # MacPorts Installer addition
 export MANPATH="/opt/local/share/man:$MANPATH"
 
+# PostgreSQL
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/local/pgsql/lib"
+
 fpath=(~/.zsh/functions $fpath)
 
 autoload -U ~/.zsh/functions/*(:t)
