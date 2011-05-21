@@ -18,6 +18,10 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/pgsq
 # MacPorts Installer addition
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
+# Add dotfiles/bin directory 
+
+export PATH="$HOME/bin/dotfiles/bin:$PATH"
+
 # Add node path
 export PATH="$HOME/local/node/bin:$PATH"
 

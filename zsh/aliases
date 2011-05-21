@@ -37,5 +37,8 @@ alias scaffold="script/generate nifty_scaffold"
 alias migrate="rake db:migrate db:test:clone"
 alias rst="touch tmp/restart.txt"
 
+# todo.txt 
+alias t="todo.sh -d $HOME/bin/dotfiles/bin/.todo.cfg"
+
 # Find common commands you've recently used 
 # history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
