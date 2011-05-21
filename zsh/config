@@ -18,8 +18,11 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/pgsq
 # MacPorts Installer addition
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
+# Add node path
+export PATH="$HOME/local/node/bin:$PATH"
+
 # Prepend the home directory before everything
-PATH="$HOME/bin:$PATH"
+export PATH="$HOME/bin:$PATH"
 
 # Adding RVM (ruby version manager)
 if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
