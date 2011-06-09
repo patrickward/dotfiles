@@ -40,5 +40,8 @@ alias rst="touch tmp/restart.txt"
 # todo.txt 
 alias t="todo.sh -d $HOME/bin/dotfiles/bin/.todo.cfg"
 
+# bundle exec
+alias be='bundle exec'
+
 # Find common commands you've recently used 
 # history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
