@@ -28,6 +28,9 @@ export PATH="$HOME/local/node/bin:$PATH"
 # Prepend the home directory before everything
 export PATH="$HOME/bin:$PATH"
 
+# Adding NODE_PATH for npm and node scripting (e.g. coffee-script) 
+export NODE_PATH="/Users/patrick_ward/local/node/lib/node_modules"
+
 # Adding RVM (ruby version manager)
 if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
 
