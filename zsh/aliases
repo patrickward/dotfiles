@@ -27,6 +27,9 @@ alias gcb="git checkout -b"
 alias gb="git branch"
 alias gba="git branch -a"
 
+# Use Bundle Exec
+alias be='bundle exec'
+
 # todo.txt 
 alias t="todo.sh -d $HOME/bin/dotfiles/bin/.todo.cfg"
 
