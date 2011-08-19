@@ -3,6 +3,13 @@
 	email = <%= print("Your Email: "); STDOUT.flush; STDIN.gets.chomp; %>
 [alias]
 	co = checkout
+  di = diff
+  dc = diff --cached
+  amend = commit --amend
+  aa = add --all
+  r = !git --no-pager l -20
+  ra = !git r --all
+  l = log --graph --abbrev-commit --date=relative
 [color]
 	diff = auto
 	status = auto
@@ -13,4 +20,6 @@
 [apply]
 	whitespace = nowarn
 [format]
-	pretty = %C(yellow)%h%Creset %s
+;	pretty = %C(yellow)%h%Creset %s
+  pretty=format:%C(yellow)%h%Creset -%C(red)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset
+	
