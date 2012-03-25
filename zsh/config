@@ -1,4 +1,4 @@
-# For color codes, see the colors.markdown file 
+# For color codes, see the colors.markdown file
 if [[ -n $SSH_CONNECTION ]]; then
   # export PS1='%m:%3~$(git_info_for_prompt)%# '
 	PS1=$'\n%{\e[1;32m%}%m:%3~ $(git_info_for_prompt)%{\e[0m%} \n%# '
@@ -18,18 +18,19 @@ export PATH="/usr/local/bin:/usr/local/sbin:/usr/local/mysql/bin:/usr/local/pgsq
 # MacPorts Installer addition
 export PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
-# Add dotfiles/bin directory 
+# Add dotfiles/bin directory
 
 export PATH="$HOME/bin/dotfiles/bin:$PATH"
 
 # Add node path
-export PATH="$HOME/local/node/bin:$PATH"
+# export PATH="$HOME/local/node/bin:$PATH"
 
 # Prepend the home directory before everything
 export PATH="$HOME/bin:$PATH"
 
-# Adding NODE_PATH for npm and node scripting (e.g. coffee-script) 
-export NODE_PATH="/Users/patrick_ward/local/node/lib/node_modules"
+# Adding NODE_PATH for npm and node scripting (e.g. coffee-script)
+# export NODE_PATH="/Users/patrick_ward/local/node/lib/node_modules"
+export NODE_PATH="/usr/local/lib/node_modules"
 
 # Adding RVM (ruby version manager)
 # if [[ -s $HOME/.rvm/scripts/rvm ]] ; then source $HOME/.rvm/scripts/rvm ; fi
