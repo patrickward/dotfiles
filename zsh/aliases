@@ -1,4 +1,4 @@
-# cd 
+# cd
 alias ..="cd .."
 
 # Utility
@@ -9,32 +9,35 @@ alias ea="mate -w ~/bin/dotfiles/zsh/aliases && reload" # Edit aliases
 alias tu="top -o cpu" # sort by cpu
 alias tm="top -o vsize" # sort by memory
 
-# listing files 
+# listing files
 alias ls="ls -F"
 alias l="ls -lAh"
 alias ll="ls -l"
 alias la="ls -A"
 
 # git
-alias gs="git status --ignore-submodules"
+alias gs="git status --short --ignore-submodules"
 alias gl="git pull"
 alias gp="git push"
 alias gd="git diff | mvim -"
 alias gc="git commit -v"
 # alias gca="git commit -v -a"
 alias gco="git checkout"
-alias gcb="git checkout -b" 
+alias gcb="git checkout -b"
 alias gb="git branch"
 alias gba="git branch -a"
 
 # Use Bundle Exec
 alias be='bundle exec'
 
-# todo.txt 
+# todo.txt
 alias t="todo.sh -d $HOME/bin/dotfiles/bin/.todo.cfg"
 
 # bundle exec
 alias be='bundle exec'
 
-# Find common commands you've recently used 
+# get my ip address
+alias whatismyip='curl http://automation.whatismyip.com/n09230945.asp'
+
+# Find common commands you've recently used
 # history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
