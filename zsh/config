@@ -25,6 +25,9 @@ export PATH="$HOME/bin/dotfiles/bin:$PATH"
 # Add node path
 # export PATH="$HOME/local/node/bin:$PATH"
 
+# Prepend homebrewed python shares
+export PATH="/usr/local/share/python:$PATH"
+
 # Prepend the home directory before everything
 export PATH="$HOME/bin:$PATH"
 
