@@ -16,12 +16,11 @@ Run the installer.
 
     ./install.sh
 
-Update the submodules.
+This will create symlinks for all dotfiles in your home directory. You can safely run this file multiple times to update.
 
-    git submodule init
-    git submodule update
+Install [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in vimrc.
 
-It creates symlinks for all dotfiles in your home directory. You can safely run this file multiple times to update.
+    git clone https://github.com/gmarik/vundle.git vim/bundle/vundle
 
 Included are zsh dotfiles. To switch your shell to zsh on OS X or Linux:
 
@@ -39,8 +38,7 @@ files and projects for details.
 
 ## Vim
 
-I use [pathogen](https://github.com/tpope/vim-pathogen) to manage vim plugins, adding each plugin as a submodule below the vim/bundle directory.
-
+Iuse [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in vimrc.
 
 ### Current plugins
 
@@ -62,27 +60,4 @@ I use [pathogen](https://github.com/tpope/vim-pathogen) to manage vim plugins, a
 * [blade.vim](https://github.com/johnhamelink/blade.vim)
 * [vim-css-color](https://github.com/skammer/vim-css-color.git)
 
-### Vim submodules
-
-#### Adding a submodule (example)
-
-    cd ~/dotfiles
-    git submodule add <PATH-TO-GIT-REPO> vim/bundle/<NAME-OF-REPO>
-    git aa
-    gc
-
-#### Removing a Submodule (example)
-
-1. Delete the relevant line from the .gitmodules file
-2. Delete the relevant section from .git/config
-3. Run 'git rm --cached <PATH_TO_SUBMODULE> (no trailing slash)
-4. Commit and delete the now untracked submodule files.
-
-(via [StackOverflow](http://stackoverflow.com/questions/1260748/how-do-i-remove-a-git-submodule))
-
-#### Updating all Submodules
-
-Run the following to update each of the submodules under the vim/bundles directory:
-
-    git submodule foreach git pull origin master
 
