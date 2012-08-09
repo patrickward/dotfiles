@@ -52,7 +52,6 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 * [vim-ragtag](https://github.com/tpope/vim-ragtag)
 * [vim-endwise](http://github.com/tpope/vim-endwise)
 * [vim-unimpaired](https://github.com/tpope/vim-unimpaired)
-
 * [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
 * [vim-coffee-script](https://github.com/kchmck/vim-coffee-script)
 * [mustache.vim](https://github.com/juvenn/mustache.vim)
