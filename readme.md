@@ -52,7 +52,6 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 * [vim-ragtag](https://github.com/tpope/vim-ragtag)
 * [vim-endwise](http://github.com/tpope/vim-endwise)
 * [vim-unimpaired](https://github.com/tpope/vim-unimpaired)
-* [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
 * [vim-coffee-script](https://github.com/kchmck/vim-coffee-script)
 * [mustache.vim](https://github.com/juvenn/mustache.vim)
 * [tabular](https://github.com/godlygeek/tabular)
@@ -60,4 +59,5 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 * [vim-less](https://github.com/groenewege/vim-less)
 * [blade.vim](https://github.com/johnhamelink/blade.vim)
 * [vim-css-color](https://github.com/skammer/vim-css-color.git)
+* [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
 
