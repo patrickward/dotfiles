@@ -44,15 +44,15 @@ I use [pathogen](https://github.com/tpope/vim-pathogen) to manage vim plugins, a
 
 ### Current plugins
 
-* [vim-surround](https://github.com/tpope/vim-surround)
-* [vim-git](https://github.com/tpope/vim-git)
-* [vim-fugitive](https://github.com/tpope/vim-fugitive)
+* [vim-colors-solarized](https://github.com/altercation/vim-colors-solarized)
 * [vim-markdown](https://github.com/tpope/vim-markdown)
+
+* [vim-surround](https://github.com/tpope/vim-surround)
+* [vim-fugitive](https://github.com/tpope/vim-fugitive)
 * [vim-ruby](https://github.com/vim-ruby/vim-ruby)
 * [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
 * [vim-ragtag](https://github.com/tpope/vim-ragtag)
 * [vim-endwise](http://github.com/tpope/vim-endwise)
-* [vim-colors-solarized](https://github.com/altercation/vim-colors-solarized)
 * [vim-coffee-script](https://github.com/kchmck/vim-coffee-script)
 * [mustache.vim](https://github.com/juvenn/mustache.vim)
 * [vim-unimpaired](https://github.com/tpope/vim-unimpaired)
