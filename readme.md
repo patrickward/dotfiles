@@ -16,6 +16,11 @@ Run the installer.
 
     ./install.sh
 
+Update the submodules.
+
+    git submodule init
+    git submodule update
+
 It creates symlinks for all dotfiles in your home directory. You can safely run this file multiple times to update.
 
 Included are zsh dotfiles. To switch your shell to zsh on OS X or Linux:
@@ -32,4 +37,52 @@ I don't claim a copyright on any of these config files. Use it as you see fit.
 However, some of the included scripts and plugins may have copyrights. So, see those
 files and projects for details.
 
+## Vim
+
+I use [pathogen](https://github.com/tpope/vim-pathogen) to manage vim plugins, adding each plugin as a submodule below the vim/bundle directory.
+
+
+### Current plugins
+
+* [vim-surround](https://github.com/tpope/vim-surround)
+* [vim-git](https://github.com/tpope/vim-git)
+* [vim-fugitive](https://github.com/tpope/vim-fugitive)
+* [vim-markdown](https://github.com/tpope/vim-markdown)
+* [vim-ruby](https://github.com/vim-ruby/vim-ruby)
+* [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
+* [vim-ragtag](https://github.com/tpope/vim-ragtag)
+* [vim-endwise](http://github.com/tpope/vim-endwise)
+* [vim-colors-solarized](https://github.com/altercation/vim-colors-solarized)
+* [vim-coffee-script](https://github.com/kchmck/vim-coffee-script)
+* [mustache.vim](https://github.com/juvenn/mustache.vim)
+* [vim-unimpaired](https://github.com/tpope/vim-unimpaired)
+* [tabular](https://github.com/godlygeek/tabular)
+* [vim-preview](https://github.com/greyblake/vim-preview)
+* [vim-less](https://github.com/groenewege/vim-less)
+* [blade.vim](https://github.com/johnhamelink/blade.vim)
+* [vim-css-color](https://github.com/skammer/vim-css-color.git)
+
+### Vim submodules
+
+#### Adding a submodule (example)
+
+    cd ~/dotfiles
+    git submodule add <PATH-TO-GIT-REPO> vim/bundle/<NAME-OF-REPO>
+    git aa
+    gc
+
+#### Removing a Submodule (example)
+
+1. Delete the relevant line from the .gitmodules file
+2. Delete the relevant section from .git/config
+3. Run 'git rm --cached <PATH_TO_SUBMODULE> (no trailing slash)
+4. Commit and delete the now untracked submodule files.
+
+(via [StackOverflow](http://stackoverflow.com/questions/1260748/how-do-i-remove-a-git-submodule))
+
+#### Updating all Submodules
+
+Run the following to update each of the submodules under the vim/bundles directory:
+
+    git submodule foreach git pull origin master
 
