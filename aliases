@@ -8,7 +8,7 @@ alias ll='ls -la'
 alias lh='ls -Alh'
 
 # git
-alias gs='git status --short --ignore=submodules'
+alias gs='git status --short --ignore-submodules'
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff | vim -'
