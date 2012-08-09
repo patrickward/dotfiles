@@ -23,7 +23,7 @@ for name in *; do
       fi
     fi
   else
-    if [ "$name" != 'install.sh' && "$name" != 'readme.md' ]; then
+    if [[ "$name" != 'install.sh' && "$name" != 'readme.md' ]]; then
       echo "Creating $target"
       if [ -n "$(grep "$cutstring" "$name")" ]; then
         cp "$PWD/$name" "$target"
