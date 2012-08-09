@@ -2,11 +2,35 @@ set nocompatible                  " Must come first because it changes other opt
 
 let mapleader = ","
 
-" load all bundles in ~/.vim/bundle using pathogen.vim
-call pathogen#infect()
+filetype off                      " Turn off filetype until after vundle and bundles
+
+" setup vundle
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle
+Bundle 'gmarik/vundle'
+
+" Bundles
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tpope/vim-markdown'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-fugitive'
+Bundle 'vim-ruby/vim-ruby'
+Bundle 'tpope/vim-ragtag'
+Bundle 'tpope/vim-endwise'
+Bundle 'tpope/vim-unimpaired'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'juvenn/mustache'
+Bundle 'godlygeek/tabular'
+Bundle 'groenewege/vim-less'
+Bundle 'johnhamelink/blade.vim'
+Bundle 'skammer/vim-css-color'
+
+
+filetype plugin indent on         " Turn on file type detection.
 
 syntax enable                     " Turn on syntax highlighting.
-filetype plugin indent on         " Turn on file type detection.
 
 " runtime macros/matchit.vim        " Load the matchit plugin.
 

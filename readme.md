@@ -22,6 +22,8 @@ Install [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins 
 
     git clone https://github.com/gmarik/vundle.git vim/bundle/vundle
 
+Launch vim, run :BundleInstall (or vim +BundleInstall +qall for CLI lovers)
+
 Included are zsh dotfiles. To switch your shell to zsh on OS X or Linux:
 
     chsh -s $(which zsh)
@@ -38,26 +40,25 @@ files and projects for details.
 
 ## Vim
 
-Iuse [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in vimrc.
+I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in vimrc.
 
 ### Current plugins
 
 * [vim-colors-solarized](https://github.com/altercation/vim-colors-solarized)
 * [vim-markdown](https://github.com/tpope/vim-markdown)
-
 * [vim-surround](https://github.com/tpope/vim-surround)
 * [vim-fugitive](https://github.com/tpope/vim-fugitive)
 * [vim-ruby](https://github.com/vim-ruby/vim-ruby)
-* [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
 * [vim-ragtag](https://github.com/tpope/vim-ragtag)
 * [vim-endwise](http://github.com/tpope/vim-endwise)
+* [vim-unimpaired](https://github.com/tpope/vim-unimpaired)
+
+* [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
 * [vim-coffee-script](https://github.com/kchmck/vim-coffee-script)
 * [mustache.vim](https://github.com/juvenn/mustache.vim)
-* [vim-unimpaired](https://github.com/tpope/vim-unimpaired)
 * [tabular](https://github.com/godlygeek/tabular)
 * [vim-preview](https://github.com/greyblake/vim-preview)
 * [vim-less](https://github.com/groenewege/vim-less)
 * [blade.vim](https://github.com/johnhamelink/blade.vim)
 * [vim-css-color](https://github.com/skammer/vim-css-color.git)
-
 
