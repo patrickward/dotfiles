@@ -1,0 +1,24 @@
+# unix
+alias tlf='tail -f'
+alias ln='ln -v'
+alias mkdir='mkdir -p'
+alias ...='../..'
+alias l='ls -la'
+alias ll='ls -la'
+alias lh='ls -Alh'
+
+# git
+alias gs='git status --short --ignore=submodules'
+alias gl='git pull'
+alias gp='git push'
+alias gd='git diff | vim -'
+alias gc='git commit -v'
+# alias gca='git commit -v -a'
+alias gco='git checkout'
+alias gcb='git checkout -b'
+alias gb='git branch'
+alias gba='git branch -a'
+
+alias whats-my-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"
+# alias whatismyip='curl http://automation.whatismyip.com/n09230945.asp'
+

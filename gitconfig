@@ -1,6 +1,6 @@
 [user]
-	name = <%= print("Your Name: "); STDOUT.flush; STDIN.gets.chomp; %>
-	email = <%= print("Your Email: "); STDOUT.flush; STDIN.gets.chomp; %>
+	name = Patrick Ward
+	email = patrick@patrickward.com
 [alias]
   st = status
   ci = commit
@@ -23,8 +23,7 @@
 	status = auto
 	branch = auto
 [core]
-	excludesfile = <%= ENV['HOME'] %>/.gitignore_global
-	editor = <%= ENV['HOME'] %>/bin/vim
+	editor = vim
 [apply]
 	whitespace = nowarn
 [format]
