@@ -25,7 +25,7 @@ Bundle 'juvenn/mustache'
 Bundle 'godlygeek/tabular'
 Bundle 'groenewege/vim-less'
 Bundle 'johnhamelink/blade.vim'
-Bundle 'skammer/vim-css-color'
+Bundle 'ap/vim-css-color'
 Bundle 'vim-scripts/bufexplorer.zip'
 
 
