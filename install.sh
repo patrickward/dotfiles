@@ -1,6 +1,7 @@
 #!/bin/sh
 
 cutstring="DO NOT EDIT BELOW THIS LINE"
+ignorefiles="install.sh readme.md .gitignore"
 
 for name in *; do
   target="$HOME/.$name"
@@ -24,7 +25,8 @@ for name in *; do
       fi
     fi
   else
-    if [[ "$name" != 'install.sh' && "$name" != 'readme.md' && "$name" != '.gitignore' ]]; then
+    # if [[ "$name" != 'install.sh' && "$name" != 'readme.md' && "$name" != '.gitignore' ]]; then
+    if [[ ! $ignorefiles =~ $name ]]; then
       echo "Creating $target"
       if [ -n "$(grep "$cutstring" "$name")" ]; then
         cp "$PWD/$name" "$target"
