@@ -27,6 +27,7 @@ Bundle 'groenewege/vim-less'
 Bundle 'johnhamelink/blade.vim'
 Bundle 'ap/vim-css-color'
 Bundle 'vim-scripts/bufexplorer.zip'
+Bundle 'tpope/vim-commentary'
 
 
 filetype plugin indent on         " Turn on file type detection.
