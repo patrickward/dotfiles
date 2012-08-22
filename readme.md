@@ -60,4 +60,6 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 * [blade.vim](https://github.com/johnhamelink/blade.vim)
 * [vim-css-color](https://github.com/skammer/vim-css-color.git)
 * [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
+* [vim-commentary](https://github.com/tpope/vim-commentary)
+* [ack.vim](https://github.com/mileszs/ack.vim)
 
