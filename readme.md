@@ -62,4 +62,5 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 * [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
 * [vim-commentary](https://github.com/tpope/vim-commentary)
 * [ack.vim](https://github.com/mileszs/ack.vim)
+* [Markdown Preview](https://gist.github.com/960015)
 
