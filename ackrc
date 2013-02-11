@@ -1,2 +1,11 @@
+# Handle haml files
 --type-add=ruby=.haml,.rake
+# Handle less/sass files
 --type-add=css=.less
+--type-add=css=.scss
+--type-add=css=.scss
+# Handle Markdown Files
+--type-add=md=.md
+--type-add=md=.mkd
+--type-add=md=.markdown
+
