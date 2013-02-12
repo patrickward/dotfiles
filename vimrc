@@ -125,7 +125,8 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " colorscheme vividchalk
 set background=dark
 " set background=light
-colorscheme solarized
+" colorscheme solarized
+colorscheme monokai
 
 " Tab mappings.
 map <leader>tt :tabnew<cr>
