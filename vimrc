@@ -125,8 +125,12 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 " colorscheme vividchalk
 set background=dark
 " set background=light
-" colorscheme solarized
-colorscheme monokai
+" colorscheme monokai
+colorscheme solarized
+
+if has("autocmd")
+  autocmd FileTYpe php colorscheme monokai
+endif
 
 " Tab mappings.
 map <leader>tt :tabnew<cr>
