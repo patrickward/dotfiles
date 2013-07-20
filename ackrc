@@ -4,8 +4,8 @@
 --type-add=css=.less
 --type-add=css=.scss
 --type-add=css=.scss
-# Handle Markdown Files
---type-add=md=.md
---type-add=md=.mkd
---type-add=md=.markdown
-
+# # Handle Markdown Files
+# --type-add=md=.md
+# --type-add=md=.mkd
+# --type-add=md=.markdown
+--type-add=js=.coffee

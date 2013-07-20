@@ -22,3 +22,5 @@ alias gba='git branch -a'
 alias whats-my-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"
 # alias whatismyip='curl http://automation.whatismyip.com/n09230945.asp'
 
+# Alias for vendored phpunit
+alias t="vendor/bin/phpunit"

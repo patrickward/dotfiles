@@ -187,6 +187,5 @@ nnoremap <leader><leader> <c-^>
 "set winminheight=5
 "set winheight=999
 
-" Stylesheets for vim-preview
-let g:PreviewCSSPath='/Users/patrick_ward/bin/dotvim/vim/stylesheets/github.css'
-
+" Open the current document with Marked.app
+nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
