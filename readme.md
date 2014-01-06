@@ -46,6 +46,7 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 
 ### Current plugins
 
+* [base16-vim](https://github.com/chriskempson/base16-vim)
 * [vim-markdown](https://github.com/tpope/vim-markdown)
 * [vim-surround](https://github.com/tpope/vim-surround)
 * [vim-fugitive](https://github.com/tpope/vim-fugitive)
