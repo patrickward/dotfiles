@@ -1,7 +1,8 @@
 #!/bin/sh
 
 cutstring="DO NOT EDIT BELOW THIS LINE"
-ignorefiles="install.sh readme.md .gitignore"
+# ignorefiles="install.sh readme.md .gitignore"
+ignorefiles="install.sh readme.md"
 
 for name in *; do
   target="$HOME/.$name"

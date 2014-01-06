@@ -1,73 +1,25 @@
-# Load our own completion functions
-fpath=(~/.zsh/completion $fpath)
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
 
-# completion
-autoload -U compinit
-compinit
-
-# automatically enter directories without cd
-setopt auto_cd
-
-# use vim as an editor
-export EDITOR=vim
-
-# aliases
-if [ -e "$HOME/.aliases" ]; then
-  source "$HOME/.aliases"
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
-# vi mode
-bindkey -v
-bindkey "^F" vi-cmd-mode
-bindkey jj vi-cmd-mode
+# Customize to your needs...
 
-# use incremental search
-bindkey "^R" history-incremental-search-backward
+# Aliases 
 
-# add some readline keys back
-bindkey "^A" beginning-of-line
-bindkey "^E" end-of-line
+alias whats-my-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"
 
-# handy key bindings
-bindkey "^P" history-search-backward
-bindkey "^Y" accept-and-hold
-bindkey "^N" insert-last-word
-bindkey -s "^T" "^[Isudo ^[A" # "t" for "toughguy"
+# Rbenv
 
-# expand functions in the prompt
-setopt prompt_subst
+export RBENV_ROOT=/usr/local/var/rbenv
+if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-# prompt
-export PS1='[${SSH_CONNECTION+"%n@%m:"}%~] '
-
-# history file
-export HISTFILE=~/.history
-# keep lots of history
-export HISTSIZE=4096
-# keep lots of saved history
-export SAVEHIST=1000
-# print elapsed time when more than 10 seconds
-export REPORTTIME=10
-
-# ignore duplicate history entries
-setopt histignoredups
-# add timestamps to history
-setopt extended_history
-# turn on spelling correction
-setopt correct
-setopt correct_all
-# Append history
-setopt append_history
-setopt hist_reduce_blanks
-
-# automatically push directories onto the stack
-setopt auto_pushd
-export dirstacksize=5
-
-# enable extended globbing
-setopt extended_glob
-
-# load any local configs
-if [ -f ~/.localrc ]; then
-	source ~/.localrc
-fi
+# Path 
+# export PATH="/Applications/MAMP/bin/php/php5.3.27/bin:/Applications/MAMP/Library/bin:$PATH"

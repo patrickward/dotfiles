@@ -12,7 +12,7 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 
 " Bundles
-Bundle 'altercation/vim-colors-solarized'
+" Bundle 'altercation/vim-colors-solarized'
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
@@ -29,7 +29,6 @@ Bundle 'ap/vim-css-color'
 Bundle 'vim-scripts/bufexplorer.zip'
 Bundle 'tpope/vim-commentary'
 Bundle 'mileszs/ack.vim'
-
 
 filetype plugin indent on         " Turn on file type detection.
 
@@ -126,11 +125,11 @@ set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLo
 set background=dark
 " set background=light
 " colorscheme monokai
-colorscheme solarized
+" colorscheme solarized
 
-if has("autocmd")
-  autocmd FileTYpe php colorscheme monokai
-endif
+" if has("autocmd")
+"   autocmd FileTYpe php colorscheme monokai
+" endif
 
 " Tab mappings.
 map <leader>tt :tabnew<cr>

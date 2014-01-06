@@ -1,11 +1,9 @@
-# Handle haml files
---type-add=ruby=.haml,.rake
-# Handle less/sass files
---type-add=css=.less
---type-add=css=.scss
---type-add=css=.scss
-# # Handle Markdown Files
-# --type-add=md=.md
-# --type-add=md=.mkd
-# --type-add=md=.markdown
---type-add=js=.coffee
+# Always sort the files 
+--sort-files 
+
+# Always color, een if piping
+--color 
+
+# Use "less -r" as my pager 
+--pager=less -r
+
