@@ -3,6 +3,8 @@ Patrick Ward's Dotfiles
 
 These are the config files I use to set up my Mac OSX and Linux systems. I'm currently only working with an Arch Linux system. If you'd like to see my previous Mac OSX files, check out the [macosx-dotfiles branch](https://github.com/patrickward/dotfiles/tree/macosx-dotfiles).
 
+>> As of January 2014, I've moved to using the [prezto](https://github.com/sorin-ionescu/prezto) configuration framework for Zsh. The files in this repo, reflect that change and use prezto as the base.
+
 ## Installation:
 
 Fork this repo on Github.
@@ -44,7 +46,6 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 
 ### Current plugins
 
-* [vim-colors-solarized](https://github.com/altercation/vim-colors-solarized)
 * [vim-markdown](https://github.com/tpope/vim-markdown)
 * [vim-surround](https://github.com/tpope/vim-surround)
 * [vim-fugitive](https://github.com/tpope/vim-fugitive)
@@ -64,3 +65,6 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 * [ack.vim](https://github.com/mileszs/ack.vim)
 * [Markdown Preview](https://gist.github.com/960015)
 
+### Disabled Plugins
+
+* [vim-colors-solarized](https://github.com/altercation/vim-colors-solarized)
