@@ -3,7 +3,7 @@ Patrick Ward's Dotfiles
 
 These are the config files I use to set up my Mac OSX and Linux systems. I'm currently only working with an Arch Linux system. If you'd like to see my previous Mac OSX files, check out the [macosx-dotfiles branch](https://github.com/patrickward/dotfiles/tree/macosx-dotfiles).
 
->> As of January 2014, I've moved to using the [prezto](https://github.com/sorin-ionescu/prezto) configuration framework for Zsh. The files in this repo, reflect that change and use prezto as the base.
+> As of January 2014, I've moved to using the [prezto](https://github.com/sorin-ionescu/prezto) configuration framework for Zsh. The files in this repo reflect that change and use prezto as the base.
 
 ## Installation:
 
