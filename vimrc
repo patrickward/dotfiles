@@ -13,6 +13,7 @@ Bundle 'gmarik/vundle'
 
 " Bundles
 " Bundle 'altercation/vim-colors-solarized'
+Bundle "chriskempson/base16-vim"
 Bundle 'tpope/vim-markdown'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
@@ -120,12 +121,17 @@ set laststatus=2
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
-" Or use vividchalk
-" colorscheme vividchalk
+" Set vim to 256 colors
+set t_Co=256
 set background=dark
 " set background=light
+" colorscheme vibrant_ink
 " colorscheme monokai
 " colorscheme solarized
+" colorscheme distinguished
+" colorscheme jellybeans
+colorscheme base16-bright
+" colorscheme base16-tomorrow
 
 " if has("autocmd")
 "   autocmd FileTYpe php colorscheme monokai
