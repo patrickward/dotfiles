@@ -65,6 +65,8 @@ I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in
 * [vim-commentary](https://github.com/tpope/vim-commentary)
 * [ack.vim](https://github.com/mileszs/ack.vim)
 * [Markdown Preview](https://gist.github.com/960015)
+* [Vim VCL HIghlighting](https://github.com/smerrill/vcl-vim-plugin)
+* [Vim Ansible Yaml](https://github.com/chase/vim-ansible-yaml)
 
 ### Disabled Plugins
 
