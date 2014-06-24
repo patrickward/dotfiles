@@ -31,6 +31,7 @@ Bundle 'vim-scripts/bufexplorer.zip'
 Bundle 'tpope/vim-commentary'
 Bundle 'mileszs/ack.vim'
 Bundle 'smerrill/vcl-vim-plugin'
+Bundle 'chase/vim-ansible-yaml'
 
 filetype plugin indent on         " Turn on file type detection.
 
