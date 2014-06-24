@@ -30,6 +30,7 @@ Bundle 'ap/vim-css-color'
 Bundle 'vim-scripts/bufexplorer.zip'
 Bundle 'tpope/vim-commentary'
 Bundle 'mileszs/ack.vim'
+Bundle 'smerrill/vcl-vim-plugin'
 
 filetype plugin indent on         " Turn on file type detection.
 
