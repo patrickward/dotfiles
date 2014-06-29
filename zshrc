@@ -29,4 +29,4 @@ export RBENV_ROOT=/usr/local/var/rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Add the default editor
-export EDITOR=mvim
+export EDITOR=vim
