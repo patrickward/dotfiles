@@ -24,6 +24,9 @@ if [[ "$OSTYPE" == darwin* ]]; then
     export PATH="/Applications/MAMP/bin/php/php5.3.27/bin:/Applications/MAMP/Library/bin:$PATH"
 fi
 
+# Add the ~/bin directory to path
+export PATH="$HOME/bin:$PATH"
+
 # Rbenv
 export RBENV_ROOT=/usr/local/var/rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
