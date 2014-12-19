@@ -195,4 +195,12 @@ nnoremap <leader><leader> <c-^>
 "set winheight=999
 
 " Open the current document with Marked.app
-nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
+" nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
+nnoremap <leader>m :silent !open -a Marked\ 2.app '%:p'<cr>
+
+" PHPUnit Tests
+" Run all tests
+nmap <leader>ta :!clear && phpunit<cr>
+" Run test on current test method
+nmap <leader>tm yiw:!clear && phpunit --filter ^R"<cr>
+
