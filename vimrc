@@ -5,33 +5,36 @@ let mapleader = ","
 filetype off                      " Turn off filetype until after vundle and bundles
 
 " setup vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " let Vundle manage Vundle
-Bundle 'gmarik/vundle'
+Plugin 'gmarik/vundle'
 
 " Bundles
 " Bundle 'altercation/vim-colors-solarized'
-Bundle "chriskempson/base16-vim"
-Bundle 'tpope/vim-markdown'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-fugitive'
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'tpope/vim-ragtag'
-Bundle 'tpope/vim-endwise'
-Bundle 'tpope/vim-unimpaired'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'juvenn/mustache'
-Bundle 'godlygeek/tabular'
-Bundle 'groenewege/vim-less'
-Bundle 'johnhamelink/blade.vim'
-Bundle 'ap/vim-css-color'
-Bundle 'vim-scripts/bufexplorer.zip'
-Bundle 'tpope/vim-commentary'
-Bundle 'mileszs/ack.vim'
-Bundle 'smerrill/vcl-vim-plugin'
-Bundle 'chase/vim-ansible-yaml'
+Plugin 'chriskempson/base16-vim'
+Plugin 'tpope/vim-markdown'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'tpope/vim-ragtag'
+Plugin 'tpope/vim-endwise'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'juvenn/mustache'
+Plugin 'godlygeek/tabular'
+Plugin 'groenewege/vim-less'
+Plugin 'johnhamelink/blade.vim'
+Plugin 'ap/vim-css-color'
+Plugin 'vim-scripts/bufexplorer.zip'
+Plugin 'tpope/vim-commentary'
+Plugin 'mileszs/ack.vim'
+Plugin 'smerrill/vcl-vim-plugin'
+Plugin 'chase/vim-ansible-yaml'
+
+" End vundle
+call vundle#end()
 
 filetype plugin indent on         " Turn on file type detection.
 
@@ -122,6 +125,10 @@ set laststatus=2
 
 " Useful status information at bottom of screen
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
+
+" Fonts
+set guifont=Menlo\ Regular:h12
+set linespace=2
 
 " Set vim to 256 colors
 set t_Co=256
