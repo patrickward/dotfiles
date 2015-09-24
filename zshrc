@@ -39,3 +39,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # Add the default editor
 export EDITOR=vim
+
+# Added for CPAN
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
