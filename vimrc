@@ -32,6 +32,7 @@ Plugin 'tpope/vim-commentary'
 Plugin 'mileszs/ack.vim'
 Plugin 'smerrill/vcl-vim-plugin'
 Plugin 'chase/vim-ansible-yaml'
+Plugin 'editorconfig/editorconfig-vim'
 
 " End vundle
 call vundle#end()
