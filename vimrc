@@ -33,6 +33,7 @@ Plugin 'mileszs/ack.vim'
 Plugin 'smerrill/vcl-vim-plugin'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'mattn/emmet-vim'
 
 " End vundle
 call vundle#end()
