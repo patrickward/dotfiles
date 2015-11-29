@@ -30,6 +30,9 @@ fi
 # Add the ~/bin directory to path
 export PATH="$HOME/bin:$PATH"
 
+# Add the global composer vendor bin
+export PATH="$HOME/.composer/vendor/bin:$PATH"
+
 # Add specific vendor bin components
 export PATH="./vendor/bin:$PATH"
 
