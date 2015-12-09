@@ -34,6 +34,7 @@ Plugin 'smerrill/vcl-vim-plugin'
 Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'mattn/emmet-vim'
+Plugin 'stephpy/vim-php-cs-fixer'
 
 " End vundle
 call vundle#end()
