@@ -25,7 +25,7 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'juvenn/mustache'
 Plugin 'godlygeek/tabular'
 Plugin 'groenewege/vim-less'
-Plugin 'johnhamelink/blade.vim'
+Plugin 'xsbeats/vim-blade'
 Plugin 'ap/vim-css-color'
 Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'tpope/vim-commentary'
@@ -129,7 +129,7 @@ set laststatus=2
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
 " Fonts
-set guifont=Menlo\ Regular:h12
+set guifont=Menlo\ Regular:h14
 set linespace=2
 
 " Set vim to 256 colors
