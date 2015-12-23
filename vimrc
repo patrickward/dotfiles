@@ -35,6 +35,7 @@ Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'stephpy/vim-php-cs-fixer'
+Plugin 'darthmall/vim-vue'
 
 " End vundle
 call vundle#end()
@@ -213,4 +214,8 @@ nnoremap <leader>m :silent !open -a Marked\ 2.app '%:p'<cr>
 nmap <leader>ta :!clear && phpunit<cr>
 " Run test on current test method
 nmap <leader>tm yiw:!clear && phpunit --filter ^R"<cr>
+
+" PHP-CS-Fixer
+" disable psr0
+let g:php_cs_fixer_fixers_list = "-psr0"
 
