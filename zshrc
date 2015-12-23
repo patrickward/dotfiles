@@ -17,6 +17,10 @@ fi
 alias whats-my-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"
 alias vm="ssh vagrant@127.0.0.1 -p 2222"
 
+## October deployment
+alias ocsync="envoy run commit && git pull origin production"
+alias ocdeploy="git push origin master && envoy run deploy"
+
 # Macbook Specific Customization
 
 if [[ "$OSTYPE" == darwin* ]]; then
