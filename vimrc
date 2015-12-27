@@ -37,6 +37,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'stephpy/vim-php-cs-fixer'
 Plugin 'darthmall/vim-vue'
 Plugin 'mxw/vim-jsx'
+Plugin 'pangloss/vim-javascript'
 
 " End vundle
 call vundle#end()
