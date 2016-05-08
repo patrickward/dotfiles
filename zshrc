@@ -10,6 +10,11 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
 fi
 
+# Include stuff that should only be on this computer
+if [[ -r ~/.localinclude ]]; then
+    source ~/.localinclude
+fi
+
 # Customize to your needs...
 
 # Aliases
