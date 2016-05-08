@@ -35,9 +35,10 @@ Plugin 'chase/vim-ansible-yaml'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'stephpy/vim-php-cs-fixer'
-Plugin 'darthmall/vim-vue'
+Plugin 'posva/vim-vue'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
+Plugin 'leafgarland/typescript-vim'
 
 " End vundle
 call vundle#end()
@@ -220,4 +221,9 @@ nmap <leader>tm yiw:!clear && phpunit --filter ^R"<cr>
 " PHP-CS-Fixer
 " disable psr0
 let g:php_cs_fixer_fixers_list = "-psr0"
+
+" GCC Compile the file in the current buffer
+" set makeprg=gcc\ -o\ %<\ %
+" Make and run the current file in the buffer
+nnoremap <silent> <f7> :make %< && ./%<<cr>
 
