@@ -22,7 +22,7 @@ Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'kchmck/vim-coffee-script'
-Plugin 'juvenn/mustache'
+" Plugin 'juvenn/mustache'
 Plugin 'godlygeek/tabular'
 Plugin 'groenewege/vim-less'
 Plugin 'xsbeats/vim-blade'
@@ -39,6 +39,7 @@ Plugin 'posva/vim-vue'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'mustache/vim-mustache-handlebars'
 
 " End vundle
 call vundle#end()
