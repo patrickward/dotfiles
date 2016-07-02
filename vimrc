@@ -147,6 +147,7 @@ set background=dark
 " colorscheme solarized
 " colorscheme distinguished
 " colorscheme jellybeans
+let base16colorspace=256  " Access colors present in 256 colorspace
 colorscheme base16-bright
 " colorscheme base16-tomorrow
 

@@ -63,4 +63,7 @@ export EDITOR=vim
 PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
+# Base16 Shell
+BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-bright.sh"
+[[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
 
