@@ -8,6 +8,7 @@
 	dc = diff --cached
 	amend = commit --amend
 	aa = add --all
+	dog = log --all --decorate --oneline --graph
 [color]
 	diff = auto
 	status = auto
