@@ -45,6 +45,10 @@ if [[ "$OSTYPE" == darwin* ]]; then
     export RBENV_ROOT=/usr/local/var/rbenv
     if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
+    # todo-cli
+    export TODOTXT_DEFAULT_ACTION=ls
+    alias t='todo.sh'
+
 fi
 
 # Add the ~/bin directory to path
