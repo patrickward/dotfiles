@@ -40,6 +40,8 @@ Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'mustache/vim-mustache-handlebars'
+Plugin 'glench/vim-jinja2-syntax'
+Plugin 'lervag/vimtex'
 
 " End vundle
 call vundle#end()
@@ -214,6 +216,9 @@ nnoremap <leader><leader> <c-^>
 " nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
 nnoremap <leader>m :silent !open -a Marked\ 2.app '%:p'<cr>
 
+" Show word count of selection
+nmap <leader>wc :!wc %<cr>
+
 " PHPUnit Tests
 " Run all tests
 nmap <leader>ta :!clear && phpunit<cr>
@@ -248,3 +253,30 @@ endfunction
 command! -range -nargs=1 Entities call HtmlEntities(<line1>, <line2>, <args>)
 noremap <silent> <leader>h :Entities 0<CR>
 noremap <silent> <leader>H :Entities 1<CR>
+
+" ----------------------------
+" VimTex Options
+" ----------------------------
+let g:vimtex_view_general_viewer
+      \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
+let g:vimtex_view_general_options = '-r @line @pdf @tex'
+
+" This adds a callback hook that updates Skim after compilation
+let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
+function! UpdateSkim(status)
+  if !a:status | return | endif
+
+  let l:out = b:vimtex.out()
+  let l:tex = expand('%:p')
+  let l:cmd = [g:vimtex_view_general_viewer, '-r']
+  if !empty(system('pgrep Skim'))
+    call extend(l:cmd, ['-g'])
+  endif
+  if has('nvim')
+    call jobstart(l:cmd + [line('.'), l:out, l:tex])
+  elseif has('job')
+    call job_start(l:cmd + [line('.'), l:out, l:tex])
+  else
+    call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
+  endif
+endfunction
