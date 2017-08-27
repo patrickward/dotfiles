@@ -60,7 +60,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
     # alias to go to CS6475-CompPhoto directory and start anaconda
    alias cproot="cd ~/GT/Code/CS6475-CP"
-   alias cplabs="cd ~/GT/Code/CS6475-CP && activateCompPhoto"
+   alias cplabs="export PATH="$HOME/anaconda/bin:$PATH" && cd ~/GT/Code/CS6475-CP/lab_exercises && activateCompPhoto"
 
 fi
 
