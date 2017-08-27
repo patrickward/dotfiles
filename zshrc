@@ -26,6 +26,7 @@ alias whats-my-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"
 if [[ "$OSTYPE" == darwin* ]]; then
 
     alias vm="ssh vagrant@127.0.0.1 -p 2222"
+    alias magevm="cd ~/Code/mage2-vagrant-base && vagrant ssh"
 
     ## October deployment
     alias ocsync="envoy run commit && git pull origin production"
@@ -52,6 +53,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
     # Show/hide hidden files in Finder
     alias showHiddenFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
     alias hideHiddenFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+    # Add anaconda conda alias
+    alias conda="~/anaconda/bin/conda"
+    alias activateCompPhoto="source $HOME/anaconda/bin/activate CompPhoto"
+
+    # alias to go to CS6475-CompPhoto directory and start anaconda
+   alias cproot="cd ~/GT/Code/CS6475-CP"
+   alias cplabs="cd ~/GT/Code/CS6475-CP && activateCompPhoto"
 
 fi
 
