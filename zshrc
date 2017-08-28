@@ -56,11 +56,26 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
     # Add anaconda conda alias
     alias conda="~/anaconda/bin/conda"
-    alias activateCompPhoto="source $HOME/anaconda/bin/activate CompPhoto"
 
-    # alias to go to CS6475-CompPhoto directory and start anaconda
-   alias cproot="cd ~/GT/Code/CS6475-CP"
-   alias cplabs="export PATH="$HOME/anaconda/bin:$PATH" && cd ~/GT/Code/CS6475-CP/lab_exercises && activateCompPhoto"
+    # Add GaTech aliases
+    alias gtroot="cd ~/GT/Code"
+    alias gtdocs="cd /Users/patrickward/Dropbox\ \(Personal\)/GT"
+
+    # CS8803-GA
+    alias garoot="cd ~/GT/Code/CS8803-GA"
+
+    # CS6475-CP
+    alias cproot="cd ~/GT/Code/CS6475-CP"
+    alias activateCompPhoto="source $HOME/anaconda/bin/activate CompPhoto"
+    # Alias to go to CS6475-CompPhoto directory and start anaconda
+    # Note: had to ensure the anaconda path was set properly as well to remove jupyter errors
+    alias cplabs="export PATH="$HOME/anaconda/bin:$PATH" && cd ~/GT/Code/CS6475-CP/lab_exercises && activateCompPhoto"
+
+    # Sensory 5 aliases
+    export TTG_MAGENTO_ROOT="~/Code/magento-ee-2.1.7"
+    alias mageroot="cd $TTG_MAGENTO_ROOT"
+    alias ttgcode="cd $TTG_MAGENTO_ROOT/app/code/Toffeetogo"
+    alias ttgdesign="cd $TTG_MAGENTO_ROOT/app/design/frontend/Toffeetogo"
 
 fi
 
