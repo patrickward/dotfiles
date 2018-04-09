@@ -34,11 +34,6 @@ if [[ "$OSTYPE" == darwin* ]]; then
 
     export BROWSER='open'
 
-    # Add MAMP paths as the default php (no longer used)
-    # export PATH="/Applications/MAMP/bin/php/php5.3.27/bin:/Applications/MAMP/Library/bin:$PATH"
-    # export PATH="/Applications/MAMP/bin/php/php5.4.19/bin:/Applications/MAMP/Library/bin:$PATH"
-    # export PATH="/Applications/MAMP/bin/php/php5.5.3/bin:/Applications/MAMP/Library/bin:$PATH"
-
     # Python Path for use with Homebrew (NO LONGER USING PYTHON FROM HOMEBREW)
     # export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
@@ -92,6 +87,9 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 # Add specific vendor bin components
 export PATH="./vendor/bin:$PATH"
+
+# Add Rust's Cargo system
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Add the default editor
 export EDITOR=vim
