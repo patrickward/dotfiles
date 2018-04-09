@@ -42,6 +42,8 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'glench/vim-jinja2-syntax'
 Plugin 'lervag/vimtex'
+Plugin 'elixir-editors/vim-elixir'
+Plugin 'rust-lang/rust.vim'
 
 " End vundle
 call vundle#end()
