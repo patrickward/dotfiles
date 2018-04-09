@@ -39,8 +39,8 @@ if [[ "$OSTYPE" == darwin* ]]; then
     # export PATH="/Applications/MAMP/bin/php/php5.4.19/bin:/Applications/MAMP/Library/bin:$PATH"
     # export PATH="/Applications/MAMP/bin/php/php5.5.3/bin:/Applications/MAMP/Library/bin:$PATH"
 
-    # Python Path for use with Homebrew
-    export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+    # Python Path for use with Homebrew (NO LONGER USING PYTHON FROM HOMEBREW)
+    # export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
 
     # Rbenv
     export RBENV_ROOT=/usr/local/var/rbenv
@@ -61,21 +61,26 @@ if [[ "$OSTYPE" == darwin* ]]; then
     alias gtroot="cd ~/GT/Code"
     alias gtdocs="cd /Users/patrickward/Dropbox\ \(Personal\)/GT"
 
+    # CS6200
+    alias iosroot="cd ~/GT/Code/CS8803-02-TA-for-IOS"
+
     # CS8803-GA
     alias garoot="cd ~/GT/Code/CS8803-GA"
+    alias gadocs="cd ~/Dropbox\ \(Personal\)/GT/8803-GA"
 
     # CS6475-CP
     alias cproot="cd ~/GT/Code/CS6475-CP"
     alias activateCompPhoto="source $HOME/anaconda/bin/activate CompPhoto"
     # Alias to go to CS6475-CompPhoto directory and start anaconda
     # Note: had to ensure the anaconda path was set properly as well to remove jupyter errors
-    alias cplabs="export PATH="$HOME/anaconda/bin:$PATH" && cd ~/GT/Code/CS6475-CP/lab_exercises && activateCompPhoto"
+    alias cplabs="export PATH="$HOME/anaconda/bin:$PATH" && cd ~/GT/Code/CS6475-CP/lab_exercises && activateCompPhoto && jupyter notebook"
 
     # Sensory 5 aliases
-    export TTG_MAGENTO_ROOT="~/Code/magento-ee-2.1.7"
+    export TTG_MAGENTO_ROOT="~/Code/magento-ee-2.1.8"
     alias mageroot="cd $TTG_MAGENTO_ROOT"
     alias ttgcode="cd $TTG_MAGENTO_ROOT/app/code/Toffeetogo"
     alias ttgdesign="cd $TTG_MAGENTO_ROOT/app/design/frontend/Toffeetogo"
+    alias ttgvagrant="cd $HOME/Code/mage2-vagrant-base"
 
 fi
 
@@ -98,4 +103,15 @@ PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 # Base16 Shell
 BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-bright.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+
+# GlassFish
+export GLASSFISH_HOME=/usr/local/opt/glassfish/libexec
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+
 
