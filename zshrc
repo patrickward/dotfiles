@@ -44,31 +44,47 @@ if [[ "$OSTYPE" == darwin* ]]; then
     # todo-cli
     export TODOTXT_DEFAULT_ACTION=ls
     alias t='todo.sh'
+    alias ta='todo.sh add'
+    alias tam='todo.sh addm'
+    alias tat='todo.sh addto'
+    alias td='todo.sh do'
+    alias tp='todo.sh pri'
+    alias tl='todo.sh ls'
+    alias tlc='todo.sh listcon'
+    alias tlp='todo.sh listpri'
+    alias tlpj='todo.sh listproj'
+    alias tls5='todo.sh ls @s5'
+    alias tltw='todo.sh ls @tw'
+    alias tlh='todo.sh ls @home'
+    alias tls='todo.sh ls @school'
 
     # Show/hide hidden files in Finder
     alias showHiddenFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
     alias hideHiddenFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
-
-    # Add anaconda conda alias
-    alias conda="~/anaconda/bin/conda"
 
     # Add GaTech aliases
     alias gtroot="cd ~/GT/Code"
     alias gtdocs="cd /Users/patrickward/Dropbox\ \(Personal\)/GT"
 
     # CS6200
-    alias iosroot="cd ~/GT/Code/CS8803-02-TA-for-IOS"
+    alias gt_ios_dir="cd ~/GT/Code/CS8803-02-TA-for-IOS"
+    # alias start_bonnie_docker="docker run --interactive --tty -v `pwd`:'/root/gios' -v '$HOME/.bonnie':'/root/.bonnie/' -w '/root/gios' --entrypoint=/bin/bash gtomscs/os"
+    export GIOS_GRADER_DIR="/Users/patrickward/GT/Code/CS8803-02-TA-for-IOS/gt-cs8803-02-graders"
+    alias start_bonnie_docker="docker run --interactive --tty -v $GIOS_GRADER_DIR:'/root/gios' -v '$HOME/.bonnie':'/root/.bonnie/' -w '/root/gios' --entrypoint=/bin/bash gtomscs/os"
 
     # CS8803-GA
-    alias garoot="cd ~/GT/Code/CS8803-GA"
+    alias gt_home_dir="cd ~/GT/Code/CS8803-GA"
     alias gadocs="cd ~/Dropbox\ \(Personal\)/GT/8803-GA"
 
     # CS6475-CP
-    alias cproot="cd ~/GT/Code/CS6475-CP"
+    alias gt_cp_dir="cd ~/GT/Code/CS6475-CP"
     alias activateCompPhoto="source $HOME/anaconda/bin/activate CompPhoto"
     # Alias to go to CS6475-CompPhoto directory and start anaconda
     # Note: had to ensure the anaconda path was set properly as well to remove jupyter errors
     alias cplabs="export PATH="$HOME/anaconda/bin:$PATH" && cd ~/GT/Code/CS6475-CP/lab_exercises && activateCompPhoto && jupyter notebook"
+
+    # CS6460
+    alias gt_edtech_dir="$HOME/GT/Code/CS6460-EdTech"
 
     # Sensory 5 aliases
     export TTG_MAGENTO_ROOT="~/Code/magento-ee-2.1.8"
@@ -76,6 +92,14 @@ if [[ "$OSTYPE" == darwin* ]]; then
     alias ttgcode="cd $TTG_MAGENTO_ROOT/app/code/Toffeetogo"
     alias ttgdesign="cd $TTG_MAGENTO_ROOT/app/design/frontend/Toffeetogo"
     alias ttgvagrant="cd $HOME/Code/mage2-vagrant-base"
+
+    # iterm plugin specific
+    #
+    # itermplot: https://github.com/daleroberts/itermplot
+    alias init_itermplot="export MPLBACKEND=\"module://itermplot\"; export ITERMPLOT=rv"
+
+    # Overrides
+    alias cfd=cdf
 
 fi
 
@@ -106,10 +130,27 @@ BASE16_SHELL="$HOME/.config/base16-shell/scripts/base16-bright.sh"
 export GLASSFISH_HOME=/usr/local/opt/glassfish/libexec
 
 # pyenv
-export PYENV_ROOT="$HOME/.pyenv"
+# export PYENV_ROOT="$HOME/.pyenv"
 
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
+# if command -v pyenv 1>/dev/null 2>&1; then
+#   eval "$(pyenv init -)"
+#   eval "$(pyenv virtualenv-init -)"
+# fi
+
+# Ensuring 7.1 PHP is first.
+export PATH="/usr/local/opt/php@7.1/bin:$PATH"
+export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
+# LDFLAGS:  -L/usr/local/opt/php@7.1/lib
+# CPPFLAGS: -I/usr/local/opt/php@7.1/include
+
+
+if [[ "$OSTYPE" == darwin* ]]; then
+  # Add anaconda path
+  # alias conda="~/anaconda/bin/conda"
+  export PATH="/Users/patrickward/anaconda/bin:$PATH"
 fi
 
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+# Tmuxinator
+source ~/.bin/tmuxinator.zsh

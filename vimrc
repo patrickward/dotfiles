@@ -1,98 +1,163 @@
+"""""""""""""""""""""""""""""""""""
+" Vimrc Configuration
+"""""""""""""""""""""""""""""""""""
 set nocompatible                  " Must come first because it changes other options.
-
+set encoding=utf8
 let mapleader = ","
 
-filetype off                      " Turn off filetype until after vundle and bundles
+"""""""""""""""""""""""""""""""""""
+" Vundle Configuration
+"""""""""""""""""""""""""""""""""""
+" Turn off filetype until after vundle and bundles
+filetype off
 
-" setup vundle
+" Set runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 " let Vundle manage Vundle
 Plugin 'gmarik/vundle'
 
-" Bundles
-" Bundle 'altercation/vim-colors-solarized'
-Plugin 'chriskempson/base16-vim'
-Plugin 'tpope/vim-markdown'
+" Utility
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'vim-scripts/bufexplorer.zip'
+Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-ruby/vim-ruby'
 Plugin 'tpope/vim-ragtag'
 Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-unimpaired'
-Plugin 'kchmck/vim-coffee-script'
-" Plugin 'juvenn/mustache'
-Plugin 'godlygeek/tabular'
-Plugin 'groenewege/vim-less'
-Plugin 'xsbeats/vim-blade'
-Plugin 'ap/vim-css-color'
-Plugin 'vim-scripts/bufexplorer.zip'
 Plugin 'tpope/vim-commentary'
 Plugin 'mileszs/ack.vim'
-Plugin 'smerrill/vcl-vim-plugin'
-Plugin 'chase/vim-ansible-yaml'
-Plugin 'editorconfig/editorconfig-vim'
+Plugin 'benmills/vimux'
+
+" Theme / Colors
+Plugin 'ap/vim-css-color'
+Plugin 'chriskempson/base16-vim'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+" Only enable if changing the tmuxline theme
+" Plugin 'edkolev/tmuxline.vim'
+
+" Git
+Plugin 'tpope/vim-fugitive'
+
+" Html / CSS
+Plugin 'groenewege/vim-less'
 Plugin 'mattn/emmet-vim'
-Plugin 'stephpy/vim-php-cs-fixer'
+
+" Markdown/Writing
+Plugin 'lervag/vimtex'
+Plugin 'tpope/vim-markdown'
+
+" Ruby / Rails
+Plugin 'tpope/vim-rails'
+Plugin 'vim-ruby/vim-ruby'
+
+" PHP / Laravel
+Plugin 'xsbeats/vim-blade'
+
+" Python
+Plugin 'glench/vim-jinja2-syntax'
+
+" Elixir
+Plugin 'elixir-editors/vim-elixir'
+
+" Rust
+Plugin 'rust-lang/rust.vim'
+
+" Javascript
 Plugin 'posva/vim-vue'
 Plugin 'mxw/vim-jsx'
 Plugin 'pangloss/vim-javascript'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'glench/vim-jinja2-syntax'
-Plugin 'lervag/vimtex'
-Plugin 'elixir-editors/vim-elixir'
-Plugin 'rust-lang/rust.vim'
+
+" Devops
+Plugin 'chase/vim-ansible-yaml'
 
 " End vundle
 call vundle#end()
 
-filetype plugin indent on         " Turn on file type detection.
+"""""""""""""""""""""""""""""""""""
+" Configuration
+"""""""""""""""""""""""""""""""""""
 
-syntax enable                     " Turn on syntax highlighting.
+" Turn on file type detection.
+filetype plugin indent on
+
+" Turn on syntax highlighting.
+syntax enable
 
 " runtime macros/matchit.vim        " Load the matchit plugin.
-
 set showcmd                       " Display incomplete commands.
 set showmode                      " Display the mode you're in.
 
-set backspace=indent,eol,start    " Intuitive backspacing. Allow backspacing over everything in insert mode.
+" Intuitive backspacing. Allow backspacing over everything in insert mode.
+set backspace=indent,eol,start
 
-set hidden                        " Handle multiple buffers better. Hides buffers instead of closing them.
+" Enhanced command line completion.
+set wildmenu
 
-set wildmenu                      " Enhanced command line completion.
-set wildmode=list:longest         " Complete files like a shell.
+" Complete files like a shell.
+set wildmode=list:longest
 
 " fix default regex handling by using very magic by default
 nnoremap / /\v
 vnoremap / /\v
 
-set ignorecase                    " Case-insensitive searching.
-set smartcase                     " But case-sensitive if expression contains a capital letter.
-set gdefault                      " apply substitutions globally by default
+" Case-insensitive searching.
+set ignorecase
 
-set incsearch                     " Highlight matches as you type.
-set hlsearch                      " Highlight matches.
+" But case-sensitive if expression contains a capital letter.
+set smartcase
+
+" apply substitutions globally by default
+set gdefault
+
+" Highlight matches as you type.
+set incsearch
+
+" Highlight matches.
+set hlsearch
+
 nnoremap <leader><space> :noh<cr> " clear out highlighted searches (\space)
 
-set number                        " Show line numbers.
-set ruler                         " Show cursor position.
+" Show line numbers.
+set number
 
-set wrap                          " Turn on line wrapping.
-set linebreak                     " Wrap lines at the 'breakat' char rather than last char to fit on screen
-set scrolloff=3                   " Show 3 lines of context around the cursor.
+" Show cursor position.
+set ruler
 
-set title                         " Set the terminal's title
+" Turn on line wrapping.
+set wrap
 
-set visualbell                    " No beeping.
+" Wrap lines at the 'breakat' char rather than last char to fit on screen
+set linebreak
 
-set nobackup                      " Don't make a backup before overwriting a file.
-set nowritebackup                 " And again.
-set directory=$HOME/.vim/tmp//,.  " Keep swap files in one location
+" Show 3 lines of context around the cursor.
+set scrolloff=3
 
-set autoindent                    " always set autoindenting on
-set copyindent                    " copy the previous indentation on autoindenting
+" Set the terminal's title
+set title
+
+" No beeping.
+set visualbell
+
+" Don't make a backup before overwriting a file.
+set nobackup
+
+" And again.
+set nowritebackup
+
+" Keep swap files in one location
+set directory=$HOME/.vim/tmp//,.
+
+" always set autoindenting on
+set autoindent
+
+" copy the previous indentation on autoindenting
+set copyindent
 
 " default indentation: 2 spaces
 set tabstop=2                    " Global tab width.
@@ -115,9 +180,13 @@ if has("autocmd")
   autocmd FileType python setlocal ts=4 sts=4 sw=4 expandtab
   autocmd FileType php setlocal ts=4 sts=4 sw=4 expandtab
 
+  " Syntax for odd file extensions
+  autocmd BufNewFile,BufRead *.chatito set syntax=markdown
+  autocmd BufNewFile,BufRead *.chatito setlocal ts=4 sts=4 sw=4 expandtab
+
 endif
 
-" Strip trailing whitespace
+" Strip trailing whitespace on save
 function! <SID>StripTrailingWhitespaces()
     " Preparation: save last search, and cursor position.
     let _s=@/
@@ -131,6 +200,19 @@ function! <SID>StripTrailingWhitespaces()
 endfunction
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
+" Use ripgrep for grep searches
+if executable("rg")
+    set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+    set grepformat=%f:%l:%c:%m,%f:%l:%m
+    let g:ctrlp_user_command = 'rg --files %s'
+    let g:ctrlp_use_caching = 0
+    let g:ctrlp_working_path_mode = 'ra'
+    let g:ctrlp_switch_buffer = 'et'
+endif
+
+"""""""""""""""""""""""""""""""""""
+" Interface
+"""""""""""""""""""""""""""""""""""
 
 " Show the status line all the time
 set laststatus=2
@@ -139,25 +221,27 @@ set laststatus=2
 set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{exists('*CapsLockStatusline')?CapsLockStatusline():''}%=%-16(\ %l,%c-%v\ %)%P
 
 " Fonts
-set guifont=Menlo\ Regular:h14
+set guifont=Meslo\ LG\ M\ for\ Powerline:h14
 set linespace=2
 
 " Set vim to 256 colors
 set t_Co=256
 set background=dark
-" set background=light
-" colorscheme vibrant_ink
-" colorscheme monokai
-" colorscheme solarized
-" colorscheme distinguished
-" colorscheme jellybeans
-let base16colorspace=256  " Access colors present in 256 colorspace
-colorscheme base16-bright
-" colorscheme base16-tomorrow
 
-" if has("autocmd")
-"   autocmd FileTYpe php colorscheme monokai
-" endif
+" Access colors present in 256 colorspace
+let base16colorspace=256
+colorscheme base16-bright
+
+" Used patched fonts for airline arrows/triangles
+let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled=1
+let g:airline#extensions#tabline#show_buffers=0
+let g:airline#extensions#tabline#show_close_button=0
+let g:airline_theme='base16_bright'
+
+"""""""""""""""""""""""""""""""""""
+" Mappings
+"""""""""""""""""""""""""""""""""""
 
 " Tab mappings.
 map <leader>tt :tabnew<cr>
@@ -179,9 +263,6 @@ set listchars=tab:▸\ ,eol:¬
 " see: http://vim.wikia.com/wiki/Shifting_blocks_visually
 vnoremap > >gv
 vnoremap < <gv
-
-" Uncomment to use Jamis Buck's file opening plugin
-"map <Leader>t :FuzzyFinderTextMate<Enter>
 
 " Controversial...swap colon and semicolon for easier commands
 nnoremap ; :
@@ -205,17 +286,7 @@ map <leader>v :view %%
 " Switch between the last two files
 nnoremap <leader><leader> <c-^>
 
-"" Make the current window large, but leave others in context
-"set winwidth=84
-"" We have to have a winheight bigger than we want to set winminheight. But if
-"" we set winheight to be huge before winminheight, the winminheight set will
-"" fail.
-"set winheight=5
-"set winminheight=5
-"set winheight=999
-
 " Open the current document with Marked.app
-" nnoremap <leader>m :silent !open -a Marked.app '%:p'<cr>
 nnoremap <leader>m :silent !open -a Marked\ 2.app '%:p'<cr>
 
 " Show word count of selection
@@ -227,58 +298,8 @@ nmap <leader>ta :!clear && phpunit<cr>
 " Run test on current test method
 nmap <leader>tm yiw:!clear && phpunit --filter ^R"<cr>
 
-" PHP-CS-Fixer
-" disable psr0
-let g:php_cs_fixer_fixers_list = "-psr0"
-
 " GCC Compile the file in the current buffer
 " set makeprg=gcc\ -o\ %<\ %
 " Make and run the current file in the buffer
 nnoremap <silent> <f7> :make %< && ./%<<cr>
 
-" Escape/unescape & < > HTML entities in range (default current line).
-function! HtmlEntities(line1, line2, action)
-  let search = @/
-  let range = 'silent ' . a:line1 . ',' . a:line2
-  if a:action == 0  " must convert &amp; last
-    execute range . 'sno/&lt;/</eg'
-    execute range . 'sno/&gt;/>/eg'
-    execute range . 'sno/&amp;/&/eg'
-  else              " must convert & first
-    execute range . 'sno/&/&amp;/eg'
-    execute range . 'sno/</&lt;/eg'
-    execute range . 'sno/>/&gt;/eg'
-  endif
-  nohl
-  let @/ = search
-endfunction
-command! -range -nargs=1 Entities call HtmlEntities(<line1>, <line2>, <args>)
-noremap <silent> <leader>h :Entities 0<CR>
-noremap <silent> <leader>H :Entities 1<CR>
-
-" ----------------------------
-" VimTex Options
-" ----------------------------
-let g:vimtex_view_general_viewer
-      \ = '/Applications/Skim.app/Contents/SharedSupport/displayline'
-let g:vimtex_view_general_options = '-r @line @pdf @tex'
-
-" This adds a callback hook that updates Skim after compilation
-let g:vimtex_latexmk_callback_hooks = ['UpdateSkim']
-function! UpdateSkim(status)
-  if !a:status | return | endif
-
-  let l:out = b:vimtex.out()
-  let l:tex = expand('%:p')
-  let l:cmd = [g:vimtex_view_general_viewer, '-r']
-  if !empty(system('pgrep Skim'))
-    call extend(l:cmd, ['-g'])
-  endif
-  if has('nvim')
-    call jobstart(l:cmd + [line('.'), l:out, l:tex])
-  elseif has('job')
-    call job_start(l:cmd + [line('.'), l:out, l:tex])
-  else
-    call system(join(l:cmd + [line('.'), shellescape(l:out), shellescape(l:tex)], ' '))
-  endif
-endfunction
