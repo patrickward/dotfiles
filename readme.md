@@ -1,73 +1,51 @@
-Patrick Ward's Dotfiles
------------------------
+# My personal dotfiles
 
-These are the config files I use to set up my Mac OSX and Linux systems. I'm currently only working with an Arch Linux system. If you'd like to see my previous Mac OSX files, check out the [macosx-dotfiles branch](https://github.com/patrickward/dotfiles/tree/macosx-dotfiles).
+This is largely a collection of dotfiles and techniques that I've cobbled together.
 
-> As of January 2014, I've moved to using the [prezto](https://github.com/sorin-ionescu/prezto) configuration framework for Zsh. The files in this repo reflect that change and use prezto as the base.
+I wanted a cleaner zsh environment without the cruft of a zsh framework.
 
-## Installation:
+I used the [holman dotfiles](https://github.com/holman/dotfiles) as a major source, but found that a lof of what was in there wasn't what I needed or would use.
 
-Fork this repo on Github.
+I also wanted the symlinks and directories to match the final structure that the home directory would show. So, there are quite a few modifications from that.
 
-Clone your fork (replace `your-github-name` with your Github name).
+## components - instructions from holman
 
-    git clone git@github.com:your-github-name/dotfiles.git
-    cd dotfiles
+There's a few special files in the hierarchy.
 
-Run the installer.
+- **bin/**: Anything in `bin/` will get added to your `$PATH` and be made
+  available everywhere.
+- **Brewfile**: This is a list of applications for [Homebrew Cask](https://caskroom.github.io) to install: things like Chrome and 1Password and Adium and stuff. Might want to edit this file before running any initial setup.
+- **topic/\*.zsh**: Any files ending in `.zsh` get loaded into your
+  environment.
+- **topic/path.zsh**: Any file named `path.zsh` is loaded first and is
+  expected to setup `$PATH` or similar.
+- **topic/completion.zsh**: Any file named `completion.zsh` is loaded
+  last and is expected to setup autocomplete.
+- **topic/install.sh**: Any file named `install.sh` is executed when you run `script/install`. To avoid being loaded automatically, its extension is `.sh`, not `.zsh`.
+- **topic/\*.symlink**: Any file ending in `*.symlink` gets symlinked into
+  your `$HOME`. This is so you can keep all of those versioned in your dotfiles
+  but still keep those autoloaded files in your home directory. These get
+  symlinked in when you run `script/bootstrap`.
 
-    ./install.sh
+## install
 
-This will create symlinks for all dotfiles in your home directory. You can safely run this file multiple times to update.
+Run this:
 
-Install [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in vimrc.
+```sh
+git clone https://github.com/patrickward/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+script/bootstrap
+```
 
-    git clone https://github.com/gmarik/vundle.git vim/bundle/vundle
+This will symlink the appropriate files in `.dotfiles` to your home directory.
+Everything is configured and tweaked within `~/.dotfiles`.
 
-Launch vim, run :BundleInstall (or vim +BundleInstall +qall for CLI lovers)
+The main file you'll want to change right off the bat is `zsh/zshrc.symlink`,
+which sets up a few paths that'll be different on your particular machine.
 
-Included are zsh dotfiles. To switch your shell to zsh on OS X or Linux:
+`dot` is a simple script that installs some dependencies, sets sane macOS
+defaults, and so on. Tweak this script, and occasionally run `dot` from
+time to time to keep your environment fresh and up-to-date. You can find
+this script in `bin/`.
 
-    chsh -s $(which zsh)
 
-## Credits
-
-- The install script is from [thoughtbot](https://github.com/thoughtbot/dotfiles).
-
-## Copyright and License
-
-I don't claim a copyright on any of these config files. Use it as you see fit.
-However, some of the included scripts and plugins may have copyrights. So, see those
-files and projects for details.
-
-## Vim
-
-I use [Vundle](https://github.com/gmarik/vundle) for managing the vim plugins in vimrc.
-
-### Current plugins
-
-* [base16-vim](https://github.com/chriskempson/base16-vim)
-* [vim-markdown](https://github.com/tpope/vim-markdown)
-* [vim-surround](https://github.com/tpope/vim-surround)
-* [vim-fugitive](https://github.com/tpope/vim-fugitive)
-* [vim-ruby](https://github.com/vim-ruby/vim-ruby)
-* [vim-ragtag](https://github.com/tpope/vim-ragtag)
-* [vim-endwise](http://github.com/tpope/vim-endwise)
-* [vim-unimpaired](https://github.com/tpope/vim-unimpaired)
-* [vim-coffee-script](https://github.com/kchmck/vim-coffee-script)
-* [mustache.vim](https://github.com/juvenn/mustache.vim)
-* [tabular](https://github.com/godlygeek/tabular)
-* [vim-preview](https://github.com/greyblake/vim-preview)
-* [vim-less](https://github.com/groenewege/vim-less)
-* [blade.vim](https://github.com/johnhamelink/blade.vim)
-* [vim-css-color](https://github.com/skammer/vim-css-color.git)
-* [bufexplorer](https://github.com/vim-scripts/bufexplorer.zip)
-* [vim-commentary](https://github.com/tpope/vim-commentary)
-* [ack.vim](https://github.com/mileszs/ack.vim)
-* [Markdown Preview](https://gist.github.com/960015)
-* [Vim VCL HIghlighting](https://github.com/smerrill/vcl-vim-plugin)
-* [Vim Ansible Yaml](https://github.com/chase/vim-ansible-yaml)
-
-### Disabled Plugins
-
-* [vim-colors-solarized](https://github.com/altercation/vim-colors-solarized)

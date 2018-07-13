@@ -1,0 +1,14 @@
+#!/bin/zsh
+#
+# From: https://github.com/holman/dotfiles
+#
+# This lets you quickly jump into a project directory
+#
+# Type: `c <tab>` to autocomplete on
+# all projects in the directories specified
+# in `function/_c`. For example:
+#
+# c holm<tab>/bo<tab>
+#
+# ... to quickly jump into holman/boom.
+cd "$PROJECTS/$1"

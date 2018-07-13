@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+# Original from: https://github.com/holman/dotfiles with some modifications
+
+# Exit the shell if any subcommand or pipeline
+# returns a on-zero status
+set -e
+
+cd "$(dirname $0)"/..
+
+# Run Homebrew through the Brewfile
+echo "› brew bundle"
+brew bundle
+
+# Find the installers and run them iteratively
+find . -name install.sh | while read installer ; do sh -c "${installer}" ; done
+

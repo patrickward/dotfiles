@@ -1,0 +1,6 @@
+#
+# zshenv -> zprofile -> zshrc -> zlogin
+#
+# Executes commands at login post-zshrc.
+#
+

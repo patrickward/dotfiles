@@ -1,2 +1,6 @@
-vim/bundle/*
-vim/.netrwhist
+# Ignore local gitconfig
+gitconfig.local.symlink
+
+# Ignore vim bundles
+vim.symlink/bundle/*
+vim.symlink/.netrwhist
