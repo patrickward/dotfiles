@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# Make sure user.email exists in local config
+EMAIL=`git config user.email`
+
+RED='\033[0;31m'
+LTGREEN='\033[1;32m'
+LTPURPLE='\033[1;35m'
+NOCOLOR='\033[0m'
+
+if [ -z "$EMAIL" ]; then
+  # user.email is empty
+  echo ""
+  echo "${RED}ERROR: [pre-commit hook] Local user.email is missing.${NOCOLOR}"
+  echo "Configure user.email for this repository by running:"
+  echo "${LTGREEN}"
+  echo "$ git config user.name Name"
+  echo "$ git config user.email name@example.com"
+  echo "${NOCOLOR} ${LTPURPLE}"
+  echo "Don't configure a global user, Patrick!"
+  echo "${NOCOLOR}"
+  exit 1
+else
+  echo "here2"
+  # User.email not empty
+  exit 0
+fi
+
