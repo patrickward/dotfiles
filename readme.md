@@ -4,13 +4,15 @@ This is largely a collection of dotfiles and techniques that I've cobbled togeth
 
 I wanted a cleaner zsh environment without the cruft of a zsh framework.
 
-I used the [holman dotfiles](https://github.com/holman/dotfiles) as a major source, but found that a lof of what was in there wasn't what I needed or would use.
+I used the [holman dotfiles](https://github.com/holman/dotfiles) as a major inspiration, but found that a lot of what was in there wasn't what I needed or would use. So, I made some changes to suit my needs.
 
-I also wanted the symlinks and directories to match the final structure that the home directory would show. So, there are quite a few modifications from that.
+I also wanted the symlinks and directories to match the final structure that the home directory would show. So, there are quite a few modifications that don't match the topic style of that project.
 
-## components - instructions from holman
+## components
 
-There's a few special files in the hierarchy.
+_Instructions are from holman as the scripts are essentially the same, but the directory structure has changed._
+
+There are a few special files in the hierarchy.
 
 - **bin/**: Anything in `bin/` will get added to your `$PATH` and be made
   available everywhere.
