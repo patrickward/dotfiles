@@ -47,7 +47,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # --------------------
   # Add anaconda path
   # alias conda="~/anaconda/bin/conda"
-  export PATH="/Users/patrickward/anaconda/bin:$PATH"
+  export PATH="$HOME/anaconda/bin:$PATH"
 
 fi
 
