@@ -11,6 +11,7 @@ SAVEHIST=10000
 
 ## - Completions
 setopt CORRECT                    # Try to correct the spelling of commands
+setopt CORRECT_ALL                # Try to correct the spelling of arguments as well
 setopt COMPLETE_IN_WORD           # Complete from both ends of a word.
 setopt ALWAYS_TO_END              # Move cursor to the end of a completed word.
 setopt PATH_DIRS                  # Perform path search even on command names with slashes.
@@ -28,7 +29,7 @@ setopt PUSHD_IGNORE_DUPS          # Do not store duplicates in the stack.
 setopt PUSHD_SILENT               # Do not print the directory stack after pushd or popd.
 setopt PUSHD_TO_HOME              # Push to home directory when no argument is given.
 setopt CDABLE_VARS                # Change directory to a path stored in a variable.
-setopt MULTIOS                    # Write to multiple descriptors.
+setopt MULTIOS                    # Write to multiple descriptors (perform implicit tees or cats when multiple redirections are allowed)
 setopt EXTENDED_GLOB              # Use extended globbing syntax.
 
 ## - History
@@ -52,8 +53,10 @@ setopt LOCAL_TRAPS                # Allow functions to have local traps
 
 ## - Prompt
 setopt PROMPT_SUBST               # Allow parameter exapansion, command substition, and arithmetic expansion in prompts
+setopt TRANSIENT_RPROMPT          # Only show the right prompt on the current prompt
 
 ## - Environment
+setopt NO_BEEP                    # Don\'t beep on error
 setopt COMBINING_CHARS            # Combine zero-length punctuation characters (accents)
 setopt INTERACTIVE_COMMENTS       # Enable comments in interactive shell.
 setopt RC_QUOTES                  # Allow 'Henry''s Garage' instead of 'Henry'\''s Garage'.
