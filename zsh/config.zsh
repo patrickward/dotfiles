@@ -1,4 +1,13 @@
 # Set options
+export LSCOLORS="exfxcxdxbxegedabagacad"
+export CLICOLOR=true
+
+fpath=($DOTDIR/zsh/functions $fpath)
+autoload -U $DOTDIR/zsh/functions/*(:t)
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 
 ## - Completions
 setopt CORRECT                    # Try to correct the spelling of commands
@@ -55,7 +64,18 @@ setopt NO_BG_NICE                 # Don\'t run all background jobs at a lower pr
 setopt NO_HUP                     # Don\'t kill jobs on shell exit.
 # setopt NO_CHECK_JOBS            # Don\'t report on jobs when shell exit.
 
+# Don't expand aliases _before_ complettion has finished
+setopt COMPLETE_ALIASES
+
+zle -N newtab
+
 # Key bindings
+bindkey '^[^[[D' backward-word
+bindkey '^[^[[C' forward-word
+bindkey '^[[5D' beginning-of-line
+bindkey '^[[5C' end-of-line
+bindkey '^[[3~' delete-char
+bindkey '^?' backward-delete-char
 
 # Set to vim mode
 bindkey -v

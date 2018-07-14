@@ -2,12 +2,7 @@
 
 # Yarn
 # --------------------
-# Add yarn global bin
-# https://yarnpkg.com
-if (( $+commands[yarn] ))
-then
-  export PATH="$PATH:`yarn global bin`"
-fi
+# yarn path is in zsh/yarn/path.zsh
 
 # Composer
 # --------------------
@@ -58,7 +53,7 @@ fi
 
 # PATH
 # --------------------
-export PATH="$HOME/bin:/usr/local/bin:/usr/local/sbin:$DOTDIR/bin:$PATH"
+export PATH="$HOME/.bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:$DOTDIR/bin:$PATH"
 
 # MANPATH
 # --------------------

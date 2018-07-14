@@ -1,3 +1,5 @@
+# PROFILE: zmodload zsh/zprof
+# TEST: for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 #
 # zshenv -> zprofile -> zshrc -> zlogin
 #
@@ -31,8 +33,16 @@ do
 done
 
 # Initialize autocomplete here, otherwise functions won't be loaded
-autoload -U compinit
-compinit
+# autoload -U compinit
+# compinit
+autoload -Uz compinit
+_comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
+if (( $#_comp_files )); then
+  compinit -i -C
+else
+  compinit -i
+fi
+unset _comp_files
 
 # Load every completion after autocomplete loads
 for file in ${(M)config_files:#*/completion.zsh}
@@ -57,3 +67,5 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 # Files: zsh/pure.sh, zsh/async.sh
 autoload -U promptinit; promptinit
 prompt pure
+
+# END_PROFILE: zprof
