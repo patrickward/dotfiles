@@ -1,5 +1,12 @@
 #compdef c
+
+# Find folders under $PROJECTS
+# -W is the folder to search
+# -P adds a prefix to the result (e.g. if my-repo is found under tw, we get tw/my-repo)
 _files -W $PROJECTS -/
-# _files -W $GOPATH/src/github.com -/
+_files -P s5/ -W $PROJECTS/s5 -/
+_files -P tw/ -W $PROJECTS/tw -/
+_files -P gt/ -W $PROJECTS/gt -/
+_files -P ansible/ -W $PROJECTS/ansible -/
 
 # See further documentation in `functions/c`.
