@@ -35,14 +35,6 @@ PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 
 if [[ "$OSTYPE" == darwin* ]]; then
 
-  # PHP
-  # --------------------
-  # Ensuring 7.1 PHP is first
-  export PATH="/usr/local/opt/php@7.1/bin:$PATH"
-  export PATH="/usr/local/opt/php@7.1/sbin:$PATH"
-  # LDFLAGS:  -L/usr/local/opt/php@7.1/lib
-  # CPPFLAGS: -I/usr/local/opt/php@7.1/include
-
   # Python/Anaconda
   # --------------------
   # Add anaconda path
