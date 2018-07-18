@@ -42,6 +42,9 @@ Plugin 'vim-airline/vim-airline-themes'
 " Git
 Plugin 'tpope/vim-fugitive'
 
+" General programming tools (applicable to multiple languages)
+Plugin 'w0rp/ale'
+
 " Html / CSS
 Plugin 'groenewege/vim-less'
 Plugin 'mattn/emmet-vim'
@@ -232,12 +235,22 @@ set background=dark
 let base16colorspace=256
 colorscheme base16-bright
 
+"""""""""""""""""""""""""""""""""""
+" Airline Options
+"""""""""""""""""""""""""""""""""""
 " Used patched fonts for airline arrows/triangles
 let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#show_buffers=0
 let g:airline#extensions#tabline#show_close_button=0
 let g:airline_theme='base16_bright'
+" Enable ALE to display error information in the status bar
+let g:airline#extensions#ale#enabled=1
+
+"""""""""""""""""""""""""""""""""""
+" ALE Linters
+"""""""""""""""""""""""""""""""""""
+let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle']}
 
 """""""""""""""""""""""""""""""""""
 " Mappings
