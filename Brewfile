@@ -13,7 +13,7 @@ tap "homebrew/versions"
 tap "osrf/simulation"
 
 # Software
-cask "java"
+# cask "java"
 cask "xquartz"
 brew "libyaml"
 brew "ansible"
@@ -62,7 +62,7 @@ brew "node"
 brew "numpy"
 brew "openexr"
 brew "pgcli"
-brew "php@7.1", restart_service: true
+# brew "php@7.1", restart_service: true
 brew "pinentry"
 brew "poppler"
 brew "pyenv"
@@ -80,11 +80,12 @@ brew "wget"
 brew "heroku/brew/heroku"
 brew "osrf/simulation/gazebo8"
 brew "pgloader"
+brew "mupdf"
 
 # Casks
 cask "cura"
 cask "graphiql"
-cask "java7"
+# cask "java7"
 cask "keepassx"
 cask "osxfuse"
 cask "vagrant"
