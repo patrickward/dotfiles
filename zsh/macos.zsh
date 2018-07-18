@@ -1,9 +1,21 @@
 # Mac OS X aliases
 
-# Show/hide hidden files in Finder
-alias show-dotfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
-alias hide-dotfiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+if [[ "$OSTYPE" == darwin* ]]; then
 
-# pb commands
-pbc=pbcopy
-pbp=pbpaste
+  # Show/hide hidden files in Finder
+  alias show-dotfiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+  alias hide-dotfiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+
+  # pb commands
+  pbc=pbcopy
+  pbp=pbpaste
+
+  # finder commands
+
+  # Changes directory to the current Finder directory.
+  alias cdf='cd "$(pfd)"'
+
+  # Pushes directory to the current Finder directory.
+  alias pushdf='pushd "$(pfd)"'
+
+fi

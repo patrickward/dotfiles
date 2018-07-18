@@ -1,0 +1,22 @@
+#
+# Displays the current Finder.app directory on OS X
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# function pfd {
+
+if [[ "$OSTYPE" == darwin* ]]; then
+
+osascript 2> /dev/null <<EOF
+  tell application "Finder"
+    return POSIX path of (target of first window as text)
+  end tell
+EOF
+
+else
+  echo "pfd is a Mac OS X only function"
+fi
+
+# }
