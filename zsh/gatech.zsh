@@ -4,7 +4,7 @@
 alias gt-docs="cd /Users/patrickward/Dropbox\ \(Personal\)/GT"
 
 # alias start_bonnie_docker="docker run --interactive --tty -v `pwd`:'/root/gios' -v '$HOME/.bonnie':'/root/.bonnie/' -w '/root/gios' --entrypoint=/bin/bash gtomscs/os"
-export GIOS_GRADER_DIR="$HOME/Code/gt/ios-cs6002/CS8803-02-TA-for-IOS/gt-cs8803-02-graders"
+export GIOS_GRADER_DIR="$HOME/Code/gt/ios-cs6200/TA-ios-cs8803-02/gt-cs8803-02-graders"
 alias gt-start-bonnie-docker="docker run --interactive --tty -v $GIOS_GRADER_DIR:'/root/gios' -v '$HOME/.bonnie':'/root/.bonnie/' -w '/root/gios' --entrypoint=/bin/bash gtomscs/os"
 
 # CS6475-CP
