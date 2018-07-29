@@ -81,6 +81,7 @@ brew "heroku/brew/heroku"
 brew "osrf/simulation/gazebo8"
 brew "pgloader"
 brew "mupdf"
+brew "pandoc"
 
 # Casks
 cask "cura"
