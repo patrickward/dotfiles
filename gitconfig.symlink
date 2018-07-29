@@ -4,14 +4,14 @@
 # Adding templatedirectory so that we I
 # can set some default git hooks on new repositories
 [init]
-  templatedir = $DOTDIR/git/templates
+  templatedir = ~/.dotfiles/git/templates
 [hub]
         protocol = https
 [alias]
         co = checkout
-        promote = !$DOTDIR/bin/git-promote
-        wtf     = !$DOTDIR/bin/git-wtf
-        rank-contributors = !$DOTDIR/bin/git-rank-contributors
+        promote = !~/.dotfiles/bin/git-promote
+        wtf     = !~/.dotfiles/bin/git-wtf
+        rank-contributors = !~/.dotfiles/bin/git-rank-contributors
         count   = !git shortlog -sn
         st = status
         co = checkout
