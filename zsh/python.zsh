@@ -1,3 +1,3 @@
 # Python config/aliases
 
-alias pyworkon='source activate'
+alias workon='source activate'
