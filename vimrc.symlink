@@ -30,6 +30,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-commentary'
 Plugin 'mileszs/ack.vim'
 Plugin 'benmills/vimux'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'git-time-metric/gtm-vim-plugin'
 
 " Theme / Colors
