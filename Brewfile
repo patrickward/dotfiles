@@ -11,6 +11,7 @@ tap "homebrew/science"
 tap "homebrew/services"
 tap "homebrew/versions"
 tap "osrf/simulation"
+tap "git-time-metric/gtm"
 
 # Software
 # cask "java"
@@ -82,6 +83,8 @@ brew "osrf/simulation/gazebo8"
 brew "pgloader"
 brew "mupdf"
 brew "pandoc"
+brew "optipng"
+brew "gtm"
 
 # Casks
 cask "cura"
