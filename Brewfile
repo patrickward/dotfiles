@@ -85,6 +85,7 @@ brew "mupdf"
 brew "pandoc"
 brew "optipng"
 brew "gtm"
+brew "graphviz"
 
 # Casks
 cask "cura"
