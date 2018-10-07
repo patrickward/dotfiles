@@ -40,3 +40,8 @@ alias mvi='nocorrect mv -i'
 alias mysql='nocorrect mysql'
 alias rmi='nocorrect rm -i'
 
+# todo-cli
+export TODOTXT_DEFAULT_ACTION=ls
+alias t='todo.sh'
+alias t='todo.sh -d /Users/patrickward/.dotfiles/todo.cfg'
+
