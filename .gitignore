@@ -4,3 +4,4 @@ gitconfig.local.symlink
 # Ignore vim bundles
 vim.symlink/bundle/*
 vim.symlink/.netrwhist
+/.gtm/
