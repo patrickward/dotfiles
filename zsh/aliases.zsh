@@ -45,3 +45,6 @@ export TODOTXT_DEFAULT_ACTION=ls
 alias t='todo.sh'
 alias t='todo.sh -d /Users/patrickward/.dotfiles/todo.cfg'
 
+# GTM and Git
+alias gtpush='git push && git pushgtm'
+alias gtpull='git pull && git fetchgtm'
