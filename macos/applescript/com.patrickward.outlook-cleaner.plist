@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <!--
+    Instructions
+    1. Place this file in ~/Library/LaunchAgents
+    2. Run cd ~/Library/LaunchAgents && launchctl load -w com.patrickward.outlook-cleaner.plist
+    3. launchctl start com.patrickward.outlook-cleaner
+    4. Test to see if it ran: launchctl list | grep outlook (should have returned 0 in 2nd column
+  -->
+<dict>
+    <key>Label</key>
+    <string>com.patrickward.outlook-cleaner</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>osascript</string>
+        <string>/Users/patrickward/.dotfiles/macos/applescript/outlook-cleaner.scpt</string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>/usr/local/var/log/outlook-cleaner.log</string>
+    <key>StandardErrorPath</key>
+    <string>/usr/local/var/log/outlook-cleaner.log</string>
+    <key>StartInterval</key>
+    <!-- Every 5 minutes = 300 -->
+    <!-- Every hour = 3600 -->
+    <integer>3600</integer>
+</dict>
+</plist>
