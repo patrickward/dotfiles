@@ -47,6 +47,9 @@ Plugin 'tpope/vim-fugitive'
 " General programming tools (applicable to multiple languages)
 Plugin 'w0rp/ale'
 
+" Applescript
+Plugin 'dearrrfish/vim-applescript'
+
 " Html / CSS
 Plugin 'groenewege/vim-less'
 Plugin 'mattn/emmet-vim'
