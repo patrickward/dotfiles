@@ -22,7 +22,8 @@
     <string>/usr/local/var/log/outlook-cleaner.log</string>
     <key>StartInterval</key>
     <!-- Every 5 minutes = 300 -->
+    <!-- Every 15 minutes = 900 -->
     <!-- Every hour = 3600 -->
-    <integer>3600</integer>
+    <integer>900</integer>
 </dict>
 </plist>
