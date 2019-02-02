@@ -86,6 +86,7 @@ brew "pandoc"
 brew "optipng"
 brew "gtm"
 brew "graphviz"
+brew "lastpass"
 
 # Casks
 cask "cura"
