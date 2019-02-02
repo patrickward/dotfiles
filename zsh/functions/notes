@@ -1,0 +1,75 @@
+#!/bin/sh
+#
+# Simple script to automatically create or
+# open plaintext notes in a particular
+# directory.
+# Usage: notes c - to cd to the notes directory
+#        notes l - to list all notes in the direct
+#        notes <filename>[.md] to create or open a file in vim.
+#
+# If no extension is provided, .md will be automatically added
+
+# ENVIRONMENT VARS
+#
+# Override $NOTES_DIR in $HOME/.localrc
+#
+
+notes () {
+
+  RED='\033[0;31m'
+  GREEN='\033[0;32m'
+  NC='\033[0m'
+
+  _notes_help() {
+    echo "\nNotes - Opens notes in the configured notes directory\n"
+    echo "Commands:\n"
+    echo "notes cd - Change to the notes directory"
+    echo "notes ls [search] - List all notes in the notes directory. Add an optional search pattern."
+    echo "notes <filename>[.md] - Open the file for editing. If no extension is on the filename, .md is appended to the file name.\n"
+    echo "Use tab-completion for files"
+  }
+
+
+  # Look for an overriden env var
+  [ -z "$NOTES_DIR" ] && $NOTES_DIR="$HOME/notes"
+
+  # Ensure the env var has been exported
+  if ! env | grep -q '^NOTES_DIR='
+  then
+    export VARIABLE
+  fi
+
+  case "$1" in
+    cd)
+      cd "$NOTES_DIR"
+      ;;
+    ls)
+      echo "${GREEN}Notes found:${NC}"
+      if [ $# -eq 2 ]; then
+        ls -l -1 "$NOTES_DIR" | grep -i "$2"
+      else
+        ls -l -1 "$NOTES_DIR"
+      fi
+      ;;
+    help|-h|--help)
+      _notes_help
+      ;;
+    *)
+      if [ $# -eq 0 ]; then
+        echo "${RED}Please enter a file to open.${NC}"
+        _notes_help
+      else
+        pushd "$NOTES_DIR"
+        case "$1" in
+          *.*)
+            vim "$1"
+            ;;
+          *)
+            vim "$1".md
+            ;;
+        esac
+      fi
+  esac
+
+}
+

@@ -1,0 +1,8 @@
+#compdef notes
+
+local -a subcmds
+subcmds=('cd:Change to the notes directory' 'ls:List all files in the notes directory' 'help:Show help message')
+_describe 'notes' subcmds
+_files -W $NOTES_DIR -/
+
+# Done
