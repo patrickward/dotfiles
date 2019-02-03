@@ -1,7 +1,12 @@
 #compdef notes
 
 local -a subcmds
-subcmds=('cd:Change to the notes directory' 'ls:List all files in the notes directory' 'help:Show help message')
+subcmds=( \
+  'cd:Change to the notes directory' \
+  'ls:List all files in the notes directory' \
+  'push:Commit and push changes to the remote repo' \
+  'pull:Pull changes from the remote repo' \
+  'help:Show help message')
 _describe 'notes' subcmds
 _files -W $NOTES_DIR -/
 
