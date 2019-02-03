@@ -20,6 +20,8 @@ notes () {
   GREEN='\033[0;32m'
   NC='\033[0m'
 
+  cmd=nvim
+
   _notes_help() {
     echo "\nNotes - Opens notes in the configured notes directory\n"
     echo "Commands:\n"
@@ -62,10 +64,10 @@ notes () {
         pushd "$NOTES_DIR"
         case "$1" in
           *.*)
-            vim "$1"
+            $cmd "$1"
             ;;
           *)
-            vim "$1".md
+            $cmd "$1".md
             ;;
         esac
       fi
