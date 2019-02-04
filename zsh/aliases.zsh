@@ -41,10 +41,12 @@ alias mysql='nocorrect mysql'
 alias rmi='nocorrect rm -i'
 
 # todo-cli
+export TODOTXT_CONFIG='/Users/patrickward/.dotfiles/todo/todo.cfg'
 export TODOTXT_DEFAULT_ACTION=ls
 alias t='todo.sh'
-alias t='todo.sh -d /Users/patrickward/.dotfiles/todo.cfg'
+alias t="todo.sh -d $TODOTXT_CONFIG"
 
 # GTM and Git
 alias gtpush='git push && git pushgtm'
 alias gtpull='git pull && git fetchgtm'
+

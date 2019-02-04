@@ -84,6 +84,9 @@ Plugin 'mustache/vim-mustache-handlebars'
 " Devops
 Plugin 'chase/vim-ansible-yaml'
 
+" todo.txt
+Plugin 'freitass/todo.txt-vim'
+
 " End vundle
 call vundle#end()
 

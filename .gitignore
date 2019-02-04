@@ -4,4 +4,15 @@ gitconfig.local.symlink
 # Ignore vim bundles
 vim.symlink/bundle/*
 vim.symlink/.netrwhist
+
+# Ignore git time metric
 /.gtm/
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*

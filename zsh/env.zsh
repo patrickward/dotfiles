@@ -1,4 +1,4 @@
 # Environment vars
 
-export EDITOR='vim'
+export EDITOR='nvim'
 export BROWSER='open'
