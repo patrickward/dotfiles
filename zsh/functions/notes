@@ -63,28 +63,6 @@ notes () {
         ls -l -1 "$NOTES_DIR"
       fi
       ;;
-    push)
-      if [ ! $# -eq 2 ]; then
-        _notes_error "Please add a commit message."
-      else
-        cd "$NOTES_DIR"
-        git add -A
-        git commit -m "$1"
-        git push
-        cd -
-      fi
-      ;;
-    pull)
-      cd "$NOTES_DIR"
-      # If there are uncommitted changes, stop and let me know
-      if ! git diff-index --quiet HEAD --; then
-        _notes_error "There are uncommited changes you should review before pulling." 0
-        git status
-      else
-        git pull
-        cd -
-      fi
-      ;;
     help|-h|--help)
       _notes_help
       ;;
