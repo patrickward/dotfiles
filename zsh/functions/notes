@@ -18,68 +18,141 @@ notes () {
 
   RED='\033[0;31m'
   GREEN='\033[0;32m'
-  NC='\033[0m'
+  NO_COLOR='\033[0m'
+  SCRIPT_PATH="$DOTDIR/zsh/functions"
+  # remove trailing slashes
+  LNOTES_DIR=${NOTES_DIR%/}
+  LESCAPED_DIR="$(printf "$LNOTES_DIR" | sed -e 's/[]\/$*.^|[]/\\&/g')"
 
-  cmd=nvim
-
-  _notes_error() {
-    echo "${RED}$1${NC}"
+  _error() {
+    echo "${RED}$1${NO_COLOR}"
     if [ $# -eq 1 ]; then
-      _notes_help
+      _usage
     fi
     return 0
   }
 
-  _notes_help() {
+  _usage() {
     echo "\nNotes - Opens notes in the configured notes directory\n"
     echo "Commands:\n"
     echo "notes cd - Change to the notes directory"
     echo "notes ls [search] - List all notes in the notes directory. Add an optional search pattern."
-    echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
-    echo "notes pull - Pulls any upstream changes into the local repo."
-    echo "notes sync <message> - Commit, push, and pull all changes."
-    echo "notes <filename>[.md] - Open the file for editing. If no extension is on the filename, .md is appended to the file name.\n"
+    # echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
+    # echo "notes pull - Pulls any upstream changes into the local repo."
+    # echo "notes sync <message> - Commit, push, and pull all changes."
+    echo "notes new [[title] [project] [tags]] - Create a new note."
+    echo "notes <filename>[.md] - Open the file for editing."
     echo "Use tab-completion for files"
   }
 
-  # Look for an overriden env var
-  [ -z "$NOTES_DIR" ] && $NOTES_DIR="$HOME/notes"
+  # From: https://github.com/pimterry/notes
+  _without_notes_dir() {
+    cat | sed -e "s/^$LESCAPED_DIR//g" | sed -E "s/^\/+//g"
+  }
+
+  # Idea from: https://github.com/pimterry/notes
+  _find() {
+    local output=$(grep -r "$LNOTES_DIR" -li -e "$*" 2>&1)
+    local result=$?
+    local formatted=$(printf "$output" | _without_notes_dir)
+
+    if [[ $result == 0 && "$formatted" ]]; then
+      printf "$formatted\n"
+      return 0
+    else
+      return 2
+    fi
+  }
+
+  _new() {
+    title=$1; project=$2; tags=$3
+
+    # Zsh read is `different`, can't use `read -p "Question?" var`
+    if [ -z $title ] && read "title?Enter a title: "
+    if [ -z $project ] && read "project?Enter a project (e.g. +Project): "
+    if [ -z $tags ] && read "tags?Enter a title (e.g. @tag): "
+
+    if [ -z $title ]; then
+      _error "Can't create a new file without a title."
+      return 0
+    fi
+
+    # Create the file name in lower case
+    # with all non-ASCII word chars replaced with a dash
+    filename=$(echo "$title" | tr '[:upper:]' '[:lower:]')
+    filename="$(echo ${filename//[^a-zA-Z0-9]/-} | tr -s '-').md"
+
+    if [ -f $filename ]; then
+      $EDITOR $filename
+      return 0
+    fi
+
+    if [[ "$OSTYPE" == darwin* ]]; then
+      cp -X "$SCRIPT_PATH/templates/default.md" $filename
+    else
+      cp "$SCRIPT_PATH/templates/default.md" $filename
+    fi
+
+    # Copy the template and make substitutions
+    CREATED=$(date '+%Y-%m-%d %H:%M:%S')
+    sed -i.bak -e "s/{title}/$title/g" -e "s/{date}/$CREATED/g" $filename
+    [ ! -z $project ] && sed -i.bak "s/{project}/$project/g" $filename
+    [ ! -z $tags ] && sed -i.bak "s/{tags}/$tags/g" $filename
+    [ -f "$filename.bak" ] && rm "$filename.bak"
+
+    $EDITOR $filename
+  }
+
+  # Look for an overridden env var or use the default
+  [ -z "$LNOTES_DIR" ] && $LNOTES_DIR="$HOME/notes"
 
   # Ensure the env var has been exported
-  if ! env | grep -q '^NOTES_DIR='
+  if ! env | grep -q '^LNOTES_DIR='
   then
     export VARIABLE
   fi
 
   case "$1" in
     cd)
-      cd "$NOTES_DIR"
+      cd "$LNOTES_DIR"
       ;;
     ls)
-      echo "${GREEN}Notes found:${NC}"
+      echo "${GREEN}Notes found:${NO_COLOR}"
       if [ $# -eq 2 ]; then
-        ls -l -1 "$NOTES_DIR" | grep -i "$2"
+        ls -l -1 "$LNOTES_DIR" | grep -i "$2"
       else
-        ls -l -1 "$NOTES_DIR"
+        ls -l -1 "$LNOTES_DIR"
       fi
+      ;;
+    find)
+      pattern="${@:2}"
+      if [ -z $pattern ]; then
+        _error "Find needs a pattern to search by."
+        return 1
+      fi
+      _find "${@:2}"
+      ;;
+    new)
+      pushd "$LNOTES_DIR"
+      _new $2 $3 $4
+      popd
       ;;
     help|-h|--help)
-      _notes_help
+      _usage
       ;;
     *)
-      if [ $# -eq 0 ]; then
-        _notes_error "Please enter a file to open."
-      else
-        pushd "$NOTES_DIR"
-        case "$1" in
-          *.*)
-            $cmd "$1"
-            ;;
-          *)
-            $cmd "$1".md
-            ;;
-        esac
+      if [ -z $1 ]; then
+        _usage
+        return 0
       fi
+      pushd "$LNOTES_DIR"
+      if [ ! -f $1 ]; then
+        _error "File not found."
+        popd
+        return 0
+      fi
+      $EDITOR "$1"
+      popd
   esac
 
 }
