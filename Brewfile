@@ -99,3 +99,5 @@ cask "veracrypt"
 cask "virtualbox"
 cask "vlc"
 cask "zterm"
+cask "syncthing-app"
+
