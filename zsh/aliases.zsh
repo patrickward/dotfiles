@@ -41,7 +41,7 @@ alias mysql='nocorrect mysql'
 alias rmi='nocorrect rm -i'
 
 # todo-cli
-export TODOTXT_CONFIG='/Users/patrickward/.dotfiles/todo/todo.cfg'
+export TODOTXT_CONFIG='$HOME/.dotfiles/todo/todo.cfg'
 export TODOTXT_DEFAULT_ACTION=ls
 alias t='todo.sh'
 alias t="todo.sh -d $TODOTXT_CONFIG"
@@ -49,4 +49,13 @@ alias t="todo.sh -d $TODOTXT_CONFIG"
 # GTM and Git
 alias gtpush='git push && git pushgtm'
 alias gtpull='git pull && git fetchgtm'
+
+# Dropbox paths
+export DROPBOX_PERSONAL="$HOME/Dropbox (Personal)"
+export DROPBOX_WORK="$HOME/Dropbox (Sensory 5)"
+alias dbp='cd "$DROPBOX_PERSONAL"'
+alias dbw='cd "$DROPBOX_WORK"'
+
+# Marked2
+alias marked='open -a "Marked 2"'
 
