@@ -35,7 +35,8 @@ Plugin 'git-time-metric/gtm-vim-plugin'
 
 " Theme / Colors
 Plugin 'ap/vim-css-color'
-Plugin 'chriskempson/base16-vim'
+" Plugin 'chriskempson/base16-vim'
+Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 " Only enable if changing the tmuxline theme
@@ -240,8 +241,9 @@ set t_Co=256
 set background=dark
 
 " Access colors present in 256 colorspace
-let base16colorspace=256
-colorscheme base16-bright
+" let base16colorspace=256
+" colorscheme base16-bright
+colorscheme solarized
 
 """""""""""""""""""""""""""""""""""
 " Airline Options

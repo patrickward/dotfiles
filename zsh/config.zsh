@@ -1,5 +1,8 @@
 # Set options
-export LSCOLORS="exfxcxdxbxegedabagacad"
+# Original LSCOLORS
+# export LSCOLORS="exfxcxdxbxegedabagacad"
+# LSCOLORS for solarized theme
+export LSCOLORS="exfxfeaeBxxehehbadacea"
 export CLICOLOR=true
 
 fpath=($DOTDIR/zsh/functions $fpath)
