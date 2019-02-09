@@ -8,3 +8,34 @@
 if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
+
+# Short to this dotfiles path is $DOTDIR
+export DOTDIR=$HOME/.dotfiles
+
+# Projects folder
+export PROJECTS=$HOME/Code
+
+# Stash local environment variables in ~/.localrc so that
+# they stay out of the dotfiles repository and not available to the public
+if [[ -a $HOME/.localrc ]]
+then
+  source $HOME/.localrc
+fi
+
+# Find all zsh files in each directory under zsh
+typeset -U config_files
+config_files=($DOTDIR/zsh/**/*.zsh)
+
+# Source all path files
+for file in ${(M)config_files:#*/path.zsh}
+do
+  source $file
+done
+
+# Load everything except the path and completion files
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
+do
+  source $file
+done
+
+
