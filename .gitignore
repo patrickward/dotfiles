@@ -5,6 +5,8 @@ gitconfig.local.symlink
 vim.symlink/bundle/*
 vim.symlink/.netrwhist
 
+__pycache__
+
 # Ignore git time metric
 /.gtm/
 
