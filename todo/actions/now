@@ -8,7 +8,7 @@ shift
 
 [ "$action" = "usage" ] && {
   echo "  Add and remove the @now context:"
-  curcmd=`basename $0`
+  curcmd=$(basename "$0")
   echo "    $curcmd \"THING I NEED TO DO\""
   echo "      Add an item and the @now context in one step"
   echo "    $curcmd \"ITEM#\""
@@ -22,23 +22,25 @@ shift
 if [[ "$1" =~ ^[0-9]+$ ]]; then
 
     # Get the existing todo first
-    getTodo "$1" $TODO_FILE
+    getTodo "$1" "$TODO_FILE"
     # Remove any existing @now's first
-    todo=$(echo $todo | sed "s,@now,,g")
+    # todo=$(echo $todo | sed "s,@now,,g")
+    todo=${todo//@now/}
     # Remove the priority as replace takes care of that
-    todo=$(echo $todo | sed "s,^([A-B]) ,,g")
+    # todo=$(echo $todo | sed "s,^([A-Z]) ,,g")
+    todo=${todo/([A-Z])/}
 
     # Remove
     if [[ "$2" =~ ^rem ]]; then
-      "$TODO_SH" command replace $1 $todo
+      "$TODO_SH" command replace "$1" "$todo"
     # Append
     else
-      "$TODO_SH" command replace $1 "$todo @now"
+      "$TODO_SH" command replace "$1" "$todo @now"
     fi
 
 elif "$TODO_SH" command add "$@"; then
     # figure out the line of what we just added, and add @now
-    line=`sed -n '$ =' "$TODO_FILE"`
+    line=$(sed -n '$ =' "$TODO_FILE")
     echo "$line"
     "$TODO_SH" command app "$line" "@now"
 fi
