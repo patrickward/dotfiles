@@ -28,7 +28,7 @@ if [[ "$1" =~ ^[0-9]+$ ]]; then
     todo=${todo//@now/}
     # Remove the priority as replace takes care of that
     # todo=$(echo $todo | sed "s,^([A-Z]) ,,g")
-    todo=${todo/([A-Z])/}
+    todo=${todo/([A-Z]) /}
 
     # Remove
     if [[ "$2" =~ ^rem ]]; then
