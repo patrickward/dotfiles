@@ -51,3 +51,4 @@ export PATH="$HOME/.bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:$DOTDIR/bin:$PA
 # --------------------
 # Set the manpath, but only if needed
 # export MANPATH="/user/local/man:/usr/local/git/man:$MANPATH"
+

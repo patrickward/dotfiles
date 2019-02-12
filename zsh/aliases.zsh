@@ -43,8 +43,9 @@ alias rmi='nocorrect rm -i'
 # todo-cli
 export TODOTXT_CONFIG='$HOME/.dotfiles/todo/todo.cfg'
 export TODOTXT_DEFAULT_ACTION=ls
-alias t="todo.sh -d $TODOTXT_CONFIG"
+alias t="todo.sh -n -d $TODOTXT_CONFIG"
 alias tw="t ls +Work"
+alias tg="t ls +GaTech"
 alias th="t ls +Home"
 alias tl="t ls +Life"
 alias ts="t ls +Shopping"
