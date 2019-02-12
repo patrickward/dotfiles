@@ -87,6 +87,7 @@ brew "optipng"
 brew "gtm"
 brew "graphviz"
 brew "lastpass"
+brew "shellcheck"
 
 # Casks
 cask "cura"
