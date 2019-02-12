@@ -326,3 +326,5 @@ nmap <leader>tm yiw:!clear && phpunit --filter ^R"<cr>
 " Make and run the current file in the buffer
 nnoremap <silent> <f7> :make %< && ./%<<cr>
 
+" Enable +y for yanking to the system clipboard
+set clipboard=unnamed
