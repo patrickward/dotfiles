@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+#
+# todo.sh filter to highlight todo lines
+# that have been tagged with the @doding context
+#
 # Loop on newlines only
 while IFS=$'\n' read -r line
 do

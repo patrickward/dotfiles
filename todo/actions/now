@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Todo action to add and remove the @now context
+# Patrick Ward c.2019-02-11
+
+action=$1
+shift
+
+[ "$action" = "usage" ] && {
+  echo "  Add and remove the @now context:"
+  curcmd=`basename $0`
+  echo "    $curcmd \"THING I NEED TO DO\""
+  echo "      Add an item and the @now context in one step"
+  echo "    $curcmd \"ITEM#\""
+  echo "      Add the @now context to the item on line ITEM#"
+  echo "    $curcmd \"ITEM#\" remove|rem"
+  echo "      Remove the @now contenxt from the item on line ITEM#"
+  echo ""
+  exit
+}
+
+if [[ "$1" =~ ^[0-9]+$ ]]; then
+
+    # Get the existing todo first
+    getTodo "$1" $TODO_FILE
+    # Remove any existing @now's first
+    todo=$(echo $todo | sed "s,@now,,g")
+    # Remove the priority as replace takes care of that
+    todo=$(echo $todo | sed "s,^([A-B]) ,,g")
+
+    # Remove
+    if [[ "$2" =~ ^rem ]]; then
+      "$TODO_SH" command replace $1 $todo
+    # Append
+    else
+      "$TODO_SH" command replace $1 "$todo @now"
+    fi
+
+elif "$TODO_SH" command add "$@"; then
+    # figure out the line of what we just added, and add @now
+    line=`sed -n '$ =' "$TODO_FILE"`
+    echo "$line"
+    "$TODO_SH" command app "$line" "@now"
+fi
+

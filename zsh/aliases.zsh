@@ -43,8 +43,11 @@ alias rmi='nocorrect rm -i'
 # todo-cli
 export TODOTXT_CONFIG='$HOME/.dotfiles/todo/todo.cfg'
 export TODOTXT_DEFAULT_ACTION=ls
-alias t='todo.sh'
 alias t="todo.sh -d $TODOTXT_CONFIG"
+alias tw="t ls +Work"
+alias th="t ls +Home"
+alias tl="t ls +Life"
+alias ts="t ls +Shopping"
 
 # GTM and Git
 alias gtpush='git push && git pushgtm'
