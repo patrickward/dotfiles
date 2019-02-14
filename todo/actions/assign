@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+[ "$1" = "usage" ] && exit 0
+shift
+TODO_ACTION_NOW="@assigned" "$TODO_FULL_SH" now "$@"
+
+if [[ ! "$2" =~ ^rem ]]; then
+  "$TODO_FULL_SH" app "$1" "@$2"
+fi
