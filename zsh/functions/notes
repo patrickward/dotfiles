@@ -76,7 +76,7 @@ notes () {
     # Zsh read is `different`, can't use `read -p "Question?" var`
     if [ -z $title ] && read "title?Enter a title: "
     if [ -z $project ] && read "project?Enter a project (e.g. +Project): "
-    if [ -z $tags ] && read "tags?Enter a title (e.g. @tag): "
+    if [ -z $tags ] && read "tags?Enter associated tags (e.g. @tag): "
 
     if [ -z $title ]; then
       _error "Can't create a new file without a title."
