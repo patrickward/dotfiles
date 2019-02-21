@@ -1,0 +1,136 @@
+#!/usr/bin/env bash
+#
+# Requires Base 4.4+
+#
+# ---- website-checker.sh ----
+# Pings a list of websites using cURL to see if they are up and
+# there are no errors. If there are problems, we send an email using mailx
+# to let ourselves know about the problem.
+################################################################################
+
+#!/usr/bin/env bash
+
+# monitor.cfg should have the following
+# Email to send to
+#   export PCONTROL_MONITOR_EMAIL="<email>"
+# Path to list of sites: should be newline separated FQQD (e.g. https://sensory5.com)
+#   export PCONTROL_MONITOR_LIST="<path-to-list-of-sites>"
+# Validation tag to look for
+#   export PCONTROL_MONITOR_VALIDATION='<meta name="web-check" content="true"/>'
+# Certificate bundle for TLS (see cabundle below)
+#   export PCONTROL_MONITOR_CABUNDLE="$HOME/.config/pw/monitor-cacert.pem"
+# Postmark tokens
+#   export POSTMARK_SERVER_TOKEN=<token>
+#   export POSTMARK_ACCOUNT_TOKEN=<token>
+#   export POSTMARK_FROM=<email>
+#   export POSTMARK_TO=<email>
+#
+# shellcheck source=/Users/patrickward/.config/pw/monitor.cfg
+. "$HOME/.config/pw/monitor.cfg"
+
+# Recipient of the errors email (disabled in place of postmark)
+# admin_email=youremail@host.com
+# admin_email="$PCONTROL_MONITOR_EMAIL"
+
+# This is a path to a plain text list of URLs to check, one per line
+# Make sure this uses proper unix newline characters or you will get 400 Bad Request errors
+# when you try to curl the URLs
+# url_list=/path/to/list.txt
+url_list="$PCONTROL_MONITOR_LIST"
+
+# Init empty variable for storing errors
+failures=""
+
+# Init empty variable for storing website domains that failed
+failed_domains=""
+
+# A special string that will be present if the site is up and working
+# See discussion here: http://stackoverflow.com/q/21391776/931860
+# I recommend not using an HTML comment for the string because comments are
+# automatically stripped by some performance optimization systems
+# (e.g. CloudFlare).
+# validation='<meta name="is_live" content="true"/>'
+validation="$PCONTROL_MONITOR_VALIDATION"
+
+# We need to use an up to date CA cert bundle to verify that our SSL certs are working for https:// URLs
+# You can obtain this file from: http://curl.haxx.se/docs/caextract.html
+# cabundle=/path/to/cert.pem
+cabundle="$PCONTROL_MONITOR_CABUNDLE"
+
+## Headers
+header="Cache control: no-cache"
+
+## User Agent
+user_agent="Mozilla/5.0 (Windows NT 6.3; WOW64; rv:26.0) Gecko/20100101 Firefox/26.0"
+
+## Write out
+writeOut="\nHTTP Code: %{http_code}"
+writeOut+="\nTotal Time: %{time_total} sec"
+writeOut+="\nDownload Size: %{size_download} B"
+writeOut+="\nDownload Speed: %{speed_download} B/sec"
+writeOut+="\nEffective URL: %{url_effective}"
+
+# Loop through all of the URLs and cURL them
+while read -r siteurl
+do
+	# curl flags
+	# --location = Follow HTTP redirects
+	# --include = Include the HTTP headers in the output
+	# --silent = Don't show progress bar
+	# --show-error = We hide the progress bar with --silent, but we still need errors, this fixes that
+	# --max-time = How long to allow curl to run for each try (connection and download)
+	# --cacert = See comment above
+	# --user-agent = The user agent string to use
+	# --write-out = Additional information for curl to write to its output
+	result=$(curl --location --include --silent --show-error --max-time 12 \
+	  --header "$header" --cacert "$cabundle" --user-agent "$user_agent" \
+	  --write-out "$writeOut" "$siteurl" 2>&1)
+
+	# Search for our validation string, if it isn't found, the site is down
+	# -q is grep's quiet flag, makes it not write to standard out
+	if ! echo "$result" | grep -q "$validation" ; then
+
+		# Add the site url and the curl output to our failures variable
+		failures="$failures"$'\n\n'"======================="$'\n\n'"$siteurl"$'\n'"----------------------"$'\n'"$result"
+
+		# Add domain
+		failed_domains="$failed_domains<li>$siteurl</li>"
+
+	fi
+
+done < "$url_list"
+
+# Check for failures, if we have them, send the email
+if [ -n "$failures" ]; then
+
+	# mailx will convert our email body into an attachment (or just fail to send the email)
+	# if the newline characters aren't handled properly. So, we pipe the output through iconv and tr.
+	# See: http://stackoverflow.com/a/18917677/931860
+
+	# echo "One or more of your websites might be down. See the results below. $failures" | \
+	#   iconv -c -t UTF-8 | tr -d '\r' | \
+	#   mailx -s "Automated Website Check Failed" $admin_email
+
+  # Package up the domains and failure messages
+  failed_domains="<ul>$failed_domains</ul>"
+  failures=$(echo "$failures" | base64)
+	body="<html><body><strong>One or more of your websites might be down.</strong><h2>Failed Domains</h2>$failed_domains<strong>See attachment</strong></body></html>"
+  tmp_path=$(mktemp)
+
+  # Convert to valid JSON
+	jq -n --arg from "$POSTMARK_FROM" \
+	  --arg to "$POSTMARK_TO" \
+	  --arg subject "Website Check Failed" \
+	  --arg body "$body" \
+	  --arg failures "$failures" \
+	  '{From: $from, To: $to, Subject: $subject, HtmlBody: $body, Attachments: { Name: "website-check.txt", Content: $failures, ContentType: "text/plain" }}' > "$tmp_path"
+
+  # Send to postmark
+  curl "https://api.postmarkapp.com/email" \
+    -X POST \
+    -H "Accept: application/json" \
+    -H "Content-Type: application/json" \
+    -H "X-Postmark-Server-Token: $POSTMARK_SERVER_TOKEN" \
+    -d "@$tmp_path"
+
+fi
