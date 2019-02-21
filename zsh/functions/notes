@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Simple script to automatically create or
 # open plaintext notes in a particular
@@ -27,7 +27,7 @@ notes () {
   # remove trailing slashes
   LNOTES_DIR=${NOTES_DIR%/}
 
-  LESCAPED_DIR="$(printf "$LNOTES_DIR" | sed -e 's/[]\/$*.^|[]/\\&/g')"
+  LESCAPED_DIR="$(printf "%s" "$LNOTES_DIR" | sed -e 's/[]\/$*.^|[]/\\&/g')"
 
   _error() {
     echo "${RED}$1${NO_COLOR}"
@@ -38,17 +38,24 @@ notes () {
   }
 
   _usage() {
-    echo "\nNotes - Opens notes in the configured notes directory\n"
-    echo "Commands:\n"
+    printf "\n"
+    echo "Notes - Opens notes in the configured notes directory"
+    printf "\n"
+    echo "Command:"
+    printf "\n"
     echo "notes cd - Change to the notes directory"
     echo "notes ls [search] - List all notes in the notes directory. Add an optional search pattern."
-    # echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
-    # echo "notes pull - Pulls any upstream changes into the local repo."
-    # echo "notes sync <message> - Commit, push, and pull all changes."
+    echo "notes find <search> - Find notes with <search> in the contents."
+    echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
+    echo "notes pull - Pulls any upstream changes into the local repo."
+    echo "notes sync <message> - Commit, push, and pull all changes."
     echo "notes new [[title] [project] [tags]] - Create a new note."
     echo "notes view <filename> - View a new note."
     echo "notes edit <filename> - Edit a new note."
+    echo "notes open <filename> - An alias for the edit command."
+    printf "\n"
     echo "Use tab-completion for files"
+    printf "\n"
   }
 
   # From: https://github.com/pimterry/notes
@@ -58,12 +65,15 @@ notes () {
 
   # Idea from: https://github.com/pimterry/notes
   _find() {
-    local output=$(grep -r "$LNOTES_DIR" -li -e "$*" 2>&1)
-    local result=$?
-    local formatted=$(printf "$output" | _without_notes_dir)
+    local output
+    local result
+    local formatted
+    output=$(grep -r "$LNOTES_DIR" -li -e "$*" 2>&1)
+    result=$?
+    formatted=$(printf "%s" "$output" | _without_notes_dir)
 
     if [[ $result == 0 && "$formatted" ]]; then
-      printf "$formatted\n"
+      printf "%s" "$formatted\n"
       return 0
     else
       return 2
@@ -74,11 +84,11 @@ notes () {
     title=$1; project=$2; tags=$3
 
     # Zsh read is `different`, can't use `read -p "Question?" var`
-    if [ -z $title ] && read "title?Enter a title: "
-    if [ -z $project ] && read "project?Enter a project (e.g. +Project): "
-    if [ -z $tags ] && read "tags?Enter associated tags (e.g. @tag): "
+    [[ -z "$title" ]] && read -r "title?Enter a title: "
+    [[ -z "$project" ]] && read -r "project?Enter a project (e.g. +Project): "
+    [[ -z "$tags" ]] && read -r "tags?Enter associated tags (e.g. @tag): "
 
-    if [ -z $title ]; then
+    if [ -z "$title" ]; then
       _error "Can't create a new file without a title."
       return 0
     fi
@@ -86,7 +96,8 @@ notes () {
     # Create the file name in lower case
     # with all non-ASCII word chars replaced with a dash
     filename=$(echo "$title" | tr '[:upper:]' '[:lower:]')
-    filename="$(echo ${filename//[^a-zA-Z0-9]/-} | tr -s '-').md"
+    filename=$(echo "${filename//[^a-zA-Z0-9]/-}" | tr -s '-')
+    filename+=".md"
 
     if [ -f $filename ]; then
       $EDITOR $filename
@@ -101,17 +112,17 @@ notes () {
 
     # Copy the template and make substitutions
     CREATED=$(date '+%Y-%m-%d %H:%M:%S')
-    sed -i.bak -e "s/{title}/$title/g" -e "s/{date}/$CREATED/g" $filename
-    [ ! -z $project ] && sed -i.bak "s/{project}/$project/g" $filename
-    [ ! -z $tags ] && sed -i.bak "s/{tags}/$tags/g" $filename
-    [ -f "$filename.bak" ] && rm "$filename.bak"
+    sed -i.bak -e "s/{title}/$title/g" -e "s/{date}/$CREATED/g" "$filename"
+    [[ -n "$project" ]] && sed -i.bak "s/{project}/$project/g" "$filename"
+    [[ -n "$tags" ]] && sed -i.bak "s/{tags}/$tags/g" "$filename"
+    [[ -f "$filename.bak" ]] && rm "$filename.bak"
 
-    $EDITOR $filename
+    $EDITOR "$filename"
   }
 
   # Look for overridden env vars or use the defaults
-  [ -z "$LNOTES_DIR" ] && $LNOTES_DIR="$HOME/notes"
-  [ -z "$LNOTES_DIR" ] && $LNOTES_DIR="$HOME/notes"
+  [[ -z "$LNOTES_DIR" ]] && LNOTES_DIR="$HOME/notes"
+  [[ -z "$LNOTES_DIR" ]] && LNOTES_DIR="$HOME/notes"
 
   # Ensure the env var has been exported
   if ! env | grep -q '^LNOTES_DIR='
@@ -121,88 +132,90 @@ notes () {
 
   case "$1" in
     cd)
-      cd "$LNOTES_DIR"
+      cd "$LNOTES_DIR" || exit 1
       ;;
     ls)
       echo "${GREEN}Notes found:${NO_COLOR}"
       if [ $# -eq 2 ]; then
-        ls -l -1 "$LNOTES_DIR" | grep -i "$2"
+        # ls -l -1 "$LNOTES_DIR" | grep -i "$2"
+        # ls -l -1 "$LNOTES_DIR"/*"$2"*
+        find "$LNOTES_DIR" -name "*$2*" -exec basename {} \;
       else
         ls -l -1 "$LNOTES_DIR"
       fi
       ;;
     find)
-      pattern="${@:2}"
-      if [ -z $pattern ]; then
+      pattern="${*:2}"
+      if [ -z "$pattern" ]; then
         _error "Find needs a pattern to search by."
         return 1
       fi
       _find "${@:2}"
       ;;
     new)
-      pushd "$LNOTES_DIR"
-      _new $2 $3 $4
-      popd
+      pushd "$LNOTES_DIR" || exit 1
+      _new "$2" "$3" "$4"
+      popd || exit 1
       ;;
     view)
       filepath="$LNOTES_DIR/$2"
-      if [ -z $2 ] || [ ! -f $filepath ]; then
+      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
         _error "File not found."
         return 1
       fi
-      open -a "Marked 2" $filepath
+      open -a "Marked 2" "$filepath"
       ;;
     push)
       if [ ! $# -eq 2 ]; then
         _error "Please add a commit message."
       else
-        pushd "$NOTES_DIR"
+        pushd "$NOTES_DIR" || exit 1
         git add -A
         git commit -m "$1"
         git push
-        popd
+        popd || exit 1
       fi
       ;;
     pull)
-      pushd "$NOTES_DIR"
+      pushd "$NOTES_DIR" || exit 1
       # Look for changes in the git repo
       # if ! git diff-index --quiet HEAD --; then
-      if [[ `git status --porcelain` ]]; then
+      if [[ $(git status --porcelain) ]]; then
         _error "There are uncommited changes you should review before pulling." 0
         git status
       else
         git pull
-        popd
+        popd || exit 1
       fi
       ;;
     sync)
-      pushd "$NOTES_DIR"
+      pushd "$NOTES_DIR" || exit 1
       # Look for changes in the git repo
-      if [[ `git status --porcelain` ]]; then
-        read "message?Enter a commit message: "
+      if [[ $(git status --porcelain) ]]; then
+        read -r "message?Enter a commit message: "
         git add -A
         git commit -m "$1"
       fi
       git pull
       git push
-      popd
+      popd || exit 1
       ;;
     help|-h|--help)
       _usage
       ;;
-    edit)
-      if [ -z $2 ]; then
+    edit|open)
+      if [[ -z "$2" ]]; then
         _usage
         return 1
       fi
-      pushd "$LNOTES_DIR"
-      if [ ! -f $2 ]; then
+      pushd "$LNOTES_DIR" || exit 1
+      if [[ ! -f "$2" ]]; then
         _error "File not found."
-        popd
+        popd || exit 1
         return 1
       fi
       $EDITOR "$2"
-      popd
+      popd || exit 1
       ;;
     *)
       _usage

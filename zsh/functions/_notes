@@ -4,8 +4,14 @@ local -a subcmds
 subcmds=( \
   'cd:Change to the notes directory' \
   'ls:List all files in the notes directory' \
+  'find:Find notes by searching notes with <content> inside' \
   'push:Commit and push changes to the remote repo' \
   'pull:Pull changes from the remote repo' \
+  'sync:Push and pull changes to the remote repo' \
+  'new:Create a new note' \
+  'view:View a note in Marked2' \
+  'edit:Edit a note' \
+  'open:Edit a note' \
   'help:Show help message')
 _describe 'notes' subcmds
 _files -W $NOTES_DIR -/
