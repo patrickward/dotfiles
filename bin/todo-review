@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+# This assumes, of course, that I've already created the personal env
+source ~/.zshrc
+workon personal
+source "$HOME/.dotfiles/todo/todo.cfg"
+python "$HOME/.dotfiles/bin/todo-review.py" $@
+
