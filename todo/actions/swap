@@ -1,0 +1,22 @@
+#!/bin/bash
+
+action=$1
+shift
+
+function usage(){
+  echo "  Swap two lines:"
+  echo "    swap LINE# LINE#"
+  echo "    (lines should be in ascending order: e.g. swap 10 20)"
+  echo ""
+  exit
+}
+
+[ "$action" = "usage" ] && usage
+
+file="$TODO_FILE"
+
+[[ $# -lt 2 ]] && usage
+
+line1=$1
+line2=$2
+printf '%s\n' "$line1"m"$line2" "$line2"-m"$line1"- w q | ed -s "$TODO_FILE"
