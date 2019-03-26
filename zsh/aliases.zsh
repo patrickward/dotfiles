@@ -77,3 +77,11 @@ alias dbw='cd "$DROPBOX_WORK"'
 # Marked2
 alias marked='open -a "Marked 2"'
 
+# Ledger
+export LEDGER_PATH="$HOME/Documents/Finance/Ledger/2019-personal.ledger"
+alias ledger-cash-flow="ledger -f $LEDGER_PATH balance \"^Income\" \"^Expenses\" --cleared -R"
+alias ledger-net-worth="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilities\" --cleared -R"
+alias ledger-net-worth="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilities\" --cleared -R"
+alias ledger-balance="ledger -f $LEDGER_PATH balance"
+alias ledger-budget="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilities\""
+

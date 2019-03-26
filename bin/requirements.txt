@@ -1,0 +1,3 @@
+postmarker
+click
+pyopenssl==19.0.0

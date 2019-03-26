@@ -88,6 +88,9 @@ Plugin 'chase/vim-ansible-yaml'
 " todo.txt
 Plugin 'freitass/todo.txt-vim'
 
+" ledger-cli
+Plugin 'ledger/vim-ledger'
+
 " End vundle
 call vundle#end()
 
@@ -310,7 +313,7 @@ map <leader>v :view %%
 nnoremap <leader><leader> <c-^>
 
 " Open the current document with Marked.app
-nnoremap <leader>m :silent !open -a Marked\ 2.app '%:p'<cr>
+nnoremap <leader>md :silent !open -a Marked\ 2.app '%:p'<cr>
 
 " Show word count of selection
 nmap <leader>wc :!wc %<cr>
@@ -328,3 +331,24 @@ nnoremap <silent> <f7> :make %< && ./%<<cr>
 
 " Enable +y for yanking to the system clipboard
 set clipboard=unnamed
+
+"""""""""""""""""""""""""""""""""""
+" Ledger Configuration
+"""""""""""""""""""""""""""""""""""
+
+let g:ledger_default_commodity = 'USD'
+let g:ledger_commodity_before = 0
+let g:ledger_commodity_sep = ' '
+
+" Move by transactions in ledger files
+au FileType ledger noremap { ?^\d<CR>
+au FileType ledger noremap } /^\d<CR>
+
+" Autocomplete and align when on a number
+" e.g. assets:check>Tab><Space>123.45<Tab>
+au FileType ledger inoremap <silent> <Tab> <C-r>=ledger#autocomplete_and_align()<CR>
+au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
+
+" Double-click to reset cleared state
+au FileType ledger noremap <silent><buffer> <leader><Tab> :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
+

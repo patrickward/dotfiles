@@ -33,16 +33,6 @@ PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 #   eval "$(pyenv virtualenv-init -)"
 # fi
 
-if [[ "$OSTYPE" == darwin* ]]; then
-
-  # Python/Anaconda
-  # --------------------
-  # Add anaconda path
-  # alias conda="~/anaconda/bin/conda"
-  export PATH="$HOME/anaconda/bin:$PATH"
-
-fi
-
 # PATH
 # --------------------
 export PATH="$HOME/.bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:$DOTDIR/bin:$PATH"

@@ -9,7 +9,7 @@ if [ ! -d ".gtm" ]; then
   exit 1
 fi
 
-echo "${GREEN}Fetcing and merging...${NC}"
+echo "${GREEN}Fetching and merging...${NC}"
 git fetch origin refs/notes/gtm-data:refs/notes/origin/gtm-data
 git notes --ref gtm-data merge -v origin/gtm-data
 git pushgtm

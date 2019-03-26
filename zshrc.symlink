@@ -39,6 +39,12 @@ bindkey "^[[B" down-line-or-beginning-search # Down
 # Run the rbenv command later in the process
 source ~/.dotfiles/zsh/ruby/rbenv.sh
 
+# Need to add anaconda after rbenv as rbenv
+# reset the path and interferes with anaconda
+if [[ "$OSTYPE" == darwin* ]]; then
+  export PATH="$HOME/anaconda3/bin:$PATH"
+fi
+
 # Set the prompt
 # Using Pure from https://github.com/sindresorhus/pure
 # Files: zsh/pure.sh, zsh/async.sh

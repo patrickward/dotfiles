@@ -192,9 +192,8 @@ notes () {
       pushd "$NOTES_DIR" || exit 1
       # Look for changes in the git repo
       if [[ $(git status --porcelain) ]]; then
-        read -r "message?Enter a commit message: "
         git add -A
-        git commit -m "$1"
+        git commit -m "sync"
       fi
       git pull
       git push
@@ -203,23 +202,28 @@ notes () {
     help|-h|--help)
       _usage
       ;;
-    edit|open)
-      if [[ -z "$2" ]]; then
+    *)
+      if [[ -z "$1" ]] && [[ -z "$2" ]]; then
         _usage
         return 1
       fi
+      case "$1" in
+        open|edit)
+          filename="$2"
+          ;;
+        *)
+          filename="$1"
+          ;;
+      esac
       pushd "$LNOTES_DIR" || exit 1
-      if [[ ! -f "$2" ]]; then
+      if [[ ! -f "$filename" ]]; then
         _error "File not found."
         popd || exit 1
         return 1
       fi
-      $EDITOR "$2"
+      $EDITOR "$filename"
       popd || exit 1
       ;;
-    *)
-      _usage
-      return 0
   esac
 }
 
