@@ -1,27 +1,65 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Make sure user.email exists in local config
-EMAIL=`git config user.email`
+EMAIL=$(git config user.email)
+export  TERM=xterm-color
 
 RED='\033[0;31m'
 LTGREEN='\033[1;32m'
 LTPURPLE='\033[1;35m'
 NOCOLOR='\033[0m'
 
+# Unset variables produce errors
+set -u
+
 if [ -z "$EMAIL" ]; then
   # user.email is empty
-  echo ""
-  echo "${RED}ERROR: [pre-commit hook] Local user.email is missing.${NOCOLOR}"
-  echo "Configure user.email for this repository by running:"
-  echo "${LTGREEN}"
-  echo "$ git config user.name Name"
-  echo "$ git config user.email name@example.com"
-  echo "${NOCOLOR} ${LTPURPLE}"
-  echo "Don't configure a global user, Patrick!"
-  echo "${NOCOLOR}"
+  printf ""
+  printf "%bERROR: [pre-commit hook] Local user.email is missing.%b\n" "$RED" "$NOCOLOR"
+  printf "Configure user.email for this repository by running:\n"
+  printf "%b\n" "${LTGREEN}"
+  printf "$ git config user.name Name\n"
+  printf "$ git config user.email name@example.com\n"
+  printf "%b %b\n" "${NOCOLOR}" "${LTPURPLE}"
+  printf "Don't configure a global user, Patrick!\n"
+  printf "%b\n" "${NOCOLOR}"
   exit 1
-else
-  # User.email not empty
-  exit 0
 fi
+
+# Following from: https://gist.github.com/ralovely/9367737
+
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+  against=HEAD
+else
+  # Initial commit: diff against an empty tree object
+  against=0000000000000000000000000000000000000000
+fi
+
+# Redirect output to stderr
+exec 1>&2
+
+EXIT_STATUS=0
+
+# Check that all changed *.vault files are encrypted
+# read: -r do not allow backslashes to escape characters; -d delimiter
+while IFS= read -r -d $'\0' file; do
+  [[ "${file}" != *vault* ]] && continue
+  # cut gets symbols 1-2
+  file_status=$(git status --porcelain -- "$file" 2>&1 | cut -c1-2)
+  file_status_index=${file_status:0:1}
+  file_status_worktree=${file_status:1:1}
+  [[ "$file_status_worktree" != ' ' ]] && {
+    printf "%bERROR: vault file is modified in worktree but not added to the index: %s%b\n" "${RED}" "${file}" "${NOCOLOR}"
+    printf "%bCan not check if it is properly encrypted. Use git add or git stash to fix this.%b\n" "${LTPURPLE}" "${NOCOLOR}"
+    EXIT_STATUS=1
+  }
+  # Check is neither required nor possible for deleted files
+  [[ "$file_status_index" = 'D' ]] && continue
+  head -1 "$file" | grep --quiet '^\$ANSIBLE_VAULT;' || {
+    printf "%bERROR: non-encrypted vault file: %s%b\n" "${RED}" "${file}" "${NOCOLOR}"
+    EXIT_STATUS=1
+  }
+done < <(git diff --cached --name-only -z "$against")
+
+exit $EXIT_STATUS
 
