@@ -42,6 +42,7 @@ set -g mouse on
 
 # Ensure 256 color support
 set -g default-terminal "screen-256color"
+set-option -g default-shell /bin/zsh
 
 # Set the status line using tmuxline conf
 source-file ~/.tmuxline-theme
@@ -49,8 +50,8 @@ source-file ~/.tmuxline-theme
 # Set the colors for the pane borders
 # setw -g pane-border-style fg=green,bg=black
 # setw -g pane-active-border-style fg=white,bg=yellow
-set-option -g pane-border-fg colour235 #base02
-set-option -g pane-active-border-fg colour240 #base01
+set-option -g pane-border-style fg=colour235 #base02
+set-option -g pane-active-border-style fg=colour240 #base01
 
 # # active pane normal, other dimmed
 # setw -g window-style fg=colour240,bg=colour235

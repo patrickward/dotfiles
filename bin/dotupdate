@@ -54,5 +54,5 @@ echo "› brew update"
 brew update
 
 # Install software
-echo "› $DOTDIR/script/install"
-$DOTDIR/script/install
+echo "› $DOTDIR/bootstrap/install"
+$DOTDIR/bootstrap/install

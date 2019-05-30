@@ -29,6 +29,13 @@ fail () {
   exit
 }
 
+change_shell() {
+  # Using which zsh, in order to get the updated
+  # zsh ihnstalled via brew
+  sudo chsh -s $(which zsh) $(whoami)
+  zsh
+}
+
 setup_gitconfig () {
   if ! [ -f git/gitconfig.local.symlink ]
   then
@@ -147,13 +154,15 @@ install_dotfiles
 if [ "$(uname -s)" == "Darwin" ]
 then
   info "installing dependencies"
-  if source bin/dot | while read -r data; do info "$data"; done
+  if source bin/dotupdate | while read -r data; do info "$data"; done
   then
     success "dependencies installed"
   else
     fail "error installing dependencies"
   fi
 fi
+
+change_shell
 
 echo ''
 echo '  All installed!'

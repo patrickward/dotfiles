@@ -43,6 +43,7 @@ source ~/.dotfiles/zsh/ruby/rbenv.sh
 # reset the path and interferes with anaconda
 if [[ "$OSTYPE" == darwin* ]]; then
   export PATH="$HOME/anaconda3/bin:$PATH"
+  export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 fi
 
 # Set the prompt
@@ -63,3 +64,6 @@ precmd() {
 prompt pure
 
 # END_PROFILE: zprof
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
