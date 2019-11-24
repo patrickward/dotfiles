@@ -1,3 +1,4 @@
+
 #!/bin/bash
 #
 # Simple script to automatically create or
@@ -16,6 +17,18 @@
 
 notes () {
 
+  trim_string() {
+    # Usage: trim_string "   example   string    "
+    : "${1#"${1%%[![:space:]]*}"}"
+    : "${_%"${_##*[![:space:]]}"}"
+    printf '%s\n' "$_"
+  }
+
+  lstrip() {
+    # Usage: lstrip "string" "pattern"
+    printf '%s\n' "${1##$2}"
+  }
+
   RED='\033[0;31m'
   GREEN='\033[0;32m'
   NO_COLOR='\033[0m'
@@ -28,18 +41,6 @@ notes () {
   LNOTES_DIR=${NOTES_DIR%/}
 
   LESCAPED_DIR="$(printf "%s" "$LNOTES_DIR" | sed -e 's/[]\/$*.^|[]/\\&/g')"
-
-  _trim_string() {
-    # Usage: trim_string "   example   string    "
-    : "${1#"${1%%[![:space:]]*}"}"
-    : "${_%"${_##*[![:space:]]}"}"
-    printf '%s\n' "$_"
-  }
-
-  _lstrip() {
-    # Usage: lstrip "string" "pattern"
-    printf '%s\n' "${1##$2}"
-  }
 
   _error() {
     echo "${RED}$1${NO_COLOR}"
@@ -147,19 +148,21 @@ notes () {
       cd "$LNOTES_DIR" || exit 1
       ;;
     contents)
-      contents_path="$LNOTES_DIR/index.md"
-      printf "\n# Notes\n\n---\n\n" > "$contents_path"
-      find "$LNOTES_DIR" -name "*.md" | sort | while read -r line; do
+      result="$LNOTES_DIR/index.md"
+      printf "\n# Notes\n\n---\n\n" > "$result"
+      find "$LNOTES_DIR" -name "*.md" | while read -r line; do
+        echo "$line"
         file=$(basename "$line")
-        file_path=$(_trim_string "$line")
+        path=$(trim_string "$line")
         title=$(grep "$line" -e "^# " -m 1)
-        # Strip the # symbol and trim
-        title=$(_trim_string "$(_lstrip "$title" "# ")")
-        # If empty, use the basename
-        title=${title:-$file}
-        printf "* [%s](%s)\n" "$title" "$file_path" >> "$contents_path"
+        output=$(grep -r "$LNOTES_DIR" -li -e "$*" 2>&1)
+        # # Strip the # symbol and trim
+        # title=$(trim_string "$(lstrip "$title" "# ")")
+        # # If empty, use the basename
+        # title=${title:-$file}
+        # echo "- [$title]($path)" > "$result"
+        # echo "Processing Title: $title File: $line"
       done
-      open -a "Marked 2" "$contents_path"
       ;;
     ls)
       echo "${GREEN}Notes found:${NO_COLOR}"

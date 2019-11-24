@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Reload all functions
-r() {
+zsh_refresh() {
   echo "Reloading all zsh functions under ${DOTDIR}/zsh/functions..."
   local f
   f=($DOTDIR/zsh/functions/*(.))
