@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+veracrypt='/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt -t --non-interactive'
+
+if mount | grep /Volumes/BACKUP > /dev/null; then
+  echo "Backup volume found."
+else
+  echo "ERROR: Please insert the BACKUP USB stick"
+  exit 1
+fi
+
+declare -A VOLUMES
+
+VOLUMES[/Volumes/FINANCE]="$HOME/Documents/_/finance.vc"
+VOLUMES[/Volumes/2FA]="$HOME/Documents/_/2FA.vc"
+
+# Prompt for volumes password
+echo -n Password:
+read -r -s password
+
+for volume in "${!VOLUMES[@]}"; do
+
+  echo ""
+  echo "----------------------------------------"
+  echo "VOLUME: $volume"
+  echo "----------------------------------------"
+
+  if mount | grep "${volume}" > /dev/null; then
+    echo "${volume} already mounted"
+  else
+    echo "Mounting $volume"
+    $veracrypt --protect-hidden=no -p "$password" "${VOLUMES[$volume]}" "$volume"
+  fi
+
+  filename=${VOLUMES[$volume]##*/}
+  backup_volume="BAK${volume##*/}"
+  backup_vc="$HOME/Downloads/$filename"
+
+  echo "Creating backup VeraCrypt volume at $backup_vc"
+  $veracrypt -c -p "$password" \
+    --encryption=AES-Twofish --filesystem="fat" --hash="SHA512" \
+    --volume-type=normal --size=10M \
+    "$backup_vc"
+
+  echo "Mounting backup volume at /Volumes/$backup_volume"
+    $veracrypt --protect-hidden=no -p "$password" --mount "$backup_vc" "/Volumes/$backup_volume"
+
+  echo ""
+  echo "Syncing contents to backup volume"
+  rsync -aP --include='*/' --include=* "$volume" "/Volumes/$backup_volume/"
+  echo ""
+
+  echo "Dismounting /Volumes/$backup_volume"
+  $veracrypt -d "/Volumes/$backup_volume"
+
+  echo "Dismounting $volume"
+  $veracrypt -d "$volume"
+
+  echo "Moving backup to BACKUP volume"
+  mv "$backup_vc" "/Volumes/BACKUP/"
+done
