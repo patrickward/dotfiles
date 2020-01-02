@@ -29,9 +29,9 @@ Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-commentary'
 Plugin 'mileszs/ack.vim'
-Plugin 'benmills/vimux'
+" Plugin 'benmills/vimux'
 Plugin 'terryma/vim-multiple-cursors'
-Plugin 'git-time-metric/gtm-vim-plugin'
+" Plugin 'git-time-metric/gtm-vim-plugin'
 
 " Theme / Colors
 Plugin 'ap/vim-css-color'
@@ -43,7 +43,7 @@ Plugin 'vim-airline/vim-airline-themes'
 " Plugin 'edkolev/tmuxline.vim'
 
 " Git
-Plugin 'tpope/vim-fugitive'
+" Plugin 'tpope/vim-fugitive'
 
 " General programming tools (applicable to multiple languages)
 Plugin 'w0rp/ale'
@@ -53,7 +53,7 @@ Plugin 'dearrrfish/vim-applescript'
 
 " Html / CSS
 Plugin 'groenewege/vim-less'
-Plugin 'mattn/emmet-vim'
+" Plugin 'mattn/emmet-vim'
 
 " Markdown/Writing
 Plugin 'lervag/vimtex'
@@ -88,7 +88,14 @@ Plugin 'chase/vim-ansible-yaml'
 " todo.txt
 Plugin 'freitass/todo.txt-vim'
 
-" ledger-cli
+" GPG
+Plugin 'jamessan/vim-gnupg'
+
+" Snippets
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+
+" Accounting
 Plugin 'ledger/vim-ledger'
 
 " End vundle
@@ -245,6 +252,9 @@ set linespace=2
 set t_Co=256
 set background=dark
 
+" Enable +y for yanking to the system clipboard
+set clipboard=unnamed
+
 " Access colors present in 256 colorspace
 " let base16colorspace=256
 " colorscheme base16-bright
@@ -315,7 +325,7 @@ map <leader>v :view %%
 nnoremap <leader><leader> <c-^>
 
 " Open the current document with Marked.app
-nnoremap <leader>md :silent !open -a Marked\ 2.app '%:p'<cr>
+nnoremap <leader>md :!open -a Marked\ 2.app '%:p'<cr>
 
 " Show word count of selection
 nmap <leader>wc :!wc %<cr>
@@ -331,8 +341,8 @@ nmap <leader>tm yiw:!clear && phpunit --filter ^R"<cr>
 " Make and run the current file in the buffer
 nnoremap <silent> <f7> :make %< && ./%<<cr>
 
-" Enable +y for yanking to the system clipboard
-set clipboard=unnamed
+" !stty sanity -
+nnoremap <leader>sane :!stty sane<cr> " Return the screen to sane state
 
 """""""""""""""""""""""""""""""""""
 " Ledger Configuration
@@ -354,3 +364,11 @@ au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
 " Double-click to reset cleared state
 au FileType ledger noremap <silent><buffer> <leader><Tab> :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
 
+
+"""""""""""""""""""""""""""""""""""
+" Ultisnips
+"""""""""""""""""""""""""""""""""""
+let g:UltiSnipsListSnippets="<c-l>"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
