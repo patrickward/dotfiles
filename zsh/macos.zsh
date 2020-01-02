@@ -26,4 +26,7 @@ if [[ "$OSTYPE" == darwin* ]]; then
   # Make sure screenshots go to the Downloads folder
   alias screenshotsToDownloads='defaults write com.apple.screencapture location ~/Downloads/ && killall SystemUIServer'
 
+  # Turn off touch id temporarily, until the user turns it back on
+  alias disableTouchID='sudo bioutil -w -s -f 0'
+
 fi
