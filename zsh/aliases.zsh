@@ -85,4 +85,4 @@ alias ledger-net-worth="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilitie
 alias ledger-net-worth="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilities\" --cleared -R"
 alias ledger-balance="ledger -f $LEDGER_PATH balance"
 alias ledger-budget="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilities\""
-
+alias ledger-edit="vim $LEDGER_PATH"

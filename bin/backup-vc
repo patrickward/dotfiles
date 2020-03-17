@@ -11,7 +11,8 @@ fi
 
 declare -A VOLUMES
 
-VOLUMES[/Volumes/FINANCE]="$HOME/Documents/_/finance.vc"
+# VOLUMES[/Volumes/FINANCE]="$HOME/Documents/_/finance.vc"
+VOLUMES[/Volumes/PERSONAL]="$HOME/Documents/_/personal.vc"
 VOLUMES[/Volumes/2FA]="$HOME/Documents/_/2FA.vc"
 
 # Prompt for volumes password
@@ -39,7 +40,7 @@ for volume in "${!VOLUMES[@]}"; do
   echo "Creating backup VeraCrypt volume at $backup_vc"
   $veracrypt -c -p "$password" \
     --encryption=AES-Twofish --filesystem="fat" --hash="SHA512" \
-    --volume-type=normal --size=10M \
+    --volume-type=normal --size=500M \
     "$backup_vc"
 
   echo "Mounting backup volume at /Volumes/$backup_volume"
@@ -47,7 +48,9 @@ for volume in "${!VOLUMES[@]}"; do
 
   echo ""
   echo "Syncing contents to backup volume"
-  rsync -aP --include='*/' --include=* "$volume" "/Volumes/$backup_volume/"
+  # to get around the 'argument list too long issue', first find the files and put them in a text file
+  # rsync -aP --include='*/' --include=* "$volume" "/Volumes/$backup_volume/"
+  rsync -aP "$volume/." "/Volumes/$backup_volume/"
   echo ""
 
   echo "Dismounting /Volumes/$backup_volume"
