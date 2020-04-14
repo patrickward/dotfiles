@@ -47,3 +47,6 @@ if [[ -f $HOME/.shopify-app-cli/shopify.sh ]]; then source $HOME/.shopify-app-cl
 
 # Go
 export PATH=$PATH:$(go env GOPATH)/bin
+
+# Adding spark installer
+export PATH="$PATH:$HOME/Code/apps/spark-installer"
