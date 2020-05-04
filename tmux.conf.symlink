@@ -1,14 +1,22 @@
+# NOTES:
+#
+# bind is an alias for bind-key
+# set  is an alias for set-option
+
 # Remap prefix key
 set -g prefix C-a
 unbind C-b
-bind-key a send-prefix
+bind a send-prefix
 
 # Adjust delay time
 set -s escape-time 1
 
-# Adjust window index numbers to start at 1
+# Adjust window/pane index numbers to start at 1
 set -g base-index 1
 setw -g pane-base-index 1
+
+# Renumber windows as they are created/destroyed to keep the window numbrers consistent with the count
+set -g renumber-windows on
 
 # # Reload config file while in tmux
 bind r source-file ~/.tmux.conf \; display ".tmux.conf reloaded!"
@@ -17,32 +25,43 @@ bind r source-file ~/.tmux.conf \; display ".tmux.conf reloaded!"
 # Use Ctrl-a twice to send to Ctrl-a to another app inside tmux
 bind C-a send-prefix
 
-# Bindings for splits
-bind | split-window -h
-bind - split-window -v
+# Bindings for splits (in the directory of the pane you ran the key-binding from `-c`)
+bind - split-window -v -c '#{pane_current_path}'
+bind \\ split-window -h -c '#{pane_current_path}'
 
 # Movement keys
-bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-bind l select-pane -R
-
-# Quick window selection
-bind -r C-h select-window -t :-
-bind -r C-l select-window -t :+
+bind -n C-h select-pane -L
+bind -n C-j select-pane -D
+bind -n C-k select-pane -U
+bind -n C-l select-pane -R
 
 # Resize keys
-bind -r H resize-pane -L 5
-bind -r J resize-pane -D 5
-bind -r K resize-pane -U 5
-bind -r L resize-pane -R 5
+bind -n S-Left resize-pane -L 2
+bind -n S-Right resize-pane -R 2
+bind -n S-Down resize-pane -D 1
+bind -n S-Up resize-pane -U 1
 
-# Remove mouse support
+# Create a new window in the current directory
+bind c new-window -c '#{pane_current_path}'
+
+# Break the current pane into a new window
+bind b break-pane -d
+
+# Choose a session
+bind C-j choose-tree
+
+# Allow copy/paste from system clipboard in vim
+bind-key -T copy-mode-vi v send -X begin-selection
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
+
+# Add mouse support
 set -g mouse on
 
 # Ensure 256 color support
-set -g default-terminal "screen-256color"
-set-option -g default-shell /bin/zsh
+set -g default-terminal 'screen-256color'
+set -g default-shell /bin/zsh
 
 # Set the status line using tmuxline conf
 source-file ~/.tmuxline-theme
@@ -50,24 +69,8 @@ source-file ~/.tmuxline-theme
 # Set the colors for the pane borders
 # setw -g pane-border-style fg=green,bg=black
 # setw -g pane-active-border-style fg=white,bg=yellow
-set-option -g pane-border-style fg=colour235 #base02
-set-option -g pane-active-border-style fg=colour240 #base01
-
-# # active pane normal, other dimmed
-# setw -g window-style fg=colour240,bg=colour235
-# setw -g window-active-style fg=white,bg=black
-
-# # Set the activity alert style
-# setw -g window-status-activity-style fg=white,bg=red
-
-# # command/message line
-# set -g message-style fg=white,bold,bg=green
-
-# # Status line
-# set -g status-left-length 40
-# set -g status-left "#[fg=green]Session: #S #[fg=yellow]#I #[fg=cyan]#P "
-# # set -g status-right "#[fg=cyan]%d %b %R"
-# set -g status-justify centre
+set -g pane-border-style fg=colour235 #base02
+set -g pane-active-border-style fg=colour240 #base01
 
 # Monitor activity / visual notifications
 # of activity in other windows
@@ -75,5 +78,24 @@ setw -g monitor-activity on
 set -g visual-activity on
 
 # Make iterm window/tab name reflect the tmux session
-set-option -g set-titles on
-set-option -g set-titles-string '#S'
+set -g set-titles on
+set -g set-titles-string '#S'
+
+# -----------------------------------------
+# Stay in tmux always
+# -----------------------------------------
+
+# Break into a new session based on the current pane
+bind-key C-b send-keys 'tat && exit' 'C-m'
+
+# Kill the current session and switch to another session (keeping us in tmux)
+bind-key K run-shell 'tmux switch-client -n \; kill-session -t "$(tmux display-message -p "#S")" || tmux kill-session'
+
+# -----------------------------------------
+# Quick Panes
+# - short, one-off runs in a separate pane
+# -----------------------------------------
+
+# Open htop in a vertical pane
+bind h split-window -h "htop"
+

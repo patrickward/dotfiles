@@ -67,3 +67,5 @@ prompt pure
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
+# Finally, ensure tmux is running
+ensure_tmux_is_running
