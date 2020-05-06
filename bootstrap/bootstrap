@@ -145,6 +145,9 @@ install_dotfiles () {
     dst="$HOME/.$(basename "${src%.*}")"
     link_file "$src" "$dst"
   done
+
+  # Install the alacritty.yml
+  link_file "$DOTDIR/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
 }
 
 setup_gitconfig
@@ -153,16 +156,29 @@ install_dotfiles
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]
 then
-  info "installing dependencies"
-  if source bin/dotupdate | while read -r data; do info "$data"; done
-  then
-    success "dependencies installed"
-  else
-    fail "error installing dependencies"
-  fi
+
+    echo ""
+    user "Update brew? (y/n)"
+    read -r -s -n 1 action
+
+    if [[ $action == 'y' ]]; then
+      info "installing dependencies"
+      if source bin/dotupdate | while read -r data; do info "$data"; done
+      then
+        success "dependencies installed"
+      else
+        fail "error installing dependencies"
+      fi
+    fi
 fi
 
-change_shell
+echo ""
+user "Change shell? (y/n)"
+read -r -s -n 1 action
+
+if [[ $action == 'y' ]]; then
+  change_shell
+fi
 
 echo ''
 echo '  All installed!'

@@ -44,15 +44,22 @@ done
 # export DOTDIR=$HOME/.dotfiles
 
 # Set macOS defaults
-$DOTDIR/macos/set-defaults.sh
+if [ "$(uname -s)" == "Darwin" ]
+then
+  echo "› Setting macos defaults"
+  $DOTDIR/macos/set-defaults.sh
 
-# Install homebrew
-$DOTDIR/homebrew/install.sh 2>&1
+  # Install homebrew
+  $DOTDIR/homebrew/install.sh 2>&1
 
-# Upgrade homebrew
-echo "› brew update"
-brew update
+  # Upgrade homebrew
+  echo "› brew update"
+  brew update
 
-# Install software
-echo "› $DOTDIR/bootstrap/install"
-$DOTDIR/bootstrap/install
+  read -p "› Run brew bundle? (y/n)" -r -s -n 1 action
+  if [[ $action == "y" ]]; then
+    echo "› brew bundle"
+    cd "$(dirname $0)"/..
+    brew bundle
+  fi
+fi
