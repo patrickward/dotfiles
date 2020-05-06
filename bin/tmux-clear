@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# Clear based on whether or not your in a tmux session
+
+not_in_tmux() {
+  [ -z "$TMUX" ]
+}
+
+if not_in_tmux; then
+  clear
+else
+  clear && tmux clear-history
+fi
