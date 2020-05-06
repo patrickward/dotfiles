@@ -42,3 +42,5 @@ defaults write com.apple.Safari WebKitDeveloperExtrasEnabledPreferenceKey -bool 
 defaults write com.apple.Safari "com.apple.Safari.ContentPageGroupIdentifier.WebKit2DeveloperExtrasEnabled" -bool true
 defaults write NSGlobalDomain WebKitDeveloperExtras -bool true
 
+# Default screenshots to the Downloads folder
+defaults write com.apple.screencapture location ~/Downloads/ && killall SystemUIServer
