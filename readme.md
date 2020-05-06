@@ -8,6 +8,26 @@ I used the [holman dotfiles](https://github.com/holman/dotfiles) as a major insp
 
 I also wanted the symlinks and directories to match the final structure that the home directory would show. So, there are quite a few modifications that don't match the topic style of that project.
 
+## Local Overrides
+
+Set local environment variables and overrides in `$HOME/.localrc`.
+
+For example, the following are good to include in .localrc
+
+```
+# Github token password for CLI use
+export GITHUB_TOKEN=???
+
+# GaTech Github token password for CLI use
+export GT_GITHUB_TOKEN=???
+
+# Local notes directory
+export NOTES_DIR=???
+
+# Ensure a new zsh session automatically enters a tmux session
+export ENSURE_TMUX_IS_RUNNING=1
+```
+
 ## components
 
 _Instructions are from holman as the scripts are essentially the same, but the directory structure has changed._
@@ -23,7 +43,6 @@ There are a few special files in the hierarchy.
   expected to setup `$PATH` or similar.
 - **topic/completion.zsh**: Any file named `completion.zsh` is loaded
   last and is expected to setup autocomplete.
-- **topic/install.sh**: Any file named `install.sh` is executed when you run `bootstrap/install`. To avoid being loaded automatically, its extension is `.sh`, not `.zsh`.
 - **topic/\*.symlink**: Any file ending in `*.symlink` gets symlinked into
   your `$HOME`. This is so you can keep all of those versioned in your dotfiles
   but still keep those autoloaded files in your home directory. These get
