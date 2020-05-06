@@ -29,8 +29,10 @@ Plugin 'tpope/vim-endwise'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tpope/vim-commentary'
 Plugin 'mileszs/ack.vim'
-" Plugin 'benmills/vimux'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'christoomey/vim-tmux-runner'
+
+" Plugin 'benmills/vimux'
 " Plugin 'git-time-metric/gtm-vim-plugin'
 
 " Theme / Colors
@@ -47,6 +49,7 @@ Plugin 'vim-airline/vim-airline-themes'
 
 " General programming tools (applicable to multiple languages)
 Plugin 'w0rp/ale'
+Plugin 'valloric/youcompleteme'
 
 " Applescript
 Plugin 'dearrrfish/vim-applescript'
@@ -86,17 +89,17 @@ Plugin 'mustache/vim-mustache-handlebars'
 Plugin 'chase/vim-ansible-yaml'
 
 " todo.txt
-Plugin 'freitass/todo.txt-vim'
+" Plugin 'freitass/todo.txt-vim'
 
 " GPG
 Plugin 'jamessan/vim-gnupg'
 
 " Snippets
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
+" Plugin 'SirVer/ultisnips'
+" Plugin 'honza/vim-snippets'
 
 " Accounting
-Plugin 'ledger/vim-ledger'
+" Plugin 'ledger/vim-ledger'
 
 " End vundle
 call vundle#end()
@@ -276,6 +279,11 @@ let g:airline#extensions#ale#enabled=1
 " ALE Linters
 """""""""""""""""""""""""""""""""""
 let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle']}
+"
+"""""""""""""""""""""""""""""""""""
+" YCM Config
+"""""""""""""""""""""""""""""""""""
+let g:ycm_keep_logfiles=1
 
 """""""""""""""""""""""""""""""""""
 " Mappings
@@ -344,6 +352,20 @@ nnoremap <silent> <f7> :make %< && ./%<<cr>
 " !stty sanity -
 nnoremap <leader>sane :!stty sane<cr> " Return the screen to sane state
 
+" Edit the .vimrc in a split pane
+nmap <leader>vr :sp $MYVIMRC<cr>
+" Source (reload) the .vimrc
+nmap <leader>so :source $MYVIMRC<cr>
+
+"""""""""""""""""""""""""""""""""""
+" Tmux Vim Runner
+"""""""""""""""""""""""""""""""""""
+let g:VtrOrientation = "h"
+let g:VtrPercentage  = 35
+nnoremap <leader>sc :VtrSendCommandToRunner!<cr>
+nnoremap <leader>fc :VtrFlushCommand<cr>
+
+
 """""""""""""""""""""""""""""""""""
 " Ledger Configuration
 """""""""""""""""""""""""""""""""""
@@ -372,3 +394,4 @@ let g:UltiSnipsListSnippets="<c-l>"
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
