@@ -20,8 +20,8 @@ alias l='ls -1A'
 alias la='ll -A'
 alias lc='lt -c'
 alias lk='ll -Sr'
-alias ll='ls -lh'
 alias lm='la | "$PAGER"'
+alias ll='ls -lhG'
 
 # List hidden directory files
 alias lhd='ls -ld .??*'
@@ -86,3 +86,7 @@ alias ledger-net-worth="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilitie
 alias ledger-balance="ledger -f $LEDGER_PATH balance"
 alias ledger-budget="ledger -f $LEDGER_PATH balance \"^Assets\" \"^Liabilities\""
 alias ledger-edit="vim $LEDGER_PATH"
+
+# STTY Sanity
+alias sane='stty sane'
+

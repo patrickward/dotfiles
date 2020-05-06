@@ -27,3 +27,7 @@ alias gsyncdev='git co develop && git merge master && git push && git co master'
 # Prune remote folders that no longer exist
 alias gitRemotePrune='git remote update origin --prune'
 
+
+alias git_sync='git pull -r && git push'
+
+
