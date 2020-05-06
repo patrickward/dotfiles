@@ -150,8 +150,18 @@ install_dotfiles () {
   link_file "$DOTDIR/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
 }
 
+install_nvm () {
+  if ! [[ -f "$HOME/.config/zsh-vm" ]]; then
+    user "Installing zsh-nvm"
+    git clone https://github.com/lukechilds/zsh-nvm.git ~/.config/zsh-nvm
+  else
+    user "Found zsh-nvm"
+  fi
+}
+
 setup_gitconfig
 install_dotfiles
+install_nvm
 
 # If we're on a Mac, let's install and setup homebrew.
 if [ "$(uname -s)" == "Darwin" ]
