@@ -19,8 +19,18 @@
         dc = diff --cached
         amend = commit --amend
         aa = add --all
+        # Unstage a particular file (add a file parameter to unstage a single file or group of files)
+        unstage = reset HEAD --
+        # Pretty log
         dog = log --all --decorate --oneline --graph
+        # A better pretty log
         lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches
+        # My log entries in one line (add --since=<date> as needed):
+        mog = log --color --pretty=format:'%Cred%h%Creset %Cgreen(%ci) %Creset %s' -i --author=patrick
+        mg = mog
+        # Show files in the last commit (add -2 HEAD as parameters to see the last two commits, etc.)
+        last = show --color --pretty=format:'%Cred(%h)%Creset %C(yellow)%s%Creset%n%Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --name-status
+
 [color]
         diff = auto
         status = auto
@@ -60,6 +70,3 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
-[user]
-	name = Patrick Ward
-	email = patrick@sensory5.com
