@@ -25,7 +25,7 @@
         dog = log --all --decorate --oneline --graph
         # A better pretty log
         lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches
-        # My log entries in one line (add --since=<date> as needed):
+        # My log entries in one line (add --since=<date> as needed, add --no-color to remove all color)
         mog = log --color --pretty=format:'%Cred%h%Creset %Cgreen(%ci) %Creset %s' -i --author=patrick
         mg = mog
         # Show files in the last commit (add -2 HEAD as parameters to see the last two commits, etc.)
