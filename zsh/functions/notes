@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/user/bin/env zsh
 #
 # Simple script to automatically create or
 # open plaintext notes in a particular
@@ -29,6 +29,15 @@ notes () {
 
   LESCAPED_DIR="$(printf "%s" "$LNOTES_DIR" | sed -e 's/[]\/$*.^|[]/\\&/g')"
 
+  # Split, sort, and join
+  _split_and_join() {
+    local IFS=' '
+    read -rA array <<< "$1"
+    IFS=$'\n' array=($(sort <<<${array[*]}))
+    printf "$2%s" "${array[@]}"
+    unset IFS
+  }
+
   _trim_string() {
     # Usage: trim_string "   example   string    "
     : "${1#"${1%%[![:space:]]*}"}"
@@ -56,15 +65,18 @@ notes () {
     echo "Command:"
     printf "\n"
     echo "notes cd - Change to the notes directory"
-    echo "notes ls [search] - List all notes in the notes directory. Add an optional search pattern."
-    echo "notes find <search> - Find notes with <search> in the contents."
+    echo "notes ls|list [search] - List all notes in the notes directory. Add an optional search pattern."
+    echo "notes rm [search] - Remove a note from the notes directory."
+    echo "notes find|search <search> - Find notes with <search> in the contents."
     echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
     echo "notes pull - Pulls any upstream changes into the local repo."
     echo "notes sync <message> - Commit, push, and pull all changes."
     echo "notes new [[title] [project] [tags]] - Create a new note."
-    echo "notes view <filename> - View a new note."
-    echo "notes edit <filename> - Edit a new note."
-    echo "notes open <filename> - An alias for the edit command."
+    echo "notes view|show <filename> - View a new note."
+    echo "notes open|edit <filename> - Edit a new note."
+    echo "notes +<tag> - Search for files with the given tag"
+    echo "notes @<context> - Search for files with the given context"
+    echo "notes <search|filename> - Search for files that match the search pattern"
     printf "\n"
     echo "Use tab-completion for files"
     printf "\n"
@@ -85,7 +97,7 @@ notes () {
     formatted=$(printf "%s" "$output" | _without_notes_dir)
 
     if [[ $result == 0 && "$formatted" ]]; then
-      printf "%s" "$formatted\n"
+      printf "%s\n" "$formatted"
       return 0
     else
       return 2
@@ -96,9 +108,11 @@ notes () {
     title=$1; project=$2; tags=$3
 
     # Zsh read is `different`, can't use `read -p "Question?" var`
+    echo "${GREEN}"
     [[ -z "$title" ]] && read -r "title?Enter a title: "
-    [[ -z "$project" ]] && read -r "project?Enter a project (e.g. +Project): "
-    [[ -z "$tags" ]] && read -r "tags?Enter associated tags (e.g. @tag): "
+    [[ -z "$project" ]] && read -r "project?Enter a project (e.g. Project): "
+    [[ -z "$tags" ]] && read -r "tags?Enter associated tags (e.g. tag1 tag2): "
+    echo "${NO_COLOR}"
 
     if [ -z "$title" ]; then
       _error "Can't create a new file without a title."
@@ -110,6 +124,9 @@ notes () {
     filename=$(echo "$title" | tr '[:upper:]' '[:lower:]')
     filename=$(echo "${filename//[^a-zA-Z0-9]/-}" | tr -s '-')
     filename+=".md"
+
+    tags=$(_split_and_join "$tags" " +")
+    project=$(_split_and_join "$project" " @")
 
     if [ -f $filename ]; then
       $EDITOR $filename
@@ -161,7 +178,7 @@ notes () {
       done
       open -a "Marked 2" "$contents_path"
       ;;
-    ls)
+    ls|list)
       echo "${GREEN}Notes found:${NO_COLOR}"
       if [ $# -eq 2 ]; then
         # ls -l -1 "$LNOTES_DIR" | grep -i "$2"
@@ -171,7 +188,23 @@ notes () {
         ls -l -1 "$LNOTES_DIR"
       fi
       ;;
-    find)
+    rm)
+      echo "${RED}"
+      read -r "remove?This cannot be undone. Are you sure?: "
+      filepath="$LNOTES_DIR/$2"
+      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
+        _error "File not found."
+        return 1
+      fi
+      case "$remove" in
+        y|Y)
+          rm "$filepath"
+          ;;
+        *)
+          return 0
+      esac
+      ;;
+    find|search)
       pattern="${*:2}"
       if [ -z "$pattern" ]; then
         _error "Find needs a pattern to search by."
@@ -184,7 +217,7 @@ notes () {
       _new "$2" "$3" "$4"
       popd || exit 1
       ;;
-    view)
+    view|show)
       filepath="$LNOTES_DIR/$2"
       if [ -z "$2" ] || [ ! -f "$filepath" ]; then
         _error "File not found."
@@ -228,6 +261,10 @@ notes () {
       ;;
     help|-h|--help)
       _usage
+      ;;
+    # Find notes that have +<some-tag> or @<some-context>
+    \+*|\@*)
+      _find "$1"
       ;;
     *)
       if [[ -z "$1" ]] && [[ -z "$2" ]]; then
