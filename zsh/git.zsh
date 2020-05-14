@@ -31,4 +31,5 @@ alias gitRemotePrune='git remote update origin --prune'
 
 alias git_sync='git pull -r && git push'
 
+alias gcr='gclient-report'
 

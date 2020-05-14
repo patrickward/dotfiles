@@ -3,16 +3,18 @@
 # Produce a report of git commits for a client
 
 
-user () {
-  printf "\r  [ \033[0;33m??\033[0m ] %s\n" "$1"
-}
-
 # Set delimiter to space
 IFS=' '
 
-read -r -p "Show commits since: " since
-read -r -p "Show commits until: " until
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NO_COLOR='\033[0m'
+
+echo -e "${GREEN}"
+read -r -p "Show commits since: " since_date
+read -r -p "Show commits until: " until_date
 read -r -p "Show for authors (click enter for all): " -a AUTHORS
+echo -e "${NO_COLOR}"
 
 authors=()
 for author in "${AUTHORS[@]}"; do
@@ -20,5 +22,6 @@ for author in "${AUTHORS[@]}"; do
 done
 
 printf "%s\n" "$(pwd)"
-git log --no-color --since="$since" --until="$until" "${authors[@]}" --pretty=format:"%ci - %<|(60) %cn - %s" -i | grep -v "Merge"
+git log --no-color --since="$since_date" --until="$until_date" "${authors[@]}" \
+  --pretty=format:"%ci - %<|(60) %cn - %s" -i | grep -v "Merge"
 
