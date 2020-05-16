@@ -16,6 +16,8 @@ subcmds=( \
   'show:Show a note in Marked2' \
   'edit:Edit a note' \
   'open:Edit a note' \
+  'tags:Show a list of all tags that have been used' \
+  'projects:Show a list of all projects that have been used' \
   'help:Show help message')
 _describe 'notes' subcmds
 

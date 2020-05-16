@@ -18,6 +18,8 @@ notes () {
 
   RED='\033[0;31m'
   GREEN='\033[0;32m'
+  ORANGE='\033[0;33m'
+  PURPLE='\033[0;35m'
   NO_COLOR='\033[0m'
   SCRIPT_PATH="$DOTDIR/zsh/functions"
 
@@ -74,8 +76,11 @@ notes () {
     echo "notes new [[title] [project] [tags]] - Create a new note."
     echo "notes view|show <filename> - View a new note."
     echo "notes open|edit <filename> - Edit a new note."
-    echo "notes +<tag> - Search for files with the given tag"
-    echo "notes @<context> - Search for files with the given context"
+    echo "notes tags - Shows all unique tags in the notes directory"
+    echo "notes contexts - Shows all unique projects in the notes directory"
+    echo "notes contents - Show a list of all notes as a table of contents"
+    echo "notes @<tag> - Search for files with the given tag"
+    echo "notes +<project> - Search for files with the given project"
     echo "notes <search|filename> - Search for files that match the search pattern"
     printf "\n"
     echo "Use tab-completion for files"
@@ -125,8 +130,8 @@ notes () {
     filename=$(echo "${filename//[^a-zA-Z0-9]/-}" | tr -s '-')
     filename+=".md"
 
-    tags=$(_split_and_join "$tags" " +")
-    project=$(_split_and_join "$project" " @")
+    tags=$(_split_and_join "$tags" " @")
+    project=$(_split_and_join "$project" " +")
 
     if [ -f $filename ]; then
       $EDITOR $filename
@@ -163,7 +168,7 @@ notes () {
     cd)
       cd "$LNOTES_DIR" || exit 1
       ;;
-    contents)
+    c|contents)
       contents_path="$LNOTES_DIR/index.md"
       printf "\n# Notes\n\n---\n\n" > "$contents_path"
       find "$LNOTES_DIR" -name "*.md" | sort | while read -r line; do
@@ -176,7 +181,8 @@ notes () {
         title=${title:-$file}
         printf "* [%s](%s)\n" "$title" "$file_path" >> "$contents_path"
       done
-      open -a "Marked 2" "$contents_path"
+      bat "$contents_path"
+      # open -a "Marked 2" "$contents_path"
       ;;
     ls|list)
       echo "${GREEN}Notes found:${NO_COLOR}"
@@ -204,7 +210,7 @@ notes () {
           return 0
       esac
       ;;
-    find|search)
+    f|find|search)
       pattern="${*:2}"
       if [ -z "$pattern" ]; then
         _error "Find needs a pattern to search by."
@@ -212,18 +218,19 @@ notes () {
       fi
       _find "${@:2}"
       ;;
-    new)
+    n|new)
       pushd "$LNOTES_DIR" || exit 1
       _new "$2" "$3" "$4"
       popd || exit 1
       ;;
-    view|show)
+    v|view|show)
       filepath="$LNOTES_DIR/$2"
       if [ -z "$2" ] || [ ! -f "$filepath" ]; then
         _error "File not found."
         return 1
       fi
-      open -a "Marked 2" "$filepath"
+      bat "$filepath"
+      # open -a "Marked 4" "$filepath"
       ;;
     push)
       if [ ! $# -eq 2 ]; then
@@ -258,6 +265,16 @@ notes () {
       git pull
       git push
       popd || exit 1
+      ;;
+    tags)
+      grep -hro -P "\*\*Tags:\*\*\K(.*)" ./* | grep -oP "([^|]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
+        awk -v ncolor=$ORANGE -v tcolor=$PURPLE '{printf "%s %4s %s %s\n", ncolor, $1, tcolor, $2}'
+      echo "$NO_COLOR"
+      ;;
+    projects)
+      grep -hro -P "\*\*Project:\*\*\K(.*)" ./* | grep -oP "([^|]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
+        awk -v ncolor=$ORANGE -v tcolor=$PURPLE '{printf "%s %4s %s %s\n", ncolor, $1, tcolor, $2}'
+      echo "$NO_COLOR"
       ;;
     help|-h|--help)
       _usage
