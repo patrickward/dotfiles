@@ -232,6 +232,24 @@ notes () {
       bat "$filepath"
       # open -a "Marked 4" "$filepath"
       ;;
+    m|marked)
+      filepath="$LNOTES_DIR/$2"
+      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
+        _error "File not found."
+        return 1
+      fi
+      open "x-marked://open?file=$filepath&raise=true"
+      ;;
+    pdf)
+      filepath="$LNOTES_DIR/$2"
+      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
+        _error "File not found."
+        return 1
+      fi
+      pdfname="$HOME/Downloads/${2%.*}.pdf"
+      pandoc -o "$pdfname" --from markdown --to latex --template eisvogel.tex --listings "$filepath" \
+        && open "$pdfname"
+      ;;
     push)
       if [ ! $# -eq 2 ]; then
         _error "Please add a commit message."
@@ -289,7 +307,7 @@ notes () {
         return 1
       fi
       case "$1" in
-        open|edit)
+        o|e|open|edit)
           filename="$2"
           ;;
         *)

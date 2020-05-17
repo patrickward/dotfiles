@@ -148,6 +148,9 @@ install_dotfiles () {
 
   # Install the alacritty.yml
   link_file "$DOTDIR/alacritty.yml" "$HOME/.config/alacritty/alacritty.yml"
+
+  # Install the pandoc templates
+  link_file "$DOTDIR/pandoc" "$HOME/.pandoc"
 }
 
 install_nvm () {
