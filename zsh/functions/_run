@@ -6,6 +6,7 @@ subcmds=( \
   'commit-report:Run the client git commit report' \
   'flushdns:Flush the system DNS' \
   'mount:Run the mount script' \
+  'ssl:Run the ssl cert checker' \
   'updates:Run the dotfiles updates script' \
   'zsh:Show the custom zsh commands available' \
   'help:Show the help screen' \

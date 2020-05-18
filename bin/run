@@ -23,7 +23,7 @@ usage() { printf "\nUsage:\n\nrun <command>\n\nCommands:\n\n" && \
 # [ $# -eq 1 ] && usage && exit 1
 
 case "$1" in
-  b|backup) # Run the backup script
+  backup) # Run the backup script
     backup
     ;;
   commit-report) # Run a git commit report for sending to clients
@@ -32,13 +32,13 @@ case "$1" in
   flushdns) # Flush the dns
     "$DOTDIR"/bin/flush-dns
     ;;
-  m|mount) # Mount a veracrypt volume (requires the volume to mount (personal|2FA)
+  mount) # Mount a veracrypt volume (requires the volume to mount (personal|2FA)
     veracrypt-mount
     ;;
   ssl) # Run the ssl cert checker
     ssl-cert-check -i -f "$SSL_CERT_CHECKER_DOMAINS"
     ;;
-  u|updates) # Run the updates scripts
+  updates) # Run the updates scripts
     dotupdate
     ;;
   zsh) # Show the custom zsh commands that are available
