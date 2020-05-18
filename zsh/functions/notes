@@ -68,22 +68,22 @@ notes () {
     printf "\n"
     echo "notes cd - Change to the notes directory"
     echo "notes ls|list [search] - List all notes in the notes directory. Add an optional search pattern."
-    echo "notes rm [search] - Remove a note from the notes directory."
+    echo "notes rm <file> - Remove a note from the notes directory."
     echo "notes f|s|find|search <search> - Find notes with <search> in the contents."
     echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
     echo "notes pull - Pulls any upstream changes into the local repo."
     echo "notes sync <message> - Commit, push, and pull all changes."
     echo "notes n|new [[title] [subject] [tags]] - Create a new note."
-    echo "notes view|show <filename> - View a new note."
+    echo "notes v|view|show <filename> - View a new note."
     echo "notes o|e|open|edit <filename> - Edit a new note."
     echo "notes m|marked <filename> - Open a note in Marked 2."
-    echo "notes pdf <filename> - Print a note to pdf and open it"
+    echo "notes p|pdf <filename> - Print a note to pdf and open it"
     echo "notes tags - Shows all unique tags in the notes directory"
     echo "notes subjects - Shows all unique subjects in the notes directory"
     echo "notes contents - Show a list of all notes as a table of contents"
     echo "notes @<tag> - Search for files with the given tag"
     echo "notes +<subject> - Search for files with the given subject"
-    echo "notes <search|filename> - Search for files that match the search pattern"
+    echo "notes <filename> - View the given filename"
     printf "\n"
     echo "Use tab-completion for files"
     printf "\n"
@@ -215,7 +215,7 @@ notes () {
           return 0
       esac
       ;;
-    f|find|search)
+    f|find|s|search)
       pattern="${*:2}"
       if [ -z "$pattern" ]; then
         _error "Find needs a pattern to search by."
@@ -228,7 +228,7 @@ notes () {
       _new "$2" "$3" "$4"
       popd || return 1
       ;;
-    v|view|s|show)
+    v|view|show)
       filepath="$LNOTES_DIR/$2"
       if [ -z "$2" ] || [ ! -f "$filepath" ]; then
         _error "File not found."
@@ -245,7 +245,7 @@ notes () {
       fi
       open "x-marked://open?file=$filepath&raise=true"
       ;;
-    pdf)
+    p|pdf)
       filepath="$LNOTES_DIR/$2"
       if [ -z "$2" ] || [ ! -f "$filepath" ]; then
         _error "File not found."
@@ -311,9 +311,11 @@ notes () {
         _usage
         return 1
       fi
+      edit=0
       case "$1" in
         o|e|open|edit)
           filename="$2"
+          edit=1
           ;;
         *)
           filename="$1"
@@ -325,7 +327,11 @@ notes () {
         popd || return 1
         return 1
       fi
-      $EDITOR "$filename"
+      if [[ $edit == 1 ]]; then
+        $EDITOR "$filename"
+      else
+        bat "$filename"
+      fi
       popd || return 1
       ;;
   esac
