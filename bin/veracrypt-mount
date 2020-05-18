@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#
+# Mounts the FINANCE VeraCrypt volume
+
+# shellcheck source=./includes/colors.sh
+source "$DOTDIR/bin/includes/colors.sh"
+source "$DOTDIR/bin/includes/helpers.sh"
+
+volumes=(personal 2fa)
+volume_choices=$(join_by "|" "${volumes[@]}")
+
+echo ""
+read -p "› Password: " -r password
+read -p "› Which volume? ($volume_choices) " -r volume
+echo ""
+
+if [[ ! " ${volumes[*]} " =~ ${volume}  ]]; then
+  # whatever you want to do when array doesn't contain value
+  echo -e "${C_RED}"
+  echo "Invalid volume entered"
+  echo -e "${C_NC}"
+  exit 1
+fi
+
+veracrypt='/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt -t --non-interactive'
+$veracrypt --protect-hidden=no -p "$password" "${HOME}/Documents/_/${volume}.vc" "/Volumes/${volume^^}"
+
+

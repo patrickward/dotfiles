@@ -6,6 +6,9 @@ alias reload!='. ~/.zshrc'
 # Start a new zsh with no configuration
 alias zsh-noconfig='zsh -d -f'
 
+# Refresh zsh functions
+alias zr=zsh_refresh
+
 # Show all setopt options and whether they are on or off
 alias show-all-setopt='setopt KSH_OPTION_PRINT && setopt && unsetopt KSH_OPTION_PRINT'
 

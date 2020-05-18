@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#
+# The Run Control Script
+#
+# Control, information, and reminders about all
+# of the scripts used to control my life
+
+# shellcheck source=./includes/colors.sh
+source "$DOTDIR/bin/includes/colors.sh"
+
+show_zsh_commands() {
+    echo -e "${C_GREEN}Available zsh commands (to be run within zsh):${C_NC}"
+    echo ""
+    echo -e "    ${C_BLUE}zsh-rebuild-zcompdump${C_NC} - rebuild the zcomp database after new completions have been added"
+    echo -e "    ${C_BLUE}zsh_refresh${C_NC} - refresh all of the zsh functions in the current environment"
+    echo -e "${C_NC}"
+}
+
+usage() { printf "\nUsage:\n\nrun <command>\n\nCommands:\n\n" && \
+  grep -P " [^\\\]+\)\ #" "$0" | sed -r -E 's/\) #\s*/ - /' ; exit 0; }
+
+[ $# -eq 0 ] && usage
+# [ $# -eq 1 ] && usage && exit 1
+
+case "$1" in
+  b|backup) # Run the backup script
+    backup
+    ;;
+  commit-report) # Run a git commit report for sending to clients
+    client-commit-report
+    ;;
+  flushdns) # Flush the dns
+    "$DOTDIR"/bin/flush-dns
+    ;;
+  m|mount) # Mount a veracrypt volume (requires the volume to mount (personal|2FA)
+    veracrypt-mount
+    ;;
+  ssl) # Run the ssl cert checker
+    ssl-cert-check -i -f "$SSL_CERT_CHECKER_DOMAINS"
+    ;;
+  u|updates) # Run the updates scripts
+    dotupdate
+    ;;
+  zsh) # Show the custom zsh commands that are available
+    show_zsh_commands
+    ;;
+  help|h|-h|--help|*) # Show this help screen
+    usage
+    ;;
+esac
+

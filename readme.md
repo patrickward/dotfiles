@@ -26,6 +26,13 @@ export NOTES_DIR=???
 
 # Ensure a new zsh session automatically enters a tmux session
 export ENSURE_TMUX_IS_RUNNING=1
+
+# Ensure a new zsh session automatically enters a tmux session
+export ENSURE_TMUX_IS_RUNNING=1
+
+# List of domains for the ssl cert checker (in the form domain:port per line)
+export SSL_CERT_CHECKER_DOMAINS="$HOME/.config/dotfiles/ssl-cert-checker-domains.txt"
+
 ```
 
 ## components

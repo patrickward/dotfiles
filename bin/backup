@@ -7,6 +7,12 @@ else
   exit 1
 fi
 
+# Backup Nextcloud
+echo ""
+echo "Backing up Nextcloud directory"
+rsync -aP --include='*/' --include=* "$HOME/Nextcloud" "/Volumes/BACKUP/"
+echo ""
+
 # Backup SyncThing
 echo ""
 echo "Backing up Sync directory"

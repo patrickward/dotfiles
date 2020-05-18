@@ -6,22 +6,31 @@
 # Set delimiter to space
 IFS=' '
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NO_COLOR='\033[0m'
+# shellcheck source=./includes/colors.sh
+source "$DOTDIR/bin/includes/colors.sh"
 
-echo -e "${GREEN}"
+echo -e "${C_GREEN}"
 read -r -p "Show commits since: " since_date
 read -r -p "Show commits until: " until_date
 read -r -p "Show for authors (click enter for all): " -a AUTHORS
-echo -e "${NO_COLOR}"
+
+if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) != "true" ]]; then
+  read -r -p "Enter the repo (relative to the Code dir): " repo
+  if [[ ! -d "$HOME/Code/$repo" ]]; then
+    echo -e "${C_RED}Repository not found${C_NC}"
+    exit 1
+  fi
+  cd "$HOME/Code/$repo" || exit 1
+fi
+
+echo -e "${C_NC}"
 
 authors=()
 for author in "${AUTHORS[@]}"; do
   authors+=("--author=$author")
 done
 
-printf "%s\n" "$(pwd)"
+printf "Commits for: %s\n" "$(pwd)"
 git log --no-color --since="$since_date" --until="$until_date" "${authors[@]}" \
   --pretty=format:"%ci - %<|(60) %cn - %s" -i | grep -v "Merge"
 

@@ -132,6 +132,10 @@ notes () {
     filename=$(echo "${filename//[^a-zA-Z0-9]/-}" | tr -s '-')
     filename+=".md"
 
+    if [[ $filename =~ .*"meeting".* ]]; then
+      filename="meetings/$filename"
+    fi
+
     tags=$(_split_and_join "$tags" ' @')
     subject=$(_split_and_join "$subject" " +")
     # Remove first chars

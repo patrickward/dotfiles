@@ -1,0 +1,15 @@
+#compdef run
+
+local -a subcmds
+subcmds=( \
+  'backup:Run the backup script' \
+  'commit-report:Run the client git commit report' \
+  'flushdns:Flush the system DNS' \
+  'mount:Run the mount script' \
+  'updates:Run the dotfiles updates script' \
+  'zsh:Show the custom zsh commands available' \
+  'help:Show the help screen' \
+)
+_describe 'run' subcmds
+
+return

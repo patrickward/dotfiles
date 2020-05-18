@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Nukes a branch locally and on the origin remote.
 #
@@ -8,5 +8,25 @@
 #
 #   git nuke add-git-nuke
 
-git branch -D $1
-git push origin :$1
+# shellcheck source=./includes/colors.sh
+source "$DOTDIR/bin/includes/colors.sh"
+
+usage() {
+  echo ""
+  echo "usage:"
+  echo ""
+  echo "git-nuke <branch-name>"
+  echo ""
+  exit 1
+}
+[ $# -eq 0 ] && usage
+
+echo -e "${C_RED}"
+read -p "› This can't be undone. Are you sure? " -r choice
+echo -e "${C_NC}"
+
+if [[ $choice =~ ^y|Y ]]; then
+  git branch -D "$1"
+  git push origin :"$1"
+  echo -e "${C_PURPLE}NUKED!!${C_NC}"
+fi
