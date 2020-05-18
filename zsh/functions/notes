@@ -69,18 +69,20 @@ notes () {
     echo "notes cd - Change to the notes directory"
     echo "notes ls|list [search] - List all notes in the notes directory. Add an optional search pattern."
     echo "notes rm [search] - Remove a note from the notes directory."
-    echo "notes find|search <search> - Find notes with <search> in the contents."
+    echo "notes f|s|find|search <search> - Find notes with <search> in the contents."
     echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
     echo "notes pull - Pulls any upstream changes into the local repo."
     echo "notes sync <message> - Commit, push, and pull all changes."
-    echo "notes new [[title] [project] [tags]] - Create a new note."
+    echo "notes n|new [[title] [subject] [tags]] - Create a new note."
     echo "notes view|show <filename> - View a new note."
-    echo "notes open|edit <filename> - Edit a new note."
+    echo "notes o|e|open|edit <filename> - Edit a new note."
+    echo "notes m|marked <filename> - Open a note in Marked 2."
+    echo "notes pdf <filename> - Print a note to pdf and open it"
     echo "notes tags - Shows all unique tags in the notes directory"
-    echo "notes contexts - Shows all unique projects in the notes directory"
+    echo "notes subjects - Shows all unique subjects in the notes directory"
     echo "notes contents - Show a list of all notes as a table of contents"
     echo "notes @<tag> - Search for files with the given tag"
-    echo "notes +<project> - Search for files with the given project"
+    echo "notes +<subject> - Search for files with the given subject"
     echo "notes <search|filename> - Search for files that match the search pattern"
     printf "\n"
     echo "Use tab-completion for files"
@@ -110,12 +112,12 @@ notes () {
   }
 
   _new() {
-    title=$1; project=$2; tags=$3
+    title=$1; subject=$2; tags=$3
 
     # Zsh read is `different`, can't use `read -p "Question?" var`
     echo "${GREEN}"
     [[ -z "$title" ]] && read -r "title?Enter a title: "
-    [[ -z "$project" ]] && read -r "project?Enter a project (e.g. Project): "
+    [[ -z "$subject" ]] && read -r "subject?Enter a subject (e.g. subject): "
     [[ -z "$tags" ]] && read -r "tags?Enter associated tags (e.g. tag1 tag2): "
     echo "${NO_COLOR}"
 
@@ -130,8 +132,11 @@ notes () {
     filename=$(echo "${filename//[^a-zA-Z0-9]/-}" | tr -s '-')
     filename+=".md"
 
-    tags=$(_split_and_join "$tags" " @")
-    project=$(_split_and_join "$project" " +")
+    tags=$(_split_and_join "$tags" ' @')
+    subject=$(_split_and_join "$subject" " +")
+    # Remove first chars
+    tags=${tags:1}
+    subject=${subject:1}
 
     if [ -f $filename ]; then
       $EDITOR $filename
@@ -147,7 +152,7 @@ notes () {
     # Copy the template and make substitutions
     CREATED=$(date '+%Y-%m-%d %H:%M:%S')
     sed -i.bak -e "s/{title}/$title/g" -e "s/{date}/$CREATED/g" "$filename"
-    [[ -n "$project" ]] && sed -i.bak "s/{project}/$project/g" "$filename"
+    [[ -n "$subject" ]] && sed -i.bak "s/{subject}/$subject/g" "$filename"
     [[ -n "$tags" ]] && sed -i.bak "s/{tags}/$tags/g" "$filename"
     [[ -f "$filename.bak" ]] && rm "$filename.bak"
 
@@ -166,7 +171,7 @@ notes () {
 
   case "$1" in
     cd)
-      cd "$LNOTES_DIR" || exit 1
+      cd "$LNOTES_DIR" || return 1
       ;;
     c|contents)
       contents_path="$LNOTES_DIR/index.md"
@@ -185,7 +190,7 @@ notes () {
       # open -a "Marked 2" "$contents_path"
       ;;
     ls|list)
-      echo "${GREEN}Notes found:${NO_COLOR}"
+    m echo "${GREEN}Notes found:${NO_COLOR}"
       if [ $# -eq 2 ]; then
         # ls -l -1 "$LNOTES_DIR" | grep -i "$2"
         # ls -l -1 "$LNOTES_DIR"/*"$2"*
@@ -219,11 +224,11 @@ notes () {
       _find "${@:2}"
       ;;
     n|new)
-      pushd "$LNOTES_DIR" || exit 1
+      pushd "$LNOTES_DIR" || return 1
       _new "$2" "$3" "$4"
-      popd || exit 1
+      popd || return 1
       ;;
-    v|view|show)
+    v|view|s|show)
       filepath="$LNOTES_DIR/$2"
       if [ -z "$2" ] || [ ! -f "$filepath" ]; then
         _error "File not found."
@@ -254,15 +259,15 @@ notes () {
       if [ ! $# -eq 2 ]; then
         _error "Please add a commit message."
       else
-        pushd "$NOTES_DIR" || exit 1
+        pushd "$NOTES_DIR" || return 1
         git add -A
         git commit -m "$1"
         git push
-        popd || exit 1
+        popd || return 1
       fi
       ;;
     pull)
-      pushd "$NOTES_DIR" || exit 1
+      pushd "$NOTES_DIR" || return 1
       # Look for changes in the git repo
       # if ! git diff-index --quiet HEAD --; then
       if [[ $(git status --porcelain) ]]; then
@@ -270,11 +275,11 @@ notes () {
         git status
       else
         git pull
-        popd || exit 1
+        popd || return 1
       fi
       ;;
     sync)
-      pushd "$NOTES_DIR" || exit 1
+      pushd "$NOTES_DIR" || return 1
       # Look for changes in the git repo
       if [[ $(git status --porcelain) ]]; then
         git add -A
@@ -282,19 +287,19 @@ notes () {
       fi
       git pull
       git push
-      popd || exit 1
+      popd || return 1
       ;;
-    tags)
-      grep -hro -P "\*\*Tags:\*\*\K(.*)" ./* | grep -oP "([^|]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
+    t|tags)
+      grep -hro -P "keywords: \K(.*)" "$LNOTES_DIR" | grep -oP "([^\"]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
         awk -v ncolor=$ORANGE -v tcolor=$PURPLE '{printf "%s %4s %s %s\n", ncolor, $1, tcolor, $2}'
       echo "$NO_COLOR"
       ;;
-    projects)
-      grep -hro -P "\*\*Project:\*\*\K(.*)" ./* | grep -oP "([^|]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
+    subjects)
+      grep -hro -P "subject: \K(.*)" "$LNOTES_DIR" | grep -oP "([^\"]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
         awk -v ncolor=$ORANGE -v tcolor=$PURPLE '{printf "%s %4s %s %s\n", ncolor, $1, tcolor, $2}'
       echo "$NO_COLOR"
       ;;
-    help|-h|--help)
+    help|h|-h|--help)
       _usage
       ;;
     # Find notes that have +<some-tag> or @<some-context>
@@ -314,14 +319,14 @@ notes () {
           filename="$1"
           ;;
       esac
-      pushd "$LNOTES_DIR" || exit 1
+      pushd "$LNOTES_DIR" || return 1
       if [[ ! -f "$filename" ]]; then
         _error "File not found."
-        popd || exit 1
+        popd || return 1
         return 1
       fi
       $EDITOR "$filename"
-      popd || exit 1
+      popd || return 1
       ;;
   esac
 }

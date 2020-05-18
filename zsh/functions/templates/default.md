@@ -1,20 +1,14 @@
-<!--
-Base Header Level: 3
-Marked Style: Swiss
--->
+---
+title: "{title}"
+date: "{date}"
+subject: "{subject}"
+keywords: "{tags}"
+
+...
 
 # {title}
 
----
+<hr/>
 
 Notes here
-
----
-
-## Metadata
-
-| ---          | ---       |
-| **Created:** | {date}    |
-| **Project:** | {project} |
-| **Tags:**    | {tags}    |
 

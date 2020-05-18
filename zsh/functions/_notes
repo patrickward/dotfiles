@@ -3,22 +3,23 @@
 local -a subcmds
 subcmds=( \
   'cd:Change to the notes directory' \
-  'ls:List all files in the notes directory' \
-  'list:List all files in the notes directory' \
+  'list:List all files in the notes directory (ls)' \
   'rm:Remove a note from the notes directory' \
   'find:Find notes by searching notes with <content> inside' \
   'search:Find notes by searching notes with <content> inside' \
   'push:Commit and push changes to the remote repo' \
   'pull:Pull changes from the remote repo' \
   'sync:Push and pull changes to the remote repo' \
-  'new:Create a new note' \
-  'view:View a note in Marked2' \
-  'show:Show a note in Marked2' \
-  'edit:Edit a note' \
-  'open:Edit a note' \
+  'new:Create a new note (n)' \
+  'view:View a note in bat (v)' \
+  'show:Show a note in bat (s)' \
+  'edit:Edit a note (e)' \
+  'open:Edit a note (o)' \
+  'marked:Open a note in Marked 2 (m)' \
+  'pdf:Print a note and open it' \
   'tags:Show a list of all tags that have been used' \
-  'projects:Show a list of all projects that have been used' \
-  'help:Show help message')
+  'subjects:Show a list of all subjects that have been used' \
+  'help:Show help message (h)')
 _describe 'notes' subcmds
 
 _files -W $NOTES_DIR
