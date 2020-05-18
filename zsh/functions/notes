@@ -263,7 +263,7 @@ notes () {
       if [ ! $# -eq 2 ]; then
         _error "Please add a commit message."
       else
-        pushd "$NOTES_DIR" || return 1
+        pushd "$LNOTES_DIR" || return 1
         git add -A
         git commit -m "$1"
         git push
@@ -271,7 +271,7 @@ notes () {
       fi
       ;;
     pull)
-      pushd "$NOTES_DIR" || return 1
+      pushd "$LNOTES_DIR" || return 1
       # Look for changes in the git repo
       # if ! git diff-index --quiet HEAD --; then
       if [[ $(git status --porcelain) ]]; then
@@ -283,7 +283,7 @@ notes () {
       fi
       ;;
     sync)
-      pushd "$NOTES_DIR" || return 1
+      pushd "$LNOTES_DIR" || return 1
       # Look for changes in the git repo
       if [[ $(git status --porcelain) ]]; then
         git add -A
