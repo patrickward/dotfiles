@@ -552,7 +552,7 @@ key_bindings:
   # Clear the history based on whether we're in tmux or not (prepended space for HIST_IGNORE_SPACE)
   - { key: K,      mods: Command,          chars: " tmux-clear\n" }
   # This space plus enter ensures that we clear the last vestige of tmux-clear in history
-  - { key: K,      mods: Command,          chars: " \n" }
+  # - { key: K,      mods: Command,          chars: " \n" }
 
   #- { key: K,      mods: Command,         command: { program: "clear", args: [""] }}
   #- { key: K,      mods: Command,         chars: "\x0c"            }

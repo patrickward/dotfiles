@@ -101,9 +101,9 @@ brew "wget"
 brew "xz"
 brew "yarn"
 brew "zsh"
-brew "syncthing"
 
 # Casks
+cask "syncthing"
 cask "adoptopenjdk"
 cask "adoptopenjdk8"
 cask "alacritty"
