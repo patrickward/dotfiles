@@ -44,7 +44,7 @@ case "$1" in
   zsh) # Show the custom zsh commands that are available
     show_zsh_commands
     ;;
-  tmux) # Show the custom zsh commands that are available
+  tmux) # Show the tmux cheatsheet
     show-tmux-cheatsheet
     ;;
   help|h|-h|--help|*) # Show this help screen

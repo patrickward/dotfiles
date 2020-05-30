@@ -8,6 +8,7 @@ subcmds=( \
   'mount:Run the mount script' \
   'ssl:Run the ssl cert checker' \
   'updates:Run the dotfiles updates script' \
+  'tmux:Show the tmux cheatsheet' \
   'zsh:Show the custom zsh commands available' \
   'help:Show the help screen' \
 )
