@@ -194,7 +194,7 @@ notes () {
       # open -a "Marked 2" "$contents_path"
       ;;
     ls|list)
-    m echo "${GREEN}Notes found:${NO_COLOR}"
+      echo "${GREEN}Notes found:${NO_COLOR}"
       if [ $# -eq 2 ]; then
         # ls -l -1 "$LNOTES_DIR" | grep -i "$2"
         # ls -l -1 "$LNOTES_DIR"/*"$2"*
@@ -265,7 +265,7 @@ notes () {
       else
         pushd "$LNOTES_DIR" || return 1
         git add -A
-        git commit -m "$1"
+        git commit -m "$2"
         git push
         popd || return 1
       fi
@@ -286,8 +286,13 @@ notes () {
       pushd "$LNOTES_DIR" || return 1
       # Look for changes in the git repo
       if [[ $(git status --porcelain) ]]; then
-        git add -A
-        git commit -m "sync"
+        if [[ ! $# -eq 2 ]]; then
+          _error "There are uncommited changes you should review before pulling. \n${ORANGE}Or, add a commit message: notes sync <messsage>" 0
+          return 1
+        else
+          git add -A
+          git commit -m "$2"
+        fi
       fi
       git pull
       git push
