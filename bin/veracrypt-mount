@@ -6,7 +6,7 @@
 source "$DOTDIR/bin/includes/colors.sh"
 source "$DOTDIR/bin/includes/helpers.sh"
 
-volumes=(personal 2fa)
+volumes=(personal 2fa finance)
 volume_choices=$(join_by "|" "${volumes[@]}")
 
 echo ""

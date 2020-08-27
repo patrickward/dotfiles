@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#
+# Sets or unsets requirepass in the local redis instance
+# Assumes the instance was installed by homebrew
+
+if [[ -z "$1" ]]
+then
+  echo "Removing requirepass"
+  sed -i.bak 's/^requirepass.*/# requirepass foobar/' /usr/local/etc/redis.conf
+else
+  echo "Setting requirepass to $1"
+  sed -i.bak -E "s/^(# )?requirepass.*/requirepass $1/" /usr/local/etc/redis.conf
+fi
+
+brew services restart redis
+
+grep "requirepass" /usr/local/etc/redis.conf
+
+
