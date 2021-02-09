@@ -8,19 +8,19 @@ Simple rules:
 2. Files in `**/config/` directories are ignored and should be called individually
 3. Topic files are found in `topics/*`. Topics are other dotfiles outside of the Zsh configuration.
 4. `.zshenv` will be symlinked to $HOME
-5. Zsh configuration files are found in `zsh/setup/*`
+5. Zsh configuration files are found in `zsh/config/*`
 6. Files are loaded in the following order:
    1. `.zshenv` is loaded, and includes:
-      1. `zsh/setup/path.zsh`
+      1. `zsh/config/path.zsh`
       2. All `topics/**/path.zsh` files
-      3. `zsh/setup/config.zsh`
-      4. `zsh/setup/aliases.zsh`
+      3. `zsh/config/config.zsh`
+      4. `zsh/config/aliases.zsh`
       5. All `topics/**/*.zsh` files, except for `path.zsh` and `completion.zsh` files
    2. `.zprofile` is loaded in a login session
    3. `.zshrc` is loaded for interactive shells, and includes:
-      1. `zsh/setup/completion.zsh`
+      1. `zsh/config/completion.zsh`
       2. All `topics/**/completion.zsh` files
-      3. `zsh/setup/prompt.zsh`
+      3. `zsh/config/prompt.zsh`
    4. `.zlogin` is loaded in a login session
    5. `.zlogout` is loaded on logout from a login session
 
