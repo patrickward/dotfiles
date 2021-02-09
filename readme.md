@@ -9,7 +9,8 @@ Simple rules:
 3. Topic files are found in `topics/*`. Topics are other dotfiles outside of the Zsh configuration.
 4. `.zshenv` will be symlinked to $HOME
 5. Zsh configuration files are found in `zsh/config/*`
-6. Files are loaded in the following order:
+6. Files ending in ".symlink" will be symlinked as hidden files in the user's home (e.g. foo.symlink becomes ~/.foo)
+7. Zsh files are loaded in the following order as part of the Zsh configuration:
    1. `.zshenv` is loaded, and includes:
       1. `zsh/config/path.zsh`
       2. All `topics/**/path.zsh` files
@@ -26,7 +27,7 @@ Simple rules:
 
 ## Initial setup
 
-This will run all `setup.sh` files within the `dotfiles/` directory.
+This will link all `symlink` files and run all `setup.sh` files within the `dotfiles/` directory.
 
 ```bash
 zdot setup
