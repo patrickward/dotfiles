@@ -26,9 +26,12 @@ fi
 # they stay out of the dotfiles repository and not available to the public
 if [[ -a $HOME/.localrc ]]; then source "$HOME/.localrc"; fi
 
-# Find all zsh files in each directory under zsh
+# Find all zsh files directory under topics
 typeset -U config_files
-config_files=("$DOTFILES"/zsh/**/*.zsh "$DOTFILES"/topics/*/*.zsh)
+# Note the maxdepth of 1 for each specific subdirectory in topics; this prevents deep
+# searches into larger directories, such as vim/bundle/*
+config_files=("$DOTFILES"/topics/*/*.zsh)
+
 # Source all path files
 source "$DOTFILES/zsh/config/path.zsh"
 for file in ${(M)config_files:#*/topics/*path.zsh}; do
