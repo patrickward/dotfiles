@@ -1,0 +1,11 @@
+" Tell VIM to use the XDG_CACHE_HOME
+" Move .swp files to to .config folder
+set directory=$XDG_CACHE_HOME/vim,~/,/tmp
+" Move .bak files to to .config folder
+set backupdir=$XDG_CACHE_HOME/vim,~/,/tmp
+" Move .viminfo files to to .config folder
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+" Replicate the runime path in order to use global resources (colors, syntax
+" files, etc)
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc"

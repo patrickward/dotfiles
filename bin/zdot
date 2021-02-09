@@ -1,0 +1,108 @@
+#!/usr/bin/env bash
+
+cd "$(dirname "$0")/.." || exit
+
+export DOTFILES
+DOTFILES=$(pwd -P)
+export XDG_CONFIG_HOME
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+set -e
+
+echo ''
+
+. "$DOTFILES/lib/utils.sh"
+
+change_shell () {
+  ask "Change shell? "
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    # Using which zsh to get an updated path
+    # e.g. installed via brew
+    chsh -s "$(which zsh)" "$(whoami)"
+  fi
+}
+
+configure_git () {
+  true;
+}
+
+export -f ask
+export -f warn
+export -f okay
+export -f ask_long
+export -f link_file
+export -f print_color
+setup () {
+  info "Installing dotfiles...$DOTFILES"
+
+  warn "When a link file already exists, what do you want to do?"
+  ask "[s]kip, [o]verwrite, [b]ackup? "
+
+  export LINK_FILE_BEHAVIOR=$REPLY
+
+  find -H "$DOTFILES" -maxdepth 3 -not -name ".git" -and \
+    -name '*.symlink' -exec bash -c 'link_file "$0" "$HOME/.$(basename "${0%.*}")"' {} \;
+
+  # find the setup files and run them iteratively
+  find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
+    -name setup.sh | while read -r setter ; do bash -c "chmod u+x ${setter} && ${setter}" ; done
+
+}
+
+install () {
+
+  # find the install files and run them iteratively
+  find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
+    -name install.sh | while read -r installer ; do bash -c "chmod u+x ${installer} && ${installer}" ; done
+
+}
+
+update () {
+
+  # find the update files and run them iteratively
+  find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
+    -name update.sh | while read -r updater ; do bash -c "chmod u+x ${updater} && ${updater}" ; done
+
+}
+
+usage () {
+  echo "zdot -- dotfiles management"
+  echo ""
+  echo "Usage: zdot install|bootstrap [options]"
+  echo ""
+  echo "    s, setup     Set up the system, create link, etc."
+  echo "    i, install   Install software"
+  echo "    u, update    Update software"
+  echo "   -h, --help    Show this message"
+  echo ""
+  exit
+}
+
+case "$1" in
+  "s"|"setup")
+#    ask_long "What is your author name? "
+#    export AUTHORNAME="$REPLY"
+#    ask_long "What is your author email? "
+#    export AUTHOREMAIL="$REPLY"
+    setup
+    change_shell
+    exit
+    ;;
+  "i"|"install")
+    install
+    exit
+    ;;
+  "u"|"update")
+    update
+    exit
+    ;;
+  "-h"|"--help"|"h"|"help")
+    usage
+    ;;
+  *)
+    echo "Invalid option: $1"
+    usage
+  ;;
+esac
+

@@ -1,9 +1,7 @@
-# Ignore local gitconfig
-gitconfig.local.symlink
-
 # Ignore vim bundles
-vim.symlink/bundle/*
-vim.symlink/.netrwhist
+topics/vim/bundle/
+topics/vim/.netrwhist
+topics/vim/pack/
 
 __pycache__
 
