@@ -23,6 +23,10 @@ unset comp_files
 for file in ${(M)config_files:#*/*completion.zsh}; do source $file; done
 
 unset config_files
+unset comp_files
+
+# Load plugin files
+find -H "$DOTFILES/zsh/plugins" -maxdepth 1 -name "*.zsh" | while read -r file; do source "$file"; done
 
 # Better history
 #
