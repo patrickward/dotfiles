@@ -1,11 +1,14 @@
 [init]
   # Adding templatedirectory so that we
   # can set some default git hooks on new repositories
-  templatedir = DOTFILES/git/templates
+  templatedir = DOTFILES/topics/git/templates
 
-[user]
-        name = AUTHORNAME
-        email = AUTHOREMAIL
+# Not setting authorname, so that it forces me to set it
+# individually for each repo
+# [user]
+#         name = AUTHORNAME
+#         email = AUTHOREMAIL
+
 [credential]
         helper = GIT_CREDENTIAL_HELPER
 [alias]
