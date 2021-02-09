@@ -36,7 +36,7 @@ case "$1" in
     veracrypt-mount
     ;;
   ssl) # Run the ssl cert checker
-    ssl-cert-check -i -f "$SSL_CERT_CHECKER_DOMAINS"
+    ssl-cert-check -f "$SSL_CERT_CHECKER_DOMAINS"
     ;;
   updates) # Run the updates scripts
     dotupdate

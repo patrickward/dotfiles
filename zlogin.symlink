@@ -3,7 +3,7 @@
 #
 # Executes commands at login post-zshrc.
 #
-
+echo "ZLOGIN"
 {
   # Compile the completion dump to increase startup speed.
   zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"

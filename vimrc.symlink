@@ -38,7 +38,7 @@ Plugin 'christoomey/vim-tmux-runner'
 " Theme / Colors
 Plugin 'ap/vim-css-color'
 " Plugin 'chriskempson/base16-vim'
-Plugin 'altercation/vim-colors-solarized'
+" Plugin 'altercation/vim-colors-solarized'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 " Only enable if changing the tmuxline theme
@@ -260,11 +260,6 @@ set background=dark
 " Enable +y for yanking to the system clipboard
 set clipboard=unnamed
 
-" Access colors present in 256 colorspace
-" let base16colorspace=256
-" colorscheme base16-bright
-colorscheme solarized
-
 """""""""""""""""""""""""""""""""""
 " Airline Options
 """""""""""""""""""""""""""""""""""
@@ -273,7 +268,7 @@ let g:airline_powerline_fonts=1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#show_buffers=0
 let g:airline#extensions#tabline#show_close_button=0
-let g:airline_theme='base16_bright'
+" let g:airline_theme='bubblegum'
 " Enable ALE to display error information in the status bar
 let g:airline#extensions#ale#enabled=1
 
@@ -397,3 +392,15 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
+
+" Access colors present in 256 colorspace
+" let base16colorspace=256
+" colorscheme base16-bright
+" colorscheme solarized
+
+"""""""""""""""""""""""""""""""""""
+" Dracula theme
+"""""""""""""""""""""""""""""""""""
+packadd! dracula_pro
+let g:dracula_colorterm =0
+colorscheme dracula_pro

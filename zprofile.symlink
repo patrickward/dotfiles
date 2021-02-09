@@ -8,7 +8,7 @@
 # Authors:
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
-
+echo "ZPROFILE"
 #
 # Browser
 #
@@ -67,3 +67,4 @@ if (( $#commands[(i)lesspipe(|.sh)] )); then
 fi
 
 export PATH="$HOME/.cargo/bin:$PATH"
+

@@ -42,8 +42,9 @@ export PATH="$HOME/.bin:$HOME/bin:/usr/local/bin:/usr/local/sbin:$DOTDIR/bin:$PA
 # Set the manpath, but only if needed
 # export MANPATH="/user/local/man:/usr/local/git/man:$MANPATH"
 
-# The line won’t look exactly like this. `HOME_DIR` will instead be the absolute path to your home directory
-if [[ -f $HOME/.shopify-app-cli/shopify.sh ]]; then source $HOME/.shopify-app-cli/shopify.sh; fi
 
 # Adding spark installer
 export PATH="$PATH:$HOME/Code/apps/spark-installer"
+
+# Adding flutter path
+export PATH="$PATH:$HOME/bin/flutter/bin"

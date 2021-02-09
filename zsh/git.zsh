@@ -33,3 +33,17 @@ alias git_sync='git pull -r && git push'
 
 alias gcr='gclient-report'
 
+# Override git commands
+# to ensure pushgtm and fetchgtm are executed
+function _xgit() {
+
+  if [[ "$1" == "push" ]]; then
+    command git "$@" && git pushgtm
+  elif [[ "$1" == "pull" ]]; then
+    command git "$@" && git fetchgtm
+  else
+    command git "$@"
+  fi
+}
+
+# alias git='_xgit'

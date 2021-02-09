@@ -64,7 +64,7 @@ set -g default-terminal 'screen-256color'
 set -g default-shell /bin/zsh
 
 # Set the status line using tmuxline conf
-source-file ~/.tmuxline-theme
+# source-file ~/.tmuxline-theme
 
 # Set the colors for the pane borders
 # setw -g pane-border-style fg=green,bg=black
@@ -99,3 +99,13 @@ bind-key K run-shell 'tmux switch-client -n \; kill-session -t "$(tmux display-m
 # Open htop in a vertical pane
 bind h split-window -h "htop"
 
+# List of plugins
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'dracula/tmux'
+
+# Dracul settings
+set -g @dracula-show-left-icon session
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'

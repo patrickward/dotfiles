@@ -16,7 +16,7 @@ alias gt-start-grpc-docker="docker run --interactive --tty -v $GRPC_EXPLORE_DIR:
 # to get past the following error: "ptrace operation not permitted"
 export GIOS_PR4_DIR="$HOME/Code/gt/gios-cs6200/projects/pr4"
 # alias gt-docker-pr4="docker run --interactive --tty --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $GIOS_PR4_DIR:'/root/pr4' -w '/root/pr4' --entrypoint=/bin/bash patrickward/omscs6200:latest"
-alias gt-docker-pr4-2="docker run --interactive --tty --cap-add=SYS_ADMIN --device=/dev/fuse --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $GIOS_PR4_DIR:'/root/pr4' -w '/root/pr4' --entrypoint=/bin/bash patrickward/omscs6200:latest"
+alias gt-docker-pr4-2="docker run --interactive --tty --cap-add=SYS_ADMIN --device=/dev/fuse --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $GIOS_PR4_DIR:'/root/pr4' -w '/root/pr4' --entrypoint=/bin/bash fsgeek/omscs6200"
 
 export GIOS_GRADER_DIR="$HOME/Code/gt/gios-cs6200/projects/gt-cs6200-graders"
 alias gt-docker-bonnie="docker run --interactive --tty --cap-add=SYS_ADMIN --device=/dev/fuse --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $GIOS_GRADER_DIR:'/root/pr4' -w '/root/pr4' --entrypoint=/bin/bash patrickward/omscs6200:latest"
