@@ -1,9 +1,4 @@
-#!/bin/bash
-#
-# Homebrew
-#
-# This installs some of the common dependencies needed (or at least desired)
-# using Homebrew.
+#!/usr/bin/env bash
 
 . "$DOTFILES/lib/utils.sh"
 

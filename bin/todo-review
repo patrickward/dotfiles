@@ -3,6 +3,6 @@
 # This assumes, of course, that I've already created the personal env
 source ~/.zshrc
 # workon personal
-source "$HOME/.dotfiles/todo/todo.cfg"
-python3 "$HOME/.dotfiles/bin/todo-review.py" $@
+source "$DOTFILES/todo/todo.cfg"
+python3 "$DOTFILES/bin/todo-review.py" $@
 

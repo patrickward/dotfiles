@@ -8,8 +8,7 @@
 #
 #   git nuke add-git-nuke
 
-# shellcheck source=./includes/colors.sh
-source "$DOTDIR/bin/includes/colors.sh"
+. "$DOTFILES/lib/utils.sh"
 
 usage() {
   echo ""
@@ -21,12 +20,10 @@ usage() {
 }
 [ $# -eq 0 ] && usage
 
-echo -e "${C_RED}"
-read -p "› This can't be undone. Are you sure? " -r choice
-echo -e "${C_NC}"
+ask "This can't be undone. Are you sure? "
 
-if [[ $choice =~ ^y|Y ]]; then
+if [[ $REPLY =~ ^y|Y ]]; then
   git branch -D "$1"
   git push origin :"$1"
-  echo -e "${C_PURPLE}NUKED!!${C_NC}"
+  okay "NUKED!"
 fi

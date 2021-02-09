@@ -8,22 +8,21 @@ else
 fi
 
 # Backup Nextcloud
-echo ""
-echo "Backing up Nextcloud directory"
-rsync -aP --include='*/' --include=* "$HOME/Nextcloud" "/Volumes/BACKUP/"
-echo ""
-
-# Backup SyncThing
-echo ""
-echo "Backing up Sync directory"
-rsync -aP --include='*/' --include=* "$HOME/Sync" "/Volumes/BACKUP/"
-echo ""
-
-echo ""
-echo "Backing up SyncOKR directory"
-rsync -aP --include='*/' --include=* "$HOME/SyncOKR" "/Volumes/BACKUP/"
-echo ""
-
+# echo ""
+# echo "Backing up Nextcloud directory"
+# rsync -aP --include='*/' --include=* "$HOME/Nextcloud" "/Volumes/BACKUP/"
+# echo ""
+#
+# # Backup SyncThing
+# echo ""
+# echo "Backing up Sync directory"
+# rsync -aP --include='*/' --include=* "$HOME/Sync" "/Volumes/BACKUP/"
+# echo ""
+#
+# echo ""
+# echo "Backing up SyncOKR directory"
+# rsync -aP --include='*/' --include=* "$HOME/SyncOKR" "/Volumes/BACKUP/"
+# echo ""
 
 # Backup VeraCrypt Volumes
-backup-vc
+backup-veracrypt

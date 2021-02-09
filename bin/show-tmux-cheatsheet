@@ -2,20 +2,19 @@
 #
 # Shows my personal tmux cheatsheet for this setup
 
-# shellcheck source=./includes/colors.sh
-source "$DOTDIR/bin/includes/colors.sh"
+. "$DOTFILES/lib/utils.sh"
 
 echo ""
-echo_green "TMUX Cheatsheet"
+okay "TMUX Cheatsheet"
 echo ""
-echo_blue "Prefix: " "control + a"
-echo_blue "Split window vertically: " "prefix + -"
-echo_blue "Split window horizontally:" "prefix + \\ "
-echo_blue "Reload config: " "prefix + r"
-echo_blue "Select panes: " "control + {h,j,k,l} (no prefix necessary)"
-echo_blue "Resize panes: " "shift + {arrows} (no prefix necessary)"
-echo_blue "Create a new window in current directory: " "prefix + c"
-echo_blue "Choose a session: " "prefix + control + j"
-echo_blue "Break out the current pane into a new window: " "prefix + b"
-echo_blue "Break into a new session from current pane: " "prefix + control + b"
-echo_blue "Kill current session; switch to next session: " "prefix + shift + k"
+echo "Prefix: control + a"
+echo "Split window vertically: prefix + -"
+echo "Split window horizontally: prefix + \\ "
+echo "Reload config: prefix + r"
+echo "Select panes: control + {h,j,k,l} (no prefix necessary)"
+echo "Resize panes: shift + {arrows} (no prefix necessary)"
+echo "Create a new window in current directory: prefix + c"
+echo "Choose a session: prefix + control + j"
+echo "Break out the current pane into a new window: prefix + b"
+echo "Break into a new session from current pane: prefix + control + b"
+echo "Kill current session; switch to next session: prefix + shift + k"

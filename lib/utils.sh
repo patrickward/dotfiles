@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+join_by () {
+  local IFS="$1"
+  shift; echo "$*"
+}
+
 print_color () {
   declare -A colors=(
     ['info']="\033[00;34m"

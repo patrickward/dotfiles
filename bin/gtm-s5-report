@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-gtm report -full-message=true -format="summary" "$@"
-gtm report -full-message=true -format="project" "$@"
-

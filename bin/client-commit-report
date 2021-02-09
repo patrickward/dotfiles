@@ -6,10 +6,8 @@
 # Set delimiter to space
 IFS=' '
 
-# shellcheck source=./includes/colors.sh
-source "$DOTDIR/bin/includes/colors.sh"
+. "$DOTFILES/lib/utils.sh"
 
-echo -e "${C_GREEN}"
 read -r -p "Show commits since: " since_date
 read -r -p "Show commits until: " until_date
 read -r -p "Show for authors (click enter for all): " -a AUTHORS
@@ -17,13 +15,11 @@ read -r -p "Show for authors (click enter for all): " -a AUTHORS
 if [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) != "true" ]]; then
   read -r -p "Enter the repo (relative to the Code dir): " repo
   if [[ ! -d "$HOME/Code/$repo" ]]; then
-    echo -e "${C_RED}Repository not found${C_NC}"
+    fail "Repository not found"
     exit 1
   fi
   cd "$HOME/Code/$repo" || exit 1
 fi
-
-echo -e "${C_NC}"
 
 authors=()
 for author in "${AUTHORS[@]}"; do

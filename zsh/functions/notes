@@ -21,7 +21,7 @@ notes () {
   ORANGE='\033[0;33m'
   PURPLE='\033[0;35m'
   NO_COLOR='\033[0m'
-  SCRIPT_PATH="$DOTDIR/zsh/functions"
+  SCRIPT_PATH="$DOTFILES/zsh/functions"
 
   # Override NOTES_DIR in .localrc for a different path
   [ -z "$NOTES_DIR" ] && export NOTES_DIR="$HOME/notes"

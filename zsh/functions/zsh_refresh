@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/bin/zsh
 
 # Reload all functions
 zsh_refresh() {
-  echo "Reloading all zsh functions under ${DOTDIR}/zsh/functions..."
+  echo "Reloading all zsh functions under ${DOTFILES}/zsh/functions..."
   local f
-  f=($DOTDIR/zsh/functions/*(.))
+  f=("$DOTFILES"/zsh/functions/*(.))
   unfunction $f:t 2> /dev/null
   autoload -U $f:t
 }

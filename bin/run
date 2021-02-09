@@ -5,49 +5,61 @@
 # Control, information, and reminders about all
 # of the scripts used to control my life
 
-# shellcheck source=./includes/colors.sh
-source "$DOTDIR/bin/includes/colors.sh"
+. "$DOTFILES/lib/utils.sh"
 
 show_zsh_commands() {
     echo ""
-    echo_green "Available zsh commands (to be run within zsh):"
+    okay "Available zsh commands (to be run within zsh):"
     echo ""
-    echo_blue "    ld-zcompdump: " "rebuild the zcomp database after new completions have been added" 20
-    echo_blue "    zsh_refresh: " "refresh all of the zsh functions in the current environment" 20
+    echo "    ld-zcompdump: rebuild the zcomp database after new completions have been added"
+    echo "    zsh_refresh: refresh all of the zsh functions in the current environment"
 }
 
-usage() { printf "\nUsage:\n\nrun <command>\n\nCommands:\n\n" && \
-  grep -P " [^\\\]+\)\ #" "$0" | sed -r -E 's/\) #\s*/ - /' ; exit 0; }
+usage () {
+    printf "\nUsage:\n\nrun <command>\n\nCommands:\n\n" && \
+        grep -P " [^\\\]+\)\ #" "$0" | sed -r -E 's/\) #\s*/: \t\t/' ; exit 0;
+}
 
-[ $# -eq 0 ] && usage
-# [ $# -eq 1 ] && usage && exit 1
+cheatsheet () {
+    sheet="$1"
+    if [[ -z "$sheet" ]]
+    then
+        warn "Which cheatsheet? "
+        ask "[t]mux, [z]sh: "
+        sheet="$REPLY"
+    fi
+    case $sheet in
+        t)
+            show-tmux-cheatsheet;;
+        z)
+            show_zsh_commands;;
+        *)
+            echo ""
+            fail "Invalid cheatsheet option"
+            echo ""
+    esac
+}
 
 case "$1" in
-  backup) # Run the backup script
+  backup) # Run the backup-veracrypt script
     backup
     ;;
-  commit-report) # Run a git commit report for sending to clients
+  report) # Run a git commit report for sending to clients
     client-commit-report
     ;;
   flushdns) # Flush the dns
-    "$DOTDIR"/bin/flush-dns
+    "$DOTFILES"/bin/flush-dns
     ;;
   mount) # Mount a veracrypt volume (requires the volume to mount (personal|2FA)
     veracrypt-mount
     ;;
-  ssl) # Run the ssl cert checker
+  ssl|certs) # Run the ssl cert checker
     ssl-cert-check -f "$SSL_CERT_CHECKER_DOMAINS"
     ;;
-  updates) # Run the updates scripts
-    dotupdate
+  cheat) # Show a cheatsheet
+    cheatsheet $2
     ;;
-  zsh) # Show the custom zsh commands that are available
-    show_zsh_commands
-    ;;
-  tmux) # Show the tmux cheatsheet
-    show-tmux-cheatsheet
-    ;;
-  help|h|-h|--help|*) # Show this help screen
+  help|*) # Show this help screen
     usage
     ;;
 esac

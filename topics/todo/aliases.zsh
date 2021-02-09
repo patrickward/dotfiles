@@ -1,5 +1,5 @@
 # todo-cli
-export TODOTXT_CONFIG='$HOME/.dotfiles/todo/todo.cfg'
+export TODOTXT_CONFIG='$DOTFILES/topics/todo/todo.cfg'
 export TODOTXT_DEFAULT_ACTION=ls
 # alias t="todo.sh -n -d $TODOTXT_CONFIG"
 alias t="todo.sh -d $TODOTXT_CONFIG"
