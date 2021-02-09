@@ -21,7 +21,7 @@ setup_gitconfig () {
     -e "s/AUTHOREMAIL/$AUTHOREMAIL/g" \
     -e "s|DOTFILES|$DOTFILES|g" \
     -e "s/GIT_CREDENTIAL_HELPER/$git_credential/g" \
-    "$DOTFILES/topics/git/gitconfig.local.template" > "$HOME/.gitconfig.local"
+    "$DOTFILES/src/git/gitconfig.local.template" > "$HOME/.gitconfig.local"
 
   okay 'Gitconfig local created'
 }

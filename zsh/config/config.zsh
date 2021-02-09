@@ -10,7 +10,7 @@ fpath=($DOTFILES/zsh/functions $fpath)
 
 # Add topic folders to fpath, so that they can
 # add functions and completion scripts as needed
-# fpath=($DOTFILES/zsh/topics $fpath)
+# fpath=($DOTFILES/zsh/src $fpath)
 fpath=($DOTFILES/zsh/prompt $fpath)
 
 autoload -U $DOTFILES/zsh/functions/*(:t)

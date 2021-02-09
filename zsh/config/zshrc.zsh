@@ -7,8 +7,6 @@
 # NOTE: SEE zshenv.symlink for all of the sourced files
 
 # Initialize autocomplete here, otherwise functions won't be loaded
-# autoload -U compinit
-# compinit
 autoload -Uz compinit
 comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
 if (( $#comp_files )); then

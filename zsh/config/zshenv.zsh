@@ -26,15 +26,16 @@ fi
 # they stay out of the dotfiles repository and not available to the public
 if [[ -a $HOME/.localrc ]]; then source "$HOME/.localrc"; fi
 
-# Find all zsh files directory under topics
+# Find all zsh files directory under src
 typeset -U config_files
-# Note the maxdepth of 1 for each specific subdirectory in topics; this prevents deep
-# searches into larger directories, such as vim/bundle/*
-config_files=("$DOTFILES"/topics/*/*.zsh)
+# Note the maxdepth of 1 for each specific subdirectory in src; this prevents deep
+# searches into larger directories, such as vim/bundle/*. This means, only *.zsh files
+# in the immediate subdirectory will be considered when loading files
+config_files=("$DOTFILES"/src/*/*.zsh)
 
 # Source all path files
 source "$DOTFILES/zsh/config/path.zsh"
-for file in ${(M)config_files:#*/topics/*path.zsh}; do
+for file in ${(M)config_files:#*/src/*path.zsh}; do
     source $file
 done
 
@@ -46,6 +47,6 @@ source "$DOTFILES/zsh/config/aliases.zsh"
 
 # Load all topic zsh files, except for path.zsh, completion.zsh, and config directories
 # path.zsh has already been loaded and completion.zsh files will be loaded in .zshrc
-for file in ${${${config_files:#*/topics/*path.zsh}:#*/topics/*completion.zsh}:#*/config/*}; do
+for file in ${${${config_files:#*/src/*path.zsh}:#*/src/*completion.zsh}:#*/config/*}; do
     source $file
 done

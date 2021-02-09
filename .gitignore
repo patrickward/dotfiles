@@ -1,7 +1,7 @@
 # Ignore vim bundles
-topics/vim/bundle/
-topics/vim/.netrwhist
-topics/vim/pack/
+src/vim/bundle/
+src/vim/.netrwhist
+src/vim/pack/
 
 __pycache__
 

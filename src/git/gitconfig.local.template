@@ -1,7 +1,7 @@
 [init]
   # Adding templatedirectory so that we
   # can set some default git hooks on new repositories
-  templatedir = DOTFILES/topics/git/templates
+  templatedir = DOTFILES/src/git/templates
 
 # Not setting authorname, so that it forces me to set it
 # individually for each repo

@@ -14,7 +14,7 @@
     <key>ProgramArguments</key>
     <array>
         <string>osascript</string>
-        <string>/Users/patrickward/Code/dotfiles/topics/macos/applescript/outlook-cleaner.scpt</string>
+        <string>/Users/patrickward/Code/dotfiles/src/macos/applescript/outlook-cleaner.scpt</string>
     </array>
     <key>StandardOutPath</key>
     <string>/usr/local/var/log/outlook-cleaner.log</string>
