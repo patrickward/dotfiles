@@ -24,6 +24,8 @@ alias git_sync='git pull -r && git push'
 
 alias gcr='gclient-report'
 
+alias gu='git aa && git commit -m "Update" && git push'
+
 # Override git commands
 # to ensure pushgtm and fetchgtm are executed
 #function _xgit() {

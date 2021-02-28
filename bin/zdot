@@ -4,8 +4,11 @@ cd "$(dirname "$0")/.." || exit
 
 export DOTFILES
 DOTFILES=$(pwd -P)
+
 export XDG_CONFIG_HOME
 XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+SYMLINKS_TXT="$XDG_CONFIG_HOME/zdot/symlinks.txt"
 
 set -e
 
@@ -23,21 +26,31 @@ change_shell () {
   fi
 }
 
-configure_git () {
-  true;
-}
-
 export -f ask
 export -f warn
 export -f okay
 export -f ask_long
 export -f link_file
 export -f print_color
+
+check_setup () {
+  if [[ ! -f "$SYMLINKS_TXT" ]]
+  then
+    fail "ZDOT doesn't appear to have been set up yet. You should run \`zdot setup\` first."
+    echo ""
+    exit 1
+  fi
+  true;
+}
+
 setup () {
   info "Installing dotfiles...$DOTFILES"
 
-  warn "When a link file already exists, what do you want to do?"
-  ask "[s]kip, [o]verwrite, [b]ackup? "
+  mkdir -p "$XDG_CONFIG_HOME/zdot"
+  rm "SYMLINKS_TXT" 2> /dev/null || true
+
+  warn "When a symlink already exists but differs from the dotfiles version, what do you want to do?"
+  ask "[s]kip it, [o]verwrite it, [b]ack it up? "
 
   export LINK_FILE_BEHAVIOR=$REPLY
 
@@ -50,7 +63,31 @@ setup () {
 
 }
 
+setdown() {
+  check_setup
+
+  while IFS= read -r link; do
+
+    ### Trim leading whitespaces ###
+    link="${link##*( )}"
+
+    ### trim trailing whitespaces  ##
+    link="${link%%*( )}"
+
+    if [[ -L $link ]]
+    then
+      rm "$link"
+    fi
+
+  done < <(cat "$SYMLINKS_TXT")
+
+  rm "$SYMLINKS_TXT" 2> /dev/null || true
+
+}
+
 install () {
+
+  check_setup
 
   # find the install files and run them iteratively
   find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
@@ -59,6 +96,8 @@ install () {
 }
 
 update () {
+
+  check_setup
 
   # find the update files and run them iteratively
   find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
@@ -71,7 +110,8 @@ usage () {
   echo ""
   echo "Usage: zdot install|bootstrap [options]"
   echo ""
-  echo "    s, setup     Set up the system, create link, etc."
+  echo "    s, setup     Set up the system, create link, etc"
+  echo "    d, setdown   Remove symlinks that zdot knows about"
   echo "    i, install   Install software"
   echo "    u, update    Update software"
   echo "   -h, --help    Show this message"
@@ -80,13 +120,13 @@ usage () {
 }
 
 case "$1" in
-  "s"|"setup")
-#    ask_long "What is your author name? "
-#    export AUTHORNAME="$REPLY"
-#    ask_long "What is your author email? "
-#    export AUTHOREMAIL="$REPLY"
+  "s"|"up"|"setup")
     setup
     change_shell
+    exit
+    ;;
+  "d"|"down"|"setdown")
+    setdown
     exit
     ;;
   "i"|"install")

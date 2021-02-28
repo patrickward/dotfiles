@@ -6,14 +6,17 @@ export LSCOLORS="exfxfeaeBxxehehbadacea"
 export CLICOLOR=true
 
 # Add functions directory to fpath
-fpath=($DOTFILES/zsh/functions $fpath)
+if [ -d "$DOTFILES/zsh/functions" ] && [ "$(ls -A $DOTFILES/zsh/functions)" ]; then
+    fpath=("$DOTFILES"/zsh/functions $fpath)
+    autoload -U "$DOTFILES"/zsh/functions/*(:t)
+fi
 
 # Add topic folders to fpath, so that they can
 # add functions and completion scripts as needed
 # fpath=($DOTFILES/zsh/src $fpath)
-fpath=($DOTFILES/zsh/prompt $fpath)
-
-autoload -U $DOTFILES/zsh/functions/*(:t)
+if [ -d "$DOTFILES/zsh/prompt" ] && [ "$(ls -A "$DOTFILES"/zsh/prompt)" ]; then
+    fpath=("$DOTFILES"/zsh/prompt $fpath)
+fi
 
 HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=10000

@@ -11,7 +11,7 @@ show_zsh_commands() {
     echo ""
     okay "Available zsh commands (to be run within zsh):"
     echo ""
-    echo "    ld-zcompdump: rebuild the zcomp database after new completions have been added"
+    echo "    zsh-rebuild-zcompdump: rebuild the zcomp database after new completions have been added"
     echo "    zsh_refresh: refresh all of the zsh functions in the current environment"
 }
 

@@ -3,13 +3,11 @@
 local -a subcmds
 subcmds=( \
   'backup:Run the backup script' \
-  'commit-report:Run the client git commit report' \
+  'report:Run the client git commit report' \
   'flushdns:Flush the system DNS' \
   'mount:Run the mount script' \
   'ssl:Run the ssl cert checker' \
-  'updates:Run the dotfiles updates script' \
-  'tmux:Show the tmux cheatsheet' \
-  'zsh:Show the custom zsh commands available' \
+  'cheat:Show a cheat sheet' \
   'help:Show the help screen' \
 )
 _describe 'run' subcmds

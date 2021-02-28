@@ -208,6 +208,7 @@ if has("autocmd")
   autocmd FileType php setlocal ts=4 sts=4 sw=4 expandtab
   autocmd FileType c setlocal ts=4 sts=4 sw=4 expandtab
   autocmd FileType c++ setlocal ts=4 sts=4 sw=4 expandtab
+  autocmd FileType zsh setlocal ts=2 sts=2 sw=2 expandtab
 
   " Syntax for odd file extensions
   autocmd BufNewFile,BufRead *.chatito set syntax=markdown
@@ -404,3 +405,20 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 packadd! dracula_pro
 let g:dracula_colorterm =0
 colorscheme dracula_pro
+
+
+
+
+" Turn colorcolumn on/off
+function! ColorColumnOnOff(width)
+  if exists('+colorcolumn')
+    execute "set colorcolumn=" . a:width
+    highlight ColorColumn ctermbg=green
+  endif
+endfunction
+
+command! ColorColumnOn call ColorColumnOnOff(70)
+command! ColorColumnOff call ColorColumnOnOff(0)
+command! -nargs=1 ColorColumnTo call ColorColumnOnOff(<q-args>)
+
+
