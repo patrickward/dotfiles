@@ -8,6 +8,7 @@ _files -P s5/ -W $PROJECTS/s5 -/
 _files -P tw/ -W $PROJECTS/tw -/
 _files -P gt/ -W $PROJECTS/gt -/
 _files -P ops/ -W $PROJECTS/ops -/
+_files -P writing/ -W $PROJECTS/writing -/
 _files -P personal/ -W $PROJECTS/personal -/
 
 # See further documentation in `functions/c`.

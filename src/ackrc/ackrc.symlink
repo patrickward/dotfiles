@@ -1,9 +1,0 @@
-# Always sort the files
---sort-files
-
-# Always color, een if piping
---color
-
-# Use "less -r" as my pager
---pager=less -r
-

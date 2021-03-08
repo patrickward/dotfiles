@@ -1,0 +1,6 @@
+# ripgrep global config
+
+# No long lines
+--max-columns=150
+--max-columns-preview
+
