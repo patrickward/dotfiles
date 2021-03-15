@@ -68,6 +68,16 @@ personal_directory_name () {
    return $?
 }
 
-zsh_directory_name_functions=(s5_directory_name writing_directory_name ops_directory_name personal_directory_name)
+tw_directory_name () {
+   _dotfiles_directory_name $1 $2 't' 'tw'
+   return $?
+}
+
+zsh_directory_name_functions=(
+  s5_directory_name
+  writing_directory_name
+  ops_directory_name
+  personal_directory_name
+  tw_directory_name)
 
 
