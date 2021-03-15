@@ -21,6 +21,9 @@ alias lk='ll -Sr'
 alias lm='la | "$PAGER"'
 alias ll='ls -lhG'
 
+# Expand to named directories
+alias c='cd ~['
+
 # Directory history
 alias d='dirs -v | head -10'
 alias 1='cd -'
