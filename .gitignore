@@ -16,3 +16,7 @@ __pycache__
 *.njsproj
 *.sln
 *.sw*
+
+# Ignore these temp dirs
+x-src/
+x-zsh/

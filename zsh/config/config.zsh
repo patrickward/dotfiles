@@ -18,6 +18,11 @@ if [ -d "$DOTFILES/zsh/prompt" ] && [ "$(ls -A "$DOTFILES"/zsh/prompt)" ]; then
     fpath=("$DOTFILES"/zsh/prompt $fpath)
 fi
 
+# Add plugins to fpath
+if [ -d "$DOTFILES/zsh/plugins" ] && [ "$(ls -A "$DOTFILES"/zsh/plugins)" ]; then
+    fpath=("$DOTFILES"/zsh/plugins $fpath)
+fi
+
 HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000

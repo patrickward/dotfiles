@@ -1,10 +1,37 @@
+# Stash local environment variables in ~/.localrc so that
+# they stay out of the dotfiles repository and not available to the public
+if [[ -a $HOME/.localrc ]]; then source "$HOME/.localrc"; fi
+
+# Find all zsh files directory under src
+typeset -U config_files
+# Note the maxdepth of 1 for each specific subdirectory in src; this prevents deep
+# searches into larger directories, such as vim/bundle/*. This means, only *.zsh files
+# in the immediate subdirectory will be considered when loading files
+config_files=("$DOTFILES"/src/*/*.zsh) 1> /dev/null
+
+# Source all path files
+source "$DOTFILES/zsh/config/path.zsh"
+for file in ${(M)config_files:#*/src/*path.zsh}; do
+    source $file
+done
+
+# Load config
+source "$DOTFILES/zsh/config/config.zsh"
+
+# Load aliases
+source "$DOTFILES/zsh/config/aliases.zsh"
+
+# Load all topic zsh files, except for path.zsh, completion.zsh, and config directories
+# path.zsh has already been loaded and completion.zsh files will be loaded in .zshrc
+for file in ${${${config_files:#*/src/*path.zsh}:#*/src/*completion.zsh}:#*/config/*}; do
+    source $file
+done || true
+
 # PROFILE: zmodload zsh/zprof
 # TEST: for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
 #
 # zshenv -> zprofile -> zshrc -> zlogin
 #
-
-# NOTE: SEE zshenv.symlink for all of the sourced files
 
 # Initialize autocomplete here, otherwise functions won't be loaded
 autoload -Uz compinit
@@ -22,9 +49,6 @@ for file in ${(M)config_files:#*/*completion.zsh}; do source $file; done
 
 unset config_files
 unset comp_files
-
-# Load plugin files
-find -H "$DOTFILES/zsh/plugins" -maxdepth 1 -name "*.zsh" | while read -r file; do source "$file"; done
 
 # Better history
 #
@@ -60,6 +84,9 @@ source "$DOTFILES/zsh/config/prompt.zsh"
 # Finally, ensure tmux is running
 ensure_tmux_is_running
 
-export NVM_DIR="$HOME/.config/nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Load plugins
+source "$DOTFILES/zsh/config/plugins.zsh"
+
+# Load directories
+source "$DOTFILES/zsh/config/directories.zsh"
+
