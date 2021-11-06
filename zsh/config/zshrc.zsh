@@ -90,3 +90,5 @@ source "$DOTFILES/zsh/config/plugins.zsh"
 # Load directories
 source "$DOTFILES/zsh/config/directories.zsh"
 
+# Load asdf
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
