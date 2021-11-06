@@ -16,6 +16,8 @@ alias gs='git status -sb' # upgrade your git if -sb breaks for you. it's fun.
 alias gac='git add -A && git commit -m'
 alias ge='git-edit-new'
 alias gsync-dev='git co develop && git merge master && git push && git co master'
+alias gsync-staging='git co staging && git merge master && git push && git co master'
+alias gsync-all='gsync-dev && gsync-staging'
 
 # Prune remote folders that no longer exist
 alias grprune='git remote update origin --prune'
@@ -25,6 +27,13 @@ alias git_sync='git pull -r && git push'
 alias gcr='gclient-report'
 
 alias gu='git aa && git commit -m "Minor update" && git push'
+
+# Diffs
+# Git Diff Master
+alias gdm='git diff master'
+# Git Diff Master using the patience algorithm
+alias gdmp='git diff --patience master'
+
 
 # Override git commands
 # to ensure pushgtm and fetchgtm are executed

@@ -3,6 +3,9 @@ src/vim/bundle/
 src/vim/.netrwhist
 src/vim/pack/
 
+# Ignore zsh-completions project
+zsh/zsh-completions/
+
 __pycache__
 
 # Ignore git time metric

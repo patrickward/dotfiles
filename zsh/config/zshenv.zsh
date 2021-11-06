@@ -9,7 +9,12 @@ then
 else
   DOTFILES=$(dirname "$HOME/.zshenv")
 fi
+
+# Remove the zsh/config suffix
 DOTFILES="${DOTFILES%/zsh/config}"
+
+# Tell Zsh to use the home directory
+export ZDOTDIR="$HOME"
 
 # Tell Zsh to use XDG_CONFIG_HOME
 # export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
@@ -22,3 +27,21 @@ DOTFILES="${DOTFILES%/zsh/config}"
 #   source "${ZDOTDIR:-$HOME}/.zprofile"
 # fi
 
+# Stash local environment variables in ~/.localrc so that
+# they stay out of the dotfiles repository and not available to the public
+
+# Find all zsh files directory under src
+typeset -U config_files
+# Note the maxdepth of 1 for each specific subdirectory in src; this prevents deep
+# searches into larger directories, such as vim/bundle/*. This means, only *.zsh files
+# in the immediate subdirectory will be considered when loading files
+config_files=("$DOTFILES"/src/*/*.zsh) 1> /dev/null
+
+# Source all path files
+source "$DOTFILES/zsh/config/path.zsh"
+for file in ${(M)config_files:#*/src/*path.zsh}; do
+    source $file
+done
+
+# Rustup
+. "$HOME/.cargo/env"
