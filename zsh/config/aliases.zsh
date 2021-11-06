@@ -14,8 +14,9 @@ alias zr=zsh_refresh
 alias show-all-setopt='setopt KSH_OPTION_PRINT && setopt && unsetopt KSH_OPTION_PRINT'
 
 # Directory listings
-alias l='ls -1A'
-alias la='ll -A'
+# alias l='ls -1A'
+alias l='ls -lFh'
+alias la='ls -lFhA'
 alias lc='lt -c'
 alias lk='ll -Sr'
 alias lm='la | "$PAGER"'
@@ -59,3 +60,6 @@ alias mvi='nocorrect mv -i'
 alias mysql='nocorrect mysql'
 alias rmi='nocorrect rm -i'
 
+# Bundle 
+alias be="bundle exec"
+alias fl="bundle exec fastlane"

@@ -23,6 +23,11 @@ if [ -d "$DOTFILES/zsh/plugins" ] && [ "$(ls -A "$DOTFILES"/zsh/plugins)" ]; the
     fpath=("$DOTFILES"/zsh/plugins $fpath)
 fi
 
+# Add zsh-completions if exists
+if [ -d "$DOTFILES/zsh/zsh-completions" ]; then
+    fpath=("$DOTFILES/zsh/zsh-completions" $fpath)
+fi
+
 HISTFILE="$ZDOTDIR/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000

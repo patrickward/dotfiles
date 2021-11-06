@@ -65,7 +65,7 @@ brew "mcrypt"
 brew "msgpack"
 brew "mysql", restart_service: true
 brew "nasm"
-brew "neovim"
+# brew "neovim"
 brew "nginx", restart_service: true
 brew "nmap"
 brew "oniguruma"

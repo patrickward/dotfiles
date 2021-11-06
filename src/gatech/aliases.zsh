@@ -22,7 +22,7 @@ export GIOS_GRADER_DIR="$HOME/Code/gt/gios-cs6200/projects/gt-cs6200-graders"
 alias gt-docker-bonnie="docker run --interactive --tty --cap-add=SYS_ADMIN --device=/dev/fuse --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $GIOS_GRADER_DIR:'/root/pr4' -w '/root/pr4' --entrypoint=/bin/bash patrickward/omscs6200:latest"
 
 export GIOS_GRPC_BUILD_DIR="$HOME/Code/gt/gios-cs6200/grpc-build"
-alias gt-grpc-build="docker run --interactive --tty --cap-add=SYS_ADMIN --device=/dev/fuse --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $GIOS_GRPC_BUILD_DIR:'/root/grpc' -w '/root/grpc' --entrypoint=/bin/bash patrickward/omscs6200:latest"
+alias gt-grpc-build="docker run --interactive --tty --cap-add=SYS_ADMIN --device=/dev/fuse --cap-add=SYS_PTRACE --security-opt seccomp=unconfined -v $GIOS_GRPC_BUILD_DIR:'/root/grpc' -w '/root/grpc' --entrypoint=/bin/bash fsgeek/omscs6200:latest"
 # CS6475-CP
 # alias gt_cp_dir="cd $HOME/Code/gt/cp-cs6475"
 # alias activateCompPhoto="source $HOME/anaconda/bin/activate CompPhoto"

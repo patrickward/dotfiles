@@ -5,11 +5,13 @@ _not_inside_tmux() {
 ensure_tmux_is_running() {
   if [[ $ENSURE_TMUX_IS_RUNNING == 1 ]]; then
     if _not_inside_tmux; then
-      read -r -s -k 1 "REPLY?Open a new Tmux session? "
-      if [[ $REPLY =~ ^[Yy]$ ]]
-      then
-        # tat is found in dotfiles/bin/tat
-        tat
+      if [[ -z "$INTELLIJ_ENVIRONMENT_READER" ]]; then
+        read -r -s -k 1 "REPLY?Open a new Tmux session? "
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+          # tat is found in dotfiles/bin/tat
+          tat
+        fi
       fi
     fi
   fi

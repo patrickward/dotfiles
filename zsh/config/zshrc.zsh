@@ -1,19 +1,14 @@
-# Stash local environment variables in ~/.localrc so that
-# they stay out of the dotfiles repository and not available to the public
+
+# PROFILE: zmodload zsh/zprof
+# TEST: for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
+#
+# zshenv -> zprofile -> zshrc -> zlogin
+#
+
 if [[ -a $HOME/.localrc ]]; then source "$HOME/.localrc"; fi
 
-# Find all zsh files directory under src
-typeset -U config_files
-# Note the maxdepth of 1 for each specific subdirectory in src; this prevents deep
-# searches into larger directories, such as vim/bundle/*. This means, only *.zsh files
-# in the immediate subdirectory will be considered when loading files
-config_files=("$DOTFILES"/src/*/*.zsh) 1> /dev/null
 
-# Source all path files
-source "$DOTFILES/zsh/config/path.zsh"
-for file in ${(M)config_files:#*/src/*path.zsh}; do
-    source $file
-done
+# !! config_files set in zshenv 
 
 # Load config
 source "$DOTFILES/zsh/config/config.zsh"
@@ -26,12 +21,6 @@ source "$DOTFILES/zsh/config/aliases.zsh"
 for file in ${${${config_files:#*/src/*path.zsh}:#*/src/*completion.zsh}:#*/config/*}; do
     source $file
 done || true
-
-# PROFILE: zmodload zsh/zprof
-# TEST: for i in $(seq 1 10); do /usr/bin/time zsh -i -c exit; done
-#
-# zshenv -> zprofile -> zshrc -> zlogin
-#
 
 # Initialize autocomplete here, otherwise functions won't be loaded
 autoload -Uz compinit
@@ -60,21 +49,20 @@ zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search # Up
 bindkey "^[[B" down-line-or-beginning-search # Down
 
-# Run the rbenv command later in the process
-# source ~/.dotfiles/zsh/ruby/rbenv.sh
-
-# Need to add the following after rbenv as rbenv
 # resets the path and interferes with their location within the path
 if [[ "$OSTYPE" == darwin* ]]; then
 
   test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-  export PATH="$HOME/anaconda3/bin:$PATH"
+  # export PATH="$HOME/anaconda3/bin:$PATH"  # commented out by conda initialize
   export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
   # Add gnu grep in place of mac os x bsd based grep
   export PATH="/usr/local/opt/grep/libexec/gnubin:$PATH"
   # Add gnu sed in place of mac os x bsd based sed
   export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+
+  # Adding pandoc in front of anaconda, as the anaconda version overwrites it
+  export PATH="/usr/local/opt/pandoc/bin:$PATH"
 
 fi
 

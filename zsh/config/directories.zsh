@@ -73,11 +73,30 @@ tw_directory_name () {
    return $?
 }
 
+gt_directory_name () {
+   _dotfiles_directory_name $1 $2 'g' 'gt'
+   return $?
+}
+
+pda_directory_name () {
+   _dotfiles_directory_name $1 $2 'a' 'pda'
+   return $?
+}
+
+learn_directory_name () {
+   _dotfiles_directory_name $1 $2 'l' 'learn'
+   return $?
+}
+
 zsh_directory_name_functions=(
   s5_directory_name
   writing_directory_name
   ops_directory_name
   personal_directory_name
-  tw_directory_name)
+  tw_directory_name
+  gt_directory_name
+  pda_directory_name
+  learn_directory_name
+)
 
 
