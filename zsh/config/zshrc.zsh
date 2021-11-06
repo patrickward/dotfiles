@@ -78,5 +78,8 @@ source "$DOTFILES/zsh/config/plugins.zsh"
 # Load directories
 source "$DOTFILES/zsh/config/directories.zsh"
 
-# Load asdf
+# Load asdf last
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+# Load fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
