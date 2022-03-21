@@ -83,3 +83,24 @@ source "$DOTFILES/zsh/config/directories.zsh"
 
 # Load fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# arm64
+# export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# i386
+# This needs to be exported when install the `pg` ruby gem
+# as the ruby install is completed under i386 and the pg gem needs 
+# a corresponding install of the libpg under i386
+export PATH="/usr/local/homebrew/opt/libpq/bin:$PATH"
+
+# Ensure PHP@7.2 is exported last to override 8.0
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
+export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH"
+
+# Work-around for dealing with pg gem x86 incompatibilities
+export PATH="${HOMEBREW_PREFIX}/opt/postgresql@14/bin:$PATH"
+export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/postgresql@14/lib"
+export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/postgresql@14/include"
+export PKG_CONFIG_PATH="${HOMEBREW_PREFIX}/opt/postgresql@14/lib/pkgconfig"
+

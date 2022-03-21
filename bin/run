@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env zsh
 #
 # The Run Control Script
 #
@@ -17,7 +17,7 @@ show_zsh_commands() {
 
 usage () {
     printf "\nUsage:\n\nrun <command>\n\nCommands:\n\n" && \
-        grep -P " [^\\\]+\)\ #" "$0" | sed -r -E 's/\) #\s*/: \t\t/' ; exit 0;
+        ggrep -P " [^\\\]+\)\ #" "$1" | sed -r -E 's/\) #\s*/: \t\t/' ; exit 0;
 }
 
 cheatsheet () {
@@ -60,7 +60,7 @@ case "$1" in
     cheatsheet $2
     ;;
   help|*) # Show this help screen
-    usage
+    usage $0
     ;;
 esac
 

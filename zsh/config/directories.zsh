@@ -15,12 +15,12 @@ _dotfiles_directory_name () {
 
     [[ $name != (#b)$pattern:(?*) ]] && return 1
     typeset -ga reply
-    reply=(/Users/patrickward/Code/$dirpath/$match[1])
+    reply=($HOME/code/$dirpath/$match[1])
 
   elif [[ $type = d ]]; then
 
     # turn the directory into a name
-    if [[ $name = (#b)(/Users/patrickward/Code/$dirpath/)([^/]##)* ]]; then
+    if [[ $name = (#b)($HOME/code/$dirpath/)([^/]##)* ]]; then
       typeset -ga reply
       reply=($pattern:$match[2] $(( ${#match[1]} + ${#match[2]} )) )
     else
@@ -37,7 +37,7 @@ _dotfiles_directory_name () {
     # complete names
     local expl
     local -a dirs
-    dirs=(/Users/patrickward/Code/$dirpath/*(/:t))
+    dirs=($HOME/code/$dirpath/*(/:t))
     dirs=($pattern:${^dirs})
     _wanted dynamic-dirs expl 'dynamic directory' compadd -S\] -a dirs
     return
@@ -57,8 +57,8 @@ writing_directory_name () {
    return $?
 }
 
-ops_directory_name () {
-   _dotfiles_directory_name $1 $2 'o' 'ops'
+octetic_directory_name () {
+   _dotfiles_directory_name $1 $2 'o' 'octetic'
    return $?
 
 }
@@ -73,13 +73,13 @@ tw_directory_name () {
    return $?
 }
 
-gt_directory_name () {
-   _dotfiles_directory_name $1 $2 'g' 'gt'
-   return $?
-}
+# gt_directory_name () {
+#    _dotfiles_directory_name $1 $2 'g' 'gt'
+#    return $?
+# }
 
-pda_directory_name () {
-   _dotfiles_directory_name $1 $2 'a' 'pda'
+circlez_directory_name () {
+   _dotfiles_directory_name $1 $2 'c' 'circlez'
    return $?
 }
 
@@ -90,13 +90,13 @@ learn_directory_name () {
 
 zsh_directory_name_functions=(
   s5_directory_name
-  writing_directory_name
-  ops_directory_name
-  personal_directory_name
-  tw_directory_name
-  gt_directory_name
-  pda_directory_name
-  learn_directory_name
+  # writing_directory_name
+  octetic_directory_name
+  # personal_directory_name
+  # tw_directory_name
+  # gt_directory_name
+  circlez_directory_name
+  # learn_directory_name
 )
 
 

@@ -63,3 +63,13 @@ alias rmi='nocorrect rm -i'
 # Bundle 
 alias be="bundle exec"
 alias fl="bundle exec fastlane"
+
+# Architecture 
+alias mzsh="arch -arm64 zsh"
+alias izsh="USING_ARCH_X86_64=1 arch -x86_64 zsh"
+
+# Rails shortcuts 
+alias b="./bin/"
+alias rr="./bin/rails"
+alias spec="./bin/rails spec"
+

@@ -9,8 +9,8 @@
 #
 
 # Editors
-export EDITOR='nvim'
-export VISUAL='nvim'
+export EDITOR='vim'
+export VISUAL='vim'
 export PAGER='less'
 
 # Language

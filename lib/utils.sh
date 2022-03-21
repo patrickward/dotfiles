@@ -49,6 +49,7 @@ link_file () {
 
 
     local currentSrc
+    local skip=false
     currentSrc="$(readlink "$dst")"
 
     if [[ "$currentSrc" == "$src" ]]
@@ -61,19 +62,19 @@ link_file () {
     if [[ "$skip" = true ]] || [[ $LINK_FILE_BEHAVIOR = "s" ]]
     then
       skip=true
-      okay "Skipped $src"
+      info "Skipped $src"
     else
 
       if [[ "$LINK_FILE_BEHAVIOR" = "o" ]]
       then
         rm -rf "$dst"
-        okay "Removed $dst"
+        warn "Removed $dst"
       fi
 
       if [[ "$LINK_FILE_BEHAVIOR" = "b" ]]
       then
         mv "$dst" "${dst}.backup"
-        okay "Moved $dst to ${dst}.backup"
+        info "Moved $dst to ${dst}.backup"
       fi
 
     fi

@@ -6,105 +6,93 @@ set encoding=utf8
 let mapleader = ","
 
 """""""""""""""""""""""""""""""""""
-" Vundle Configuration
+" Plug Configuration
 """""""""""""""""""""""""""""""""""
-" Turn off filetype until after vundle and bundles
-filetype off
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
 
-" Set runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-
-" let Vundle manage Vundle
-Plugin 'gmarik/vundle'
+" Make sure you use single quotes
 
 " Utility
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'vim-scripts/bufexplorer.zip'
-Plugin 'godlygeek/tabular'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-ragtag'
-Plugin 'tpope/vim-endwise'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tpope/vim-commentary'
-Plugin 'mileszs/ack.vim'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'christoomey/vim-tmux-runner'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'vim-scripts/bufexplorer.zip'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-ragtag'
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-commentary'
+Plug 'mileszs/ack.vim'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'christoomey/vim-tmux-runner'
 
-" Plugin 'benmills/vimux'
-" Plugin 'git-time-metric/gtm-vim-plugin'
+" Fuzzy file finding
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Theme / Colors
-Plugin 'ap/vim-css-color'
-" Plugin 'chriskempson/base16-vim'
-" Plugin 'altercation/vim-colors-solarized'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'ap/vim-css-color'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Only enable if changing the tmuxline theme
-" Plugin 'edkolev/tmuxline.vim'
+" Plug 'edkolev/tmuxline.vim'
 
 " Git
-" Plugin 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 
 " General programming tools (applicable to multiple languages)
-Plugin 'w0rp/ale'
-" Plugin 'valloric/youcompleteme'
-
-" Applescript
-Plugin 'dearrrfish/vim-applescript'
-
-" Html / CSS
-Plugin 'groenewege/vim-less'
-" Plugin 'mattn/emmet-vim'
+"
+" Linting and fixing with LSP
+Plug 'w0rp/ale'
+" Plug 'valloric/youcompleteme'
 
 " Markdown/Writing
-Plugin 'lervag/vimtex'
-Plugin 'tpope/vim-markdown'
+Plug 'lervag/vimtex'
+Plug 'tpope/vim-markdown'
 
 " Ruby / Rails
-Plugin 'tpope/vim-rails'
-Plugin 'vim-ruby/vim-ruby'
+Plug 'tpope/vim-rails'
+Plug 'vim-ruby/vim-ruby'
 
 " PHP / Laravel
-Plugin 'xsbeats/vim-blade'
+" Plug 'xsbeats/vim-blade'
 
 " Python
-Plugin 'glench/vim-jinja2-syntax'
+Plug 'glench/vim-jinja2-syntax'
 
 " Elixir
-Plugin 'elixir-editors/vim-elixir'
+Plug 'elixir-editors/vim-elixir'
 
 " Rust
-Plugin 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim'
 
 " Javascript
-Plugin 'posva/vim-vue'
-Plugin 'mxw/vim-jsx'
-Plugin 'pangloss/vim-javascript'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'mustache/vim-mustache-handlebars'
-Plugin 'jxnblk/vim-mdx-js'
-
+Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+Plug 'mustache/vim-mustache-handlebars'
 
 " Devops
-Plugin 'chase/vim-ansible-yaml'
-
-" todo.txt
-" Plugin 'freitass/todo.txt-vim'
+Plug 'chase/vim-ansible-yaml'
 
 " GPG
-Plugin 'jamessan/vim-gnupg'
+Plug 'jamessan/vim-gnupg'
 
 " Snippets
-" Plugin 'SirVer/ultisnips'
-" Plugin 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " Accounting
-" Plugin 'ledger/vim-ledger'
+" Plug 'ledger/vim-ledger'
 
-" End vundle
-call vundle#end()
+" End plug
+call plug#end()
 
 """""""""""""""""""""""""""""""""""
 " Configuration
@@ -114,7 +102,7 @@ call vundle#end()
 filetype plugin indent on
 
 " Turn on syntax highlighting.
-syntax enable
+syntax on
 
 " runtime macros/matchit.vim        " Load the matchit plugin.
 set showcmd                       " Display incomplete commands.
@@ -276,8 +264,36 @@ let g:airline#extensions#ale#enabled=1
 """""""""""""""""""""""""""""""""""
 " ALE Linters
 """""""""""""""""""""""""""""""""""
-let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle']}
-"
+let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle'], 'elixir': ['elixir-ls'], 'ruby': ['solargraph', 'standardrb']}
+let g:ale_elixir_elixir_ls_release='/Users/patrick/code/utils/elixir-ls/release'
+
+" ALE Fixers
+"""""""""""""""""""""""""""""""""""
+let g:ale_fixers = {'elixir': ['mix_format'], 'ruby': ['standardrb']}
+
+" ALE Config
+"""""""""""""""""""""""""""""""""""
+let g:ale_completion_enabled = 1
+let g:ale_sign_error = 'E'
+let g:ale_sign_warning = 'W'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_text_changed = 'never'
+highlight ALEErrorSign ctermbg=NONE ctermfg=red
+highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
+" let g:ale_linters_explicit = 1
+let g:ale_lint_on_save = 1
+let g:ale_fix_on_save = 1
+
+noremap <Leader>ad :ALEGoToDefinition<CR>
+nnoremap <leader>af :ALEFix<cr>
+noremap <Leader>ar :ALEFindReferences<CR>
+noremap <Leader>ah :ALEHover<CR>
+
+"Move between linting errors
+nnoremap ]r :ALENextWrap<CR>
+nnoremap [r :ALEPreviousWrap<CR>
+
+
 """""""""""""""""""""""""""""""""""
 " YCM Config
 """""""""""""""""""""""""""""""""""
@@ -356,6 +372,25 @@ nmap <leader>vr :sp $MYVIMRC<cr>
 nmap <leader>so :source $MYVIMRC<cr>
 
 """""""""""""""""""""""""""""""""""
+" FZF
+"""""""""""""""""""""""""""""""""""
+" Use ripgrep to search for files
+let $FZF_DEFAULT_COMMAND = 'rg -l ""'
+
+" Search files
+map <C-p> :Files<CR>
+" Search buffers
+map <C-b> :Buffers<CR>
+" Search commands
+" map <Leader><Leader> :Commands<CR>
+map <Leader>/ :execute 'Rg ' . input('Rg/')<CR>
+" Lines in the current buffer
+map <Leader>l :BLines<CR>
+" Git files status
+map <Leader>gf :GF?<CR>
+
+
+"""""""""""""""""""""""""""""""""""
 " Tmux Vim Runner
 """""""""""""""""""""""""""""""""""
 let g:VtrOrientation = "h"
@@ -405,9 +440,6 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 packadd! dracula_pro
 let g:dracula_colorterm =0
 colorscheme dracula_pro
-
-
-
 
 " Turn colorcolumn on/off
 function! ColorColumnOnOff(width)

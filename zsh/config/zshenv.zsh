@@ -43,5 +43,12 @@ for file in ${(M)config_files:#*/src/*path.zsh}; do
     source $file
 done
 
-# Rustup
-. "$HOME/.cargo/env"
+# Switch to an arm64e shell by default
+if [ $(machine) != arm64e ]; then
+    if [[ -z ${USING_ARCH_X86_64} ]]; then
+       exec arch -arm64 zsh
+    fi
+fi
+
+# Adding rustup
+. "/Users/patrick/.config/cargo/env"

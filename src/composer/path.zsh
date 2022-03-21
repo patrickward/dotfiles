@@ -2,5 +2,5 @@
 # --------------------
 # Add the global composer vendor bin
 if command -v composer > /dev/null; then
-  export PATH="$HOME/.composer/vendor/bin:$PATH"
+  export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 fi
