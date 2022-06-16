@@ -1,4 +1,4 @@
-alias p='pnmp'
+alias p='pnpm'
 alias pa='pnpm add'
 alias pad='pnpm add --save-dev'
 alias prm='pnpm remove'
