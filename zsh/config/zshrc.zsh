@@ -8,7 +8,7 @@
 if [[ -a $HOME/.localrc ]]; then source "$HOME/.localrc"; fi
 
 
-# !! config_files set in zshenv 
+# !! config_files set in zshenv
 
 # Load config
 source "$DOTFILES/zsh/config/config.zsh"
@@ -89,7 +89,7 @@ source "$DOTFILES/zsh/config/directories.zsh"
 
 # i386
 # This needs to be exported when install the `pg` ruby gem
-# as the ruby install is completed under i386 and the pg gem needs 
+# as the ruby install is completed under i386 and the pg gem needs
 # a corresponding install of the libpg under i386
 export PATH="/usr/local/homebrew/opt/libpq/bin:$PATH"
 
@@ -99,7 +99,12 @@ export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
 export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH"
 
 # Work-around for dealing with pg gem x86 incompatibilities
-export PATH="${HOMEBREW_PREFIX}/opt/postgresql@14/bin:$PATH"
+export PATH="${HOMEBREW_PREFIX}/opt/postgresql/bin:$PATH"
+
+# Ensure dart sass is at the beginning of the path
+export PATH="/opt/homebrew/opt/sass/bin:$PATH"
+
+# Ensure postgresql flags are set
 export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/postgresql@14/lib"
 export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/postgresql@14/include"
 export PKG_CONFIG_PATH="${HOMEBREW_PREFIX}/opt/postgresql@14/lib/pkgconfig"

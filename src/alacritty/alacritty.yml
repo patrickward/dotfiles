@@ -13,6 +13,13 @@
   #TERM: alacritty
 
 window:
+
+  # Background opacity
+  #
+  # Window opacity as a floating point number from `0.0` to `1.0`.
+  # The value `0.0` is completely transparent and `1.0` is opaque.
+  opacity: 1.0
+
   # Allow terminal applications to change Alacritty's window title.
   dynamic_title: true
 
@@ -375,12 +382,6 @@ bell:
   duration: 0
   color: '#ffffff'
 
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 1.0
-
 #selection:
   #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
 
@@ -506,7 +507,7 @@ mouse:
 #     #launcher:
 #     #  program: xdg-open
 #     #  args: []
-# 
+#
 #     # URL modifiers
 #     #
 #     # These are the modifiers that need to be held down for opening URLs when clicking

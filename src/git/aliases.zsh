@@ -20,7 +20,7 @@ alias gsync-staging='git co staging && git merge master && git push && git co ma
 alias gsync-all='gsync-dev && gsync-staging'
 
 # Prune remote folders that no longer exist
-alias grprune='git remote update origin --prune'
+alias git-remote-prune='git remote update origin --prune'
 
 alias git_sync='git pull -r && git push'
 

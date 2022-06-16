@@ -68,3 +68,8 @@
 # 	email = patrickward@users.noreply.github.com
 [init]
 	defaultBranch = main
+[user]
+	name = Patrick Ward
+	email = patrick@octetic.com
+[pull]
+	rebase = true

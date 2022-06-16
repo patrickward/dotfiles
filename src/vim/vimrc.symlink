@@ -258,18 +258,18 @@ let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#show_buffers=0
 let g:airline#extensions#tabline#show_close_button=0
 " let g:airline_theme='bubblegum'
-" Enable ALE to display error information in the status bar
+" Enable ALE to display error information in the status bar;
 let g:airline#extensions#ale#enabled=1
 
 """""""""""""""""""""""""""""""""""
 " ALE Linters
 """""""""""""""""""""""""""""""""""
-let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle'], 'elixir': ['elixir-ls'], 'ruby': ['solargraph', 'standardrb']}
+let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle'], 'elixir': ['elixir-ls'], 'ruby': ['solargraph', 'standardrb'], 'javascript': ['standard'], 'typescript': ['standard'], 'typescriptreact': ['standard']}
 let g:ale_elixir_elixir_ls_release='/Users/patrick/code/utils/elixir-ls/release'
 
 " ALE Fixers
 """""""""""""""""""""""""""""""""""
-let g:ale_fixers = {'elixir': ['mix_format'], 'ruby': ['standardrb']}
+let g:ale_fixers = {'elixir': ['mix_format'], 'ruby': ['standardrb'], 'javascript': ['standard'], 'typescript': ['standard'], 'typescriptreact': ['standard']}
 
 " ALE Config
 """""""""""""""""""""""""""""""""""
@@ -278,6 +278,7 @@ let g:ale_sign_error = 'E'
 let g:ale_sign_warning = 'W'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never'
+
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
 " let g:ale_linters_explicit = 1
