@@ -46,8 +46,6 @@ link_file () {
   if [[ -f "$dst" || -d "$dst" || -L "$dst" ]]
   then
 
-
-
     local currentSrc
     local skip=false
     currentSrc="$(readlink "$dst")"

@@ -70,17 +70,15 @@ setup () {
 
   export LINK_FILE_BEHAVIOR=$REPLY
 
-  find -H "$DOTFILES" -maxdepth 3 -not -name ".git" -and \
-    -name '*.symlink' | while read -r linker ; do
+  # Find *.symlink files to link directly to $HOME
+  while read -r linker; do
       link_file "$linker" "$HOME/.$(basename "${linker%.*}")"
-    done
+    done < <(find -H "$DOTFILES" -maxdepth 3 -name '*.symlink')
 
   # find the setup files and run them iteratively
-  find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
-    -name setup.sh | while read -r setter ; do
-      source "${setter}"
-    done
-
+  while read -r setter; do
+    source "${setter}"
+  done < <(find -H "$DOTFILES" -maxdepth 3 -name setup.sh)
 }
 
 setdown() {
@@ -110,10 +108,14 @@ install () {
   check_init
 
   # find the install files and run them iteratively
-  find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
-    -name install.sh | while read -r installer ; do
-      source "${installer}"
-    done
+  # find -H "$DOTFILES" -maxdepth 3 -not -name '.git' -and \
+  #   -name install.sh | while read -r installer ; do
+  #     source "${installer}"
+  #   done
+
+  while read -r installer; do
+    source "${installer}"
+  done
 
 }
 

@@ -1,6 +1,6 @@
 . "$DOTFILES/lib/utils.sh"
 
-setup_gitconfig () {
+setup_gitconfig() {
 
   if [ -f "$HOME/.gitconfig.local" ]
   then
@@ -12,7 +12,7 @@ setup_gitconfig () {
 
   git_credential='cache'
 
-  if [ "$(uname -s)" == "Darwin" ]
+  if [ "$(uname -s)" = "Darwin" ]
   then
     git_credential='osxkeychain'
   fi
