@@ -2,11 +2,7 @@
 
 ---
 
-## Goal of the day
-
----
-
-## Gratitudes
+## Goals of the day
 
 1.
 2.
@@ -15,3 +11,5 @@
 ---
 
 ## Notes
+
+## Links

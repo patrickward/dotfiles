@@ -15,7 +15,7 @@
 #default-title = "Untitled"
 
 # Template used to generate a note's filename, without extension.
-#filename = "{{id}}"
+filename = "{{id}}-{{slug title}}"
 
 # The file extension used for the notes.
 #extension = "md"
@@ -38,13 +38,13 @@ template = "default.md"
 #   * alphanum: letters + numbers
 #   * hex: hexadecimal, from a to f and 0 to 9
 #   * custom string: will use any character from the provided value
-#id-charset = "alphanum"
+id-charset = "alphanum"
 
 # Length of the generated IDs.
-#id-length = 4
+id-length = 6
 
 # Letter case for the random IDs, among lower, upper or mixed.
-#id-case = "lower"
+id-case = "lower"
 
 
 # EXTRA VARIABLES
@@ -54,6 +54,7 @@ template = "default.md"
 [extra]
 
 #key = "value"
+author = "Patrick"
 
 
 # GROUP OVERRIDES
@@ -76,7 +77,7 @@ template = "default.md"
 #key = "value"
 
 [group.daily]
-paths = ["journal"]
+paths = ["daily"]
 
 [group.daily.note]
 extension = "md"
@@ -205,4 +206,5 @@ ls = "zk list $@"
 conf = '$EDITOR "$ZK_NOTEBOOK_DIR/.zk/config.toml"'
 
 # Added aliases
-daily = 'zk new --no-input "$ZK_NOTEBOOK_DIR/journal"'
+daily = 'zk new --no-input "$ZK_NOTEBOOK_DIR/daily"'
+

@@ -1,4 +1,5 @@
 . "$DOTFILES/lib/utils.sh"
-mkdir -p "$HOME/notes"
-link_file "${DOTFILES}/src/zk/config.toml" "$HOME/notes/.zk/config.toml"
-link_file "${DOTFILES}/src/zk/templates" "$HOME/notes/.zk/templates"
+mkdir -p "$HOME/notes/daily"
+mkdir -p "$XDG_CONFIG_HOME/zk"
+link_file "${DOTFILES}/src/zk/config.toml" "$XDG_CONFIG_HOME/zk/config.toml"
+link_file "${DOTFILES}/src/zk/templates" "$XDG_CONFIG_HOME/zk/templates"
