@@ -81,6 +81,9 @@ source "$DOTFILES/zsh/config/directories.zsh"
 # Load asdf last
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
+# Load rbenv
+eval "$(rbenv init - zsh)"
+
 # Load fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -99,13 +102,28 @@ export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
 export PATH="/opt/homebrew/opt/mysql@5.7/bin:$PATH"
 
 # Work-around for dealing with pg gem x86 incompatibilities
-export PATH="${HOMEBREW_PREFIX}/opt/postgresql/bin:$PATH"
+#export PATH="${HOMEBREW_PREFIX}/opt/postgresql/bin:$PATH"
+# export PATH="${HOMEBREW_PREFIX}/opt/postgresql@15/bin:$PATH"
 
 # Ensure dart sass is at the beginning of the path
 export PATH="/opt/homebrew/opt/sass/bin:$PATH"
 
 # Ensure postgresql flags are set
-export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/postgresql@14/lib"
-export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/postgresql@14/include"
-export PKG_CONFIG_PATH="${HOMEBREW_PREFIX}/opt/postgresql@14/lib/pkgconfig"
+# export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/postgresql@14/lib"
+# export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/postgresql@14/include"
+# export LDFLAGS="-L${HOMEBREW_PREFIX}/opt/postgresql@15/lib"
+# export CPPFLAGS="-I${HOMEBREW_PREFIX}/opt/postgresql@15/include"
 
+# Ensure Flutter's dart is at the front
+export PATH="/Users/patrick/code/bin/flutter/bin:$PATH"
+
+# #nsure postgresql.app is at the front
+export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
+
+# Ensure local bin is at the front of path
+export PATH="$HOME/bin:$PATH"
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/patrick/.config/.dart-cli-completion/zsh-config.zsh ]] && . /Users/patrick/.config/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]

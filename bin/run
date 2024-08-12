@@ -25,7 +25,7 @@ cheatsheet () {
     if [[ -z "$sheet" ]]
     then
         warn "Which cheatsheet? "
-        ask "[t]mux, [z]sh: "
+        asks "[t]mux, [z]sh: "
         sheet="$REPLY"
     fi
     case $sheet in
