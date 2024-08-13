@@ -4,4 +4,19 @@ date: {{ format-date now 'long'}}
 tags: []
 ---
 
-{{content}}
+# {{ title }}
+
+{{ content }}
+
+## References
+
+-
+
+## Questions/Ideas for Further Exploration
+
+-
+
+## Related Notes
+
+-
+

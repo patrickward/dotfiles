@@ -1,0 +1,1 @@
+alias zkd='zk daily'

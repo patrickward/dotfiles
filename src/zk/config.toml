@@ -87,6 +87,14 @@ template = "daily.md"
 [group.projects]
 paths = ["projects"]
 
+[group.standup]
+paths = ["standup"]
+
+[group.standup.note]
+filename = "{{format-date now '%Y-%m-%d'}}"
+extensin = "md"
+template = "standup.md"
+
 # MARKDOWN SETTINGS
 [format.markdown]
 
@@ -208,4 +216,10 @@ ls = "zk list $@"
 conf = '$EDITOR "$ZK_NOTEBOOK_DIR/.zk/config.toml"'
 
 # Added aliases
+
+# New daily note
 daily = 'zk new --no-input "$ZK_NOTEBOOK_DIR/daily"'
+
+# New standup note
+standup = 'zk new --no-input "$ZK_NOTEBOOK_DIR/standup"'
+
