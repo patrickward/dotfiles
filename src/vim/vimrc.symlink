@@ -355,7 +355,7 @@ map <leader>v :view %%
 nnoremap <leader><leader> <c-^>
 
 " Open the current document with Marked.app
-nnoremap <leader>md :!open -a Marked\ 2.app '%:p'<cr>
+nnoremap <leader>md :silent :!open -a Marked\ 2.app '%:p'<cr>:redraw!<cr>:echo""<cr>
 
 " Show word count of selection
 nmap <leader>wc :!wc %<cr>
