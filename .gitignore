@@ -23,3 +23,6 @@ __pycache__
 # Ignore these temp dirs
 x-src/
 x-zsh/
+
+# Ignore plugins, they should be downloaded per box
+src/vim/plugged/
