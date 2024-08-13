@@ -26,7 +26,7 @@ brew "autossh"
 # brew "cask"
 brew "cmake"
 brew "composer"
-brew "ctags"
+brew "universal-ctags"
 brew "curl"
 brew "dnsmasq", restart_service: true
 brew "doctl"
@@ -55,7 +55,8 @@ brew "lynx"
 # brew "msgpack"
 # brew "mysql", restart_service: true
 # brew "nasm"
-brew "neovim"
+# brew "neovim"
+brew "vim"
 brew "nginx", restart_service: true
 brew "nmap"
 # brew "oniguruma"

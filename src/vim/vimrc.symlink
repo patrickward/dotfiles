@@ -1,7 +1,7 @@
 """""""""""""""""""""""""""""""""""
 " Vimrc Configuration
 """""""""""""""""""""""""""""""""""
-set nocompatible                  " Must come first because it changes other options.
+set nocompatible                  " Must come first because it changes other options. Don't worry about compatibility with vi.
 set encoding=utf8
 let mapleader = ","
 
@@ -21,15 +21,14 @@ call plug#begin()
 
 " Utility
 Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-scripts/bufexplorer.zip'
+" Plug 'vim-scripts/bufexplorer.zip'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-ragtag'
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
-Plug 'mileszs/ack.vim'
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'mileszs/ack.vim'
 Plug 'christoomey/vim-tmux-runner'
 
 " Fuzzy file finding
@@ -57,8 +56,8 @@ Plug 'lervag/vimtex'
 Plug 'tpope/vim-markdown'
 
 " Ruby / Rails
-Plug 'tpope/vim-rails'
-Plug 'vim-ruby/vim-ruby'
+" Plug 'tpope/vim-rails'
+" Plug 'vim-ruby/vim-ruby'
 
 " PHP / Laravel
 " Plug 'xsbeats/vim-blade'
@@ -72,6 +71,9 @@ Plug 'elixir-editors/vim-elixir'
 " Rust
 Plug 'rust-lang/rust.vim'
 
+" Go
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
 " Javascript
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
@@ -83,10 +85,6 @@ Plug 'chase/vim-ansible-yaml'
 
 " GPG
 Plug 'jamessan/vim-gnupg'
-
-" Snippets
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
 
 " Accounting
 " Plug 'ledger/vim-ledger'
@@ -139,7 +137,7 @@ set hlsearch
 nnoremap <leader><space> :noh<cr> " clear out highlighted searches (\space)
 
 " Show line numbers.
-set number
+set relativenumber
 
 " Show cursor position.
 set ruler
@@ -265,12 +263,12 @@ let g:airline#extensions#ale#enabled=1
 """""""""""""""""""""""""""""""""""
 " ALE Linters
 """""""""""""""""""""""""""""""""""
-let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle'], 'elixir': ['elixir-ls'], 'ruby': ['solargraph', 'standardrb'], 'javascript': ['standard'], 'typescript': ['standard'], 'typescriptreact': ['standard']}
+let g:ale_linters = {'python': ['flake8', 'mypy', 'pylint', 'pycodestyle'], 'elixir': ['elixir-ls'], 'go': ['gopls'], 'ruby': ['solargraph', 'standardrb'], 'javascript': ['standard'], 'typescript': ['standard'], 'typescriptreact': ['standard']}
 let g:ale_elixir_elixir_ls_release='/Users/patrick/code/utils/elixir-ls/release'
 
 " ALE Fixers
 """""""""""""""""""""""""""""""""""
-let g:ale_fixers = {'elixir': ['mix_format'], 'ruby': ['standardrb'], 'javascript': ['standard'], 'typescript': ['standard'], 'typescriptreact': ['standard']}
+" SEE the individual files in ftplugin/
 
 " ALE Config
 """""""""""""""""""""""""""""""""""
@@ -279,6 +277,7 @@ let g:ale_sign_error = 'E'
 let g:ale_sign_warning = 'W'
 let g:ale_lint_on_enter = 0
 let g:ale_lint_on_text_changed = 'never'
+let g:ale_fix_on_save = 1
 
 highlight ALEErrorSign ctermbg=NONE ctermfg=red
 highlight ALEWarningSign ctermbg=NONE ctermfg=yellow
@@ -295,6 +294,13 @@ noremap <Leader>ah :ALEHover<CR>
 nnoremap ]r :ALENextWrap<CR>
 nnoremap [r :ALEPreviousWrap<CR>
 
+"""""""""""""""""""""""""""""""""""
+" vim-go
+"""""""""""""""""""""""""""""""""""
+let g:go_def_mapping_enabled = 0      " Disable vim-go's GoDef mapping (in favor of ale)
+let g:go_code_completion_enabled = 0  " Disable vim-go's code completion (in favor of ale)
+let g:go_gopls_enalbed = 0            " Disable vim-go's gopls integration (in favor of ale)
+let g:go_fmt_autosave = 0             " Diable vim-go's formatting on save (in favor of ale)
 
 """""""""""""""""""""""""""""""""""
 " YCM Config
@@ -370,6 +376,7 @@ nnoremap <leader>sane :!stty sane<cr> " Return the screen to sane state
 
 " Edit the .vimrc in a split pane
 nmap <leader>vr :sp $MYVIMRC<cr>
+
 " Source (reload) the .vimrc
 nmap <leader>so :source $MYVIMRC<cr>
 
@@ -421,16 +428,6 @@ au FileType ledger vnoremap <silent> <Tab> :LedgerAlign<CR>
 " Double-click to reset cleared state
 au FileType ledger noremap <silent><buffer> <leader><Tab> :call ledger#transaction_state_toggle(line('.'), ' *?!')<CR>
 
-
-"""""""""""""""""""""""""""""""""""
-" Ultisnips
-"""""""""""""""""""""""""""""""""""
-let g:UltiSnipsListSnippets="<c-l>"
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-
 " Access colors present in 256 colorspace
 " let base16colorspace=256
 " colorscheme base16-bright
@@ -454,5 +451,4 @@ endfunction
 command! ColorColumnOn call ColorColumnOnOff(70)
 command! ColorColumnOff call ColorColumnOnOff(0)
 command! -nargs=1 ColorColumnTo call ColorColumnOnOff(<q-args>)
-
 
