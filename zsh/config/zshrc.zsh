@@ -123,6 +123,9 @@ export PATH="/Applications/Postgres.app/Contents/Versions/latest/bin:$PATH"
 # Ensure local bin is at the front of path
 export PATH="$HOME/bin:$PATH"
 
+# Ensure we're using the proper GOROOT path
+export PATH="$HOME/go/bin:$PATH"
+
 ## [Completion]
 ## Completion scripts setup. Remove the following line to uninstall
 [[ -f /Users/patrick/.config/.dart-cli-completion/zsh-config.zsh ]] && . /Users/patrick/.config/.dart-cli-completion/zsh-config.zsh || true
