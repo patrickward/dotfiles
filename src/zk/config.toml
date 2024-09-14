@@ -84,16 +84,45 @@ extension = "md"
 filename = "{{format-date now '%Y-%m-%d'}}"
 template = "daily.md"
 
-[group.projects]
+[group.project]
 paths = ["projects"]
+
+[group.project.note]
+extension = "md"
+filename = "{{id}}-{{slug title}}"
+template = "project.md"
 
 [group.standup]
 paths = ["standup"]
 
 [group.standup.note]
 filename = "{{format-date now '%Y-%m-%d'}}"
-extensin = "md"
+extension = "md"
 template = "standup.md"
+
+[group.roadtrip]
+paths = ["roadtrips"]
+
+[group.roadtrip.note]
+filename = "trip-{{slug title}}"
+extension = "md"
+template = "roadtrip-plan.md"
+
+[group.roadtrip-packing]
+paths = ["roadtrips"]
+
+[group.roadtrip-packing.note]
+filename = "trip-{{slug title}}"
+extension = "md"
+template = "roadtrip-packing.md"
+
+[group.roadtrip-daily]
+paths = ["roadtrips"]
+
+[group.roadtrip-daily.note]
+filename = "trip-{{slug title}}-{{format-date now '%Y-%m-%d'}}"
+extension = "md"
+template = "roadtrip-daily.md"
 
 # MARKDOWN SETTINGS
 [format.markdown]
@@ -221,5 +250,15 @@ conf = '$EDITOR "$ZK_NOTEBOOK_DIR/.zk/config.toml"'
 daily = 'zk new --no-input "$ZK_NOTEBOOK_DIR/daily"'
 
 # New standup note
-standup = 'zk new --no-input "$ZK_NOTEBOOK_DIR/standup"'
+standup = 'zk new --no-input "$ZK_NOTEBOOK_DIR/standups"'
+
+# New project note
+project = 'title="$(gum input --prompt "Enter project title: " --placeholder "My Project")" && [ -n "$title" ] && zk new "$ZK_NOTEBOOK_DIR/projects" --group "project" --title "$title" || echo "Error: Title is required"'
+
+# New roadtrip note
+roadtrip = 'title="$(gum input --prompt "Enter roadtrip title: " --placeholder "My Awesome Roadtrip")" && [ -n "$title" ] && zk new "$ZK_NOTEBOOK_DIR/roadtrips" --group "roadtrip" --title "$title" && zk new "$ZK_NOTEBOOK_DIR/roadtrips" --group "roadtrip-packing" --title "$title - Packing List" || echo "Error: Title is required"'
+
+# New roadtrip daily note
+# roadtrip-daily = 'zk new "$ZK_NOTEBOOK_DIR/roadtrips" --group "roadtrip-daily"'
+roadtrip-daily = 'title="$(gum input --prompt "Enter roadtrip title: " --placeholder "My Awesome Roadtrip")" && [ -n "$title" ] && zk new "$ZK_NOTEBOOK_DIR/roadtrips" --group "roadtrip-daily" --title "$title" || echo "Error: Title is required"'
 

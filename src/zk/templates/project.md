@@ -16,11 +16,21 @@ tags: [project]
 2.
 3.
 
-## Current Tasks
+## Tasks
+
+### Current
 
 - [ ] Task 1
 - [ ] Task 2
-- [ ] Task 3
+
+### Maybe/Backlog
+
+- [ ] TAsk 3
+
+### Complete
+
+- [x] Task 4
+- [x] Task 5
 
 ## Notes
 
@@ -32,10 +42,10 @@ tags: [project]
 
 ## Progress Log
 
-| Date | Progress Made | Next Steps |
-|------|---------------|------------|
-|      |               |            |
-|      |               |            |
+| Date   | Progress Made   | Next Steps   |
+| ------ | --------------- | ------------ |
+|        |                 |              |
+|        |                 |              |
 
 ## Related Notes
 
@@ -45,7 +55,7 @@ tags: [project]
 
 -
 
-## Project Retrospective (to be filled at project completion)
+## Project Retrospective (to be completed at project completion)
 
 ### What went well
 
@@ -58,3 +68,4 @@ tags: [project]
 ### Lessons learned
 
 -
+
