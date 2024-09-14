@@ -1,347 +1,199 @@
-#!/user/bin/env zsh
-#
-# Simple script to automatically create or
-# open plaintext notes in a particular
-# directory.
-# Usage: notes c - to cd to the notes directory
-#        notes l - to list all notes in the direct
-#        notes <filename>[.md] to create or open a file in vim.
-#
-# If no extension is provided, .md will be automatically added
+#!/usr/bin/env zsh
 
-# ENVIRONMENT VARS
-#
-# Override $NOTES_DIR in $HOME/.localrc
-#
+# Notes Management System
+# Usage: notes <command> [options]
 
-notes () {
+# Environment Variables
+: ${NOTES_DIR:="$HOME/notes"}
+: ${EDITOR:="vim"}
 
-  RED='\033[0;31m'
-  GREEN='\033[0;32m'
-  ORANGE='\033[0;33m'
-  PURPLE='\033[0;35m'
-  NO_COLOR='\033[0m'
-  SCRIPT_PATH="$DOTFILES/zsh/functions"
+# Color definitions
+typeset -A colors
+colors=(
+  RED    '\033[0;31m'
+  GREEN  '\033[0;32m'
+  ORANGE '\033[0;33m'
+  PURPLE '\033[0;35m'
+  NO_COLOR '\033[0m'
+)
 
-  # Override NOTES_DIR in .localrc for a different path
-  [ -z "$NOTES_DIR" ] && export NOTES_DIR="$HOME/notes"
+t Helper functions
+_error() {
+  echo "${colors[RED]}$1${colors[NO_COLOR]}"
+  [[ $# -eq 1 ]] && _usage
+}
 
-  # remove trailing slashes
-  LNOTES_DIR=${NOTES_DIR%/}
+_usage() {
+  cat << EOF
 
-  LESCAPED_DIR="$(printf "%s" "$LNOTES_DIR" | sed -e 's/[]\/$*.^|[]/\\&/g')"
+Notes - Manages notes in the configured notes directory
 
-  # Split, sort, and join
-  _split_and_join() {
-    local IFS=' '
-    read -rA array <<< "$1"
-    IFS=$'\n' array=($(sort <<<${array[*]}))
-    printf "$2%s" "${array[@]}"
-    unset IFS
-  }
+Usage: notes <command> [options]
 
-  _trim_string() {
-    # Usage: trim_string "   example   string    "
-    : "${1#"${1%%[![:space:]]*}"}"
-    : "${_%"${_##*[![:space:]]}"}"
-    printf '%s\n' "$_"
-  }
+Commands:
+  cd              - Change to the notes directory
+  ls|list [query] - List notes, optionally filtered by query
+  rm <file>       - Remove a note
+  f|s|find|search <query> - Search note contents
+  n|new [title] [subject] [tags] - Create a new note
+  v|view|show <file> - View a note
+  e|edit <file>   - Edit a note
+  ia <file>       - Open a note in IA Writer
+  m|marked <file> - Open a note in Marked 2
+  push <message>  - Commit and push changes
+  pull            - Pull changes from remote
+  sync <message>  - Sync changes (commit, push, and pull)
+  tags            - Show all unique tags
+  subjects        - Show all unique subjects
+  contents        - Generate a table of contents
 
-  _lstrip() {
-    # Usage: lstrip "string" "pattern"
-    printf '%s\n' "${1##$2}"
-  }
+EOF
+}
 
-  _error() {
-    echo "${RED}$1${NO_COLOR}"
-    if [ $# -eq 1 ]; then
-      _usage
-    fi
-    return 0
-  }
+# Core functionality functions
+_find() {
+  grep -r "$NOTES_DIR" -li -e "$*" 2>/dev/null | sed -E "s|^$NOTES_DIR/||" | sed -E 's|^/+||'
+}
 
-  _usage() {
-    printf "\n"
-    echo "Notes - Opens notes in the configured notes directory"
-    printf "\n"
-    echo "Command:"
-    printf "\n"
-    echo "notes cd - Change to the notes directory"
-    echo "notes ls|list [search] - List all notes in the notes directory. Add an optional search pattern."
-    echo "notes rm <file> - Remove a note from the notes directory."
-    echo "notes f|s|find|search <search> - Find notes with <search> in the contents."
-    echo "notes push <message> - Commits and pushes any changes to the git repo. Message is required for the commit."
-    echo "notes pull - Pulls any upstream changes into the local repo."
-    echo "notes sync <message> - Commit, push, and pull all changes."
-    echo "notes n|new [[title] [subject] [tags]] - Create a new note."
-    echo "notes v|view|show <filename> - View a new note."
-    echo "notes o|e|open|edit <filename> - Edit a new note."
-    echo "notes m|marked <filename> - Open a note in Marked 2."
-    echo "notes p|pdf <filename> - Print a note to pdf and open it"
-    echo "notes tags - Shows all unique tags in the notes directory"
-    echo "notes subjects - Shows all unique subjects in the notes directory"
-    echo "notes contents - Show a list of all notes as a table of contents"
-    echo "notes @<tag> - Search for files with the given tag"
-    echo "notes +<subject> - Search for files with the given subject"
-    echo "notes <filename> - View the given filename"
-    printf "\n"
-    echo "Use tab-completion for files"
-    printf "\n"
-  }
+# Create a new file
+_new() {
+  local title="$1" subject="$2" tags="$3"
 
-  # From: https://github.com/pimterry/notes
-  _without_notes_dir() {
-    cat | sed -e "s/^$LESCAPED_DIR//g" | sed -E "s/^\/+//g"
-  }
+  [[ -z "$title" ]] && read -r "title?Enter a title: "
+  [[ -z "$subject" ]] && read -r "subject?Enter a subject (e.g. +project): "
+  [[ -z "$tags" ]] && read -r "tags?Enter associated tags (e.g. @tag1 @tag2): "
 
-  # Idea from: https://github.com/pimterry/notes
-  _find() {
-    local output
-    local result
-    local formatted
-    output=$(grep -r "$LNOTES_DIR" -li -e "$*" 2>&1)
-    result=$?
-    formatted=$(printf "%s" "$output" | _without_notes_dir)
+  [[ -z "$title" ]] && { _error "Can't create a new file without a title."; return 1; }
 
-    if [[ $result == 0 && "$formatted" ]]; then
-      printf "%s\n" "$formatted"
-      return 0
-    else
-      return 2
-    fi
-  }
+  local filename="${${title:l}//[^a-zA-Z0-9]/-}.md"
+  [[ $filename =~ .*meeting.* ]] && filename="meetings/$filename"
 
-  _new() {
-    title=$1; subject=$2; tags=$3
-
-    # Zsh read is `different`, can't use `read -p "Question?" var`
-    echo "${GREEN}"
-    [[ -z "$title" ]] && read -r "title?Enter a title: "
-    [[ -z "$subject" ]] && read -r "subject?Enter a subject (e.g. subject): "
-    [[ -z "$tags" ]] && read -r "tags?Enter associated tags (e.g. tag1 tag2): "
-    echo "${NO_COLOR}"
-
-    if [ -z "$title" ]; then
-      _error "Can't create a new file without a title."
-      return 0
-    fi
-
-    # Create the file name in lower case
-    # with all non-ASCII word chars replaced with a dash
-    filename=$(echo "$title" | tr '[:upper:]' '[:lower:]')
-    filename=$(echo "${filename//[^a-zA-Z0-9]/-}" | tr -s '-')
-    filename+=".md"
-
-    if [[ $filename =~ .*"meeting".* ]]; then
-      filename="meetings/$filename"
-    fi
-
-    tags=$(_split_and_join "$tags" ' @')
-    subject=$(_split_and_join "$subject" " +")
-    # Remove first chars
-    tags=${tags:1}
-    subject=${subject:1}
-
-    if [ -f $filename ]; then
-      $EDITOR $filename
-      return 0
-    fi
-
-    if [[ "$OSTYPE" == darwin* ]]; then
-      cp -X "$SCRIPT_PATH/templates/default.md" $filename
-    else
-      cp "$SCRIPT_PATH/templates/default.md" $filename
-    fi
-
-    # Copy the template and make substitutions
-    CREATED=$(date '+%Y-%m-%d %H:%M:%S')
-    sed -i.bak -e "s/{title}/$title/g" -e "s/{date}/$CREATED/g" "$filename"
-    [[ -n "$subject" ]] && sed -i.bak "s/{subject}/$subject/g" "$filename"
-    [[ -n "$tags" ]] && sed -i.bak "s/{tags}/$tags/g" "$filename"
-    [[ -f "$filename.bak" ]] && rm "$filename.bak"
-
-    $EDITOR "$filename"
-  }
-
-  # Look for overridden env vars or use the defaults
-  [[ -z "$LNOTES_DIR" ]] && LNOTES_DIR="$HOME/notes"
-  [[ -z "$LNOTES_DIR" ]] && LNOTES_DIR="$HOME/notes"
-
-  # Ensure the env var has been exported
-  if ! env | grep -q '^LNOTES_DIR='
-  then
-    export VARIABLE
+  if [[ -f "$filename" ]]; then
+    echo "${colors[ORANGE]}File '$filename' already exists.${colors[NO_COLOR]}"
+    echo "Choose an option:"
+    echo "1) Overwrite existing file"
+    echo "2) Create a new file with a random suffix"
+    echo "3) Cancel operation"
+    read -r "choice?Enter your choice (1-3): "
+    case $choice in
+      1)
+        echo "Overwriting existing file."
+        ;;
+      2)
+        local random_suffix=$(openssl rand -hex 4)
+        filename="${filename%.md}-${random_suffix}.md"
+        echo "Creating new file: $filename"
+        ;;
+      3)
+        echo "Operation cancelled."
+        return 0
+        ;;
+      *)
+        echo "Invalid choice. Operation cancelled."
+        return 1
+        ;;
+    esac
   fi
 
+  local template="$NOTES_DIR/../templates/default.md"
+  [[ ! -f "$template" ]] && { _error "Template file not found: $template"; return 1; }
+
+  cp "$template" "$filename"
+  sed -i.bak -e "s/{title}/$title/g" \
+             -e "s/{date}/$(date '+%Y-%m-%d %H:%M:%S')/g" \
+             -e "s/{subject}/$subject/g" \
+             -e "s/{tags}/$tags/g" "$filename" && rm "$filename.bak"
+
+  echo "${colors[GREEN]}Created new note: $filename${colors[NO_COLOR]}"
+  $EDITOR "$filename"
+}
+
+# Function to extract tags or subjects
+_extract_metadata() {
+  local type="$1"
+  local pattern="$2"
+  grep -h "$pattern" "$NOTES_DIR"/*.md | tr ' ' '\n' | grep "^$pattern" | sort | uniq -c |
+    awk -v oc=${colors[ORANGE]} -v pc=${colors[PURPLE]} -v nc=${colors[NO_COLOR]} '{printf "%s%4d %s%s%s\n", oc, $1, pc, $2, nc}'
+}
+
+# Function to view a file in bat or the default $PAGER
+_view_file() {
+  local file="$1"
+  if command -v bat > /dev/null 2>&1; then
+    bat --style=plain --theme="ansi" "$file"
+  else
+    ${PAGER:-less} "$file"
+  fi
+}
+
+# Main function
+notes() {
+  [[ ! -d "$NOTES_DIR" ]] && mkdir -p "$NOTES_DIR"
+
   case "$1" in
-    cd)
-      cd "$LNOTES_DIR" || return 1
-      ;;
-    c|contents)
-      contents_path="$LNOTES_DIR/index.md"
-      printf "\n# Notes\n\n---\n\n" > "$contents_path"
-      find "$LNOTES_DIR" -name "*.md" | sort | while read -r line; do
-        file=$(basename "$line")
-        file_path=$(_trim_string "$line")
-        title=$(grep "$line" -e "^# " -m 1)
-        # Strip the # symbol and trim
-        title=$(_trim_string "$(_lstrip "$title" "# ")")
-        # If empty, use the basename
-        title=${title:-$file}
-        printf "* [%s](%s)\n" "$title" "$file_path" >> "$contents_path"
-      done
-      bat "$contents_path"
-      # open -a "Marked 2" "$contents_path"
-      ;;
-    ls|list)
-      echo "${GREEN}Notes found:${NO_COLOR}"
-      if [ $# -eq 2 ]; then
-        # ls -l -1 "$LNOTES_DIR" | grep -i "$2"
-        # ls -l -1 "$LNOTES_DIR"/*"$2"*
-        find "$LNOTES_DIR" -name "*$2*" -exec basename {} \;
-      else
-        ls -l -1 "$LNOTES_DIR"
-      fi
-      ;;
+    cd) cd "$NOTES_DIR" ;;
+    ls|list) ls -1 "$NOTES_DIR"${2:+/*$2*} ;;
     rm)
-      echo "${RED}"
-      read -r "remove?This cannot be undone. Are you sure?: "
-      filepath="$LNOTES_DIR/$2"
-      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
-        _error "File not found."
-        return 1
-      fi
-      case "$remove" in
-        y|Y)
-          rm "$filepath"
-          ;;
-        *)
-          return 0
-      esac
+      local file="$NOTES_DIR/$2"
+      [[ ! -f "$file" ]] && { _error "File not found: $2"; return 1; }
+      read -q "?Are you sure you want to remove $2? (y/n) " && rm "$file"
       ;;
-    f|find|s|search)
-      pattern="${*:2}"
-      if [ -z "$pattern" ]; then
-        _error "Find needs a pattern to search by."
-        return 1
-      fi
-      _find "${@:2}"
-      ;;
-    n|new)
-      pushd "$LNOTES_DIR" || return 1
-      _new "$2" "$3" "$4"
-      popd || return 1
-      ;;
+    f|s|find|search) _find "${@:2}" ;;
+    n|new) (cd "$NOTES_DIR" && _new "$2" "$3" "$4") ;;
     v|view|show)
-      filepath="$LNOTES_DIR/$2"
-      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
-        _error "File not found."
-        return 1
-      fi
-      bat "$filepath"
-      # open -a "Marked 4" "$filepath"
+      local file="$NOTES_DIR/$2"
+      [[ ! -f "$file" ]] && { _error "File not found: $2"; return 1; }
+      _view_file "$file"
       ;;
+    e|edit)
+      local file="$NOTES_DIR/$2"
+      [[ ! -f "$file" ]] && { _error "File not found: $2"; return 1; }
+      $EDITOR "$file"
+      ;;
+    ia)
+			local file="$NOTES_DIR/$2"
+      [[ ! -f "$file" ]] && { _error "File not found: $2"; return 1; }
+      open -a "iA Writer" "$file"
+		  ;;
     m|marked)
-      filepath="$LNOTES_DIR/$2"
-      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
-        _error "File not found."
-        return 1
-      fi
-      open "x-marked://open?file=$filepath&raise=true"
+      local file="$NOTES_DIR/$2"
+      [[ ! -f "$file" ]] && { _error "File not found: $2"; return 1; }
+      open "x-marked://open?file=$file&raise=true"
       ;;
-    p|pdf)
-      filepath="$LNOTES_DIR/$2"
-      if [ -z "$2" ] || [ ! -f "$filepath" ]; then
-        _error "File not found."
-        return 1
-      fi
-      pdfname="$HOME/Downloads/${2%.*}.pdf"
-      pandoc -o "$pdfname" --from markdown --to latex --template eisvogel.tex --listings "$filepath" \
-        && open "$pdfname"
+    push|pull|sync)
+      (
+        cd "$NOTES_DIR/.." || return 1
+        case "$1" in
+          push)
+            [[ -z "$2" ]] && { _error "Please add a commit message."; return 1; }
+            git add -A && git commit -m "$2" && git push
+            ;;
+          pull) git pull ;;
+          sync)
+            [[ -z "$2" ]] && { _error "Please add a commit message."; return 1; }
+            git add -A && git commit -m "$2" && git pull && git push
+            ;;
+        esac
+      )
       ;;
-    push)
-      if [ ! $# -eq 2 ]; then
-        _error "Please add a commit message."
-      else
-        pushd "$LNOTES_DIR" || return 1
-        git add -A
-        git commit -m "$2"
-        git push
-        popd || return 1
-      fi
+    tags) _extract_metadata "tags" "@" ;;
+    subjects) _extract_metadata "subjects" "+" ;;
+    contents)
+      {
+        echo "# Notes\n\n---\n"
+        find "$NOTES_DIR" -name "*.md" | sort | while read -r file; do
+          title=$(sed -n 's/^# //p' "$file" | head -n1)
+          echo "* [${title:-$(basename "$file")}]($file)"
+        done
+      } > "$NOTES_DIR/index.md"
+      ${PAGER:-less} "$NOTES_DIR/index.md"
       ;;
-    pull)
-      pushd "$LNOTES_DIR" || return 1
-      # Look for changes in the git repo
-      # if ! git diff-index --quiet HEAD --; then
-      if [[ $(git status --porcelain) ]]; then
-        _error "There are uncommited changes you should review before pulling." 0
-        git status
-      else
-        git pull
-        popd || return 1
-      fi
-      ;;
-    sync)
-      pushd "$LNOTES_DIR" || return 1
-      # Look for changes in the git repo
-      if [[ $(git status --porcelain) ]]; then
-        if [[ ! $# -eq 2 ]]; then
-          _error "There are uncommited changes you should review before pulling. \n${ORANGE}Or, add a commit message: notes sync <messsage>" 0
-          return 1
-        else
-          git add -A
-          git commit -m "$2"
-        fi
-      fi
-      git pull
-      git push
-      popd || return 1
-      ;;
-    t|tags)
-      grep -hro -P "keywords: \K(.*)" "$LNOTES_DIR" | grep -oP "([^\"]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
-        awk -v ncolor=$ORANGE -v tcolor=$PURPLE '{printf "%s %4s %s %s\n", ncolor, $1, tcolor, $2}'
-      echo "$NO_COLOR"
-      ;;
-    subjects)
-      grep -hro -P "subject: \K(.*)" "$LNOTES_DIR" | grep -oP "([^\"]+)" | xargs | tr ' ' '\n' | sort | uniq -c | \
-        awk -v ncolor=$ORANGE -v tcolor=$PURPLE '{printf "%s %4s %s %s\n", ncolor, $1, tcolor, $2}'
-      echo "$NO_COLOR"
-      ;;
-    help|h|-h|--help)
-      _usage
-      ;;
-    # Find notes that have +<some-tag> or @<some-context>
-    \+*|\@*)
-      _find "$1"
-      ;;
+    help|-h|--help) _usage ;;
     *)
-      if [[ -z "$1" ]] && [[ -z "$2" ]]; then
-        _usage
-        return 1
-      fi
-      edit=0
-      case "$1" in
-        o|e|open|edit)
-          filename="$2"
-          edit=1
-          ;;
-        *)
-          filename="$1"
-          ;;
-      esac
-      pushd "$LNOTES_DIR" || return 1
-      if [[ ! -f "$filename" ]]; then
-        _error "File not found."
-        popd || return 1
-        return 1
-      fi
-      if [[ $edit == 1 ]]; then
-        $EDITOR "$filename"
-      else
-        bat "$filename"
-      fi
-      popd || return 1
+      [[ -z "$1" ]] && { _usage; return 1; }
+      local file="$NOTES_DIR/$1"
+      [[ ! -f "$file" ]] && { _error "File not found: $1"; return 1; }
+      _view_file "$file"
       ;;
   esac
 }
