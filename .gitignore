@@ -26,3 +26,5 @@ x-zsh/
 
 # Ignore plugins, they should be downloaded per box
 src/vim/plugged/
+
+tmp/
