@@ -6,39 +6,36 @@ color = "#ffffff"
 duration = 0
 
 [colors]
-draw_bold_text_with_bright_colors = false
+draw_bold_text_with_bright_colors = true
 
-[colors.bright]
-black = "0x77767c"
-blue = "0xaa99ff"
-cyan = "0x99ffee"
-green = "0xa2ff99"
-magenta = "0xff99cc"
-red = "0xffaa99"
-white = "0xffffff"
-yellow = "0xffff99"
+# Colors (Dracula)
 
-[colors.cursor]
-cursor = "0xf8f8f2"
-text = "0x454158"
-
-[colors.normal]
-black = "0x22212c"
-blue = "0x9580ff"
-cyan = "0x80ffea"
-green = "0x8aff80"
-magenta = "0xff80bf"
-red = "0xff9580"
-white = "0xf8f8f2"
-yellow = "0xffff80"
-
+# Default colors
 [colors.primary]
-background = "0x22212c"
-foreground = "0xf8f8f2"
+background = '#282a36'
+foreground = '#f8f8f2'
 
-[colors.selection]
-background = "0x454158"
-text = "0xf8f8f2"
+# Normal colors
+[colors.normal]
+black   = '#000000'
+red     = '#ff5555'
+green   = '#50fa7b'
+yellow  = '#f1fa8c'
+blue    = '#bd93f9'
+magenta = '#ff79c6'
+cyan    = '#8be9fd'
+white   = '#bbbbbb'
+
+# Bright colors
+[colors.bright]
+black   = '#555555'
+red     = '#ff5555'
+green   = '#50fa7b'
+yellow  = '#f1fa8c'
+blue    = '#caa9fa'
+magenta = '#ff79c6'
+cyan    = '#8be9fd'
+white   = '#ffffff'
 
 [cursor]
 style = "Block"
