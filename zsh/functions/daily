@@ -1,0 +1,49 @@
+#!/usr/bin/env zsh
+
+# Function to quickly open daily notes
+daily() {
+    # Check if NOTES_DIR is set
+    if [[ -z "$NOTES_DIR" ]]; then
+        echo "Error: NOTES_DIR environment variable is not set."
+        return 1
+    fi
+
+    # Set the full path to the daily notes file
+    local notes_file="$NOTES_DIR/../daily.md"
+
+    # Create the file if it doesn't exist
+    if [[ ! -f "$notes_file" ]]; then
+        mkdir -p "$NOTES_DIR"
+        touch "$notes_file"
+    fi
+
+    # Check if EDITOR environment variable is set
+    if [[ -z "$EDITOR" ]]; then
+        EDITOR="vim"
+    fi
+
+    # Open the file based on the EDITOR
+    case "$EDITOR" in
+        vim)
+            vim "+normal G$" "$notes_file"
+            ;;
+        ia|iawriter|"ia writer")
+            open -a "iA Writer" "$notes_file"
+            ;;
+        textedit)
+            open -a TextEdit "$notes_file"
+            ;;
+        ulysses)
+            open -a Ulysses "$notes_file"
+            ;;
+        bear)
+            open "bear://x-callback-url/open-note?id=_daily&mode=edit"
+            ;;
+        *)
+            echo "Unsupported editor: $EDITOR"
+            echo "Using default (vim)"
+            vim "+normal G$" "$notes_file"
+            ;;
+    esac
+}
+
