@@ -3,6 +3,7 @@ export TODOTXT_CONFIG='$DOTFILES/src/todo/todo.cfg'
 export TODOTXT_DEFAULT_ACTION=ls
 # alias t="todo.sh -n -d $TODOTXT_CONFIG"
 alias t="todo.sh -d $TODOTXT_CONFIG"
+alias todo="todo.sh -d $TODOTXT_CONFIG"
 
 todo_alias() {
   if [[ -z "$1" ]]; then

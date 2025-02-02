@@ -459,3 +459,43 @@ command! ColorColumnOn call ColorColumnOnOff(70)
 command! ColorColumnOff call ColorColumnOnOff(0)
 command! -nargs=1 ColorColumnTo call ColorColumnOnOff(<q-args>)
 
+"""""""""""""""""""""""""""""""""""
+" Custom daily routines
+"""""""""""""""""""""""""""""""""""
+function! InsertJournalEntry()
+    let l:year = strftime("%Y")
+    let l:date = strftime("%m-%d (%A)")
+    let l:time = strftime("%H:%M")
+
+    " Check if we need to insert a new year header
+    if search('^# Year: ' . l:year, 'n') == 0
+        call append(line('$'), "")
+        call append(line('$'), "# Year: " . l:year)
+        call append(line('$'), "")
+    endif
+
+    let l:template = [
+        \ "### " . l:date,
+        \ "",
+        \ "- **Schedule:**",
+        \ "    - " . l:time . " ",
+        \ "",
+        \ "- **Activities:**",
+        \ "    - ",
+        \ "",
+        \ "- **Notes:**",
+        \ "  ",
+        \ "- **Mood:** ",
+        \ "",
+        \ "- **Tags:** ",
+        \ "",
+        \ "---",
+        \ ""
+    \ ]
+
+    call append(line('$'), l:template)
+    call cursor(line('$') - 1, 0)
+endfunction
+
+nnoremap <leader>j :call InsertJournalEntry()<CR>
+

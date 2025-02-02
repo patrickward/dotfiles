@@ -64,7 +64,7 @@ EOF
 
     [[ -z "$title" ]] && { notes_error "Can't create a new file without a title."; return 1; }
 
-    local filename="${${title:l}//[^a-zA-Z0-9]/-}.md"
+    local filename="${${title:l}//[^a-zA-Z0-9@]/-}.md"
     [[ $filename =~ .*meeting.* ]] && filename="meetings/$filename"
 
     if [[ -f "$filename" ]]; then
