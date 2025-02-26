@@ -1,8 +1,71 @@
+## Make git better
+
+[column]
+  ui = auto
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = version:refname
+
+[init]
+	defaultBranch = main
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+
+[push]
+  # See `git help config` (search for push.default)
+  # for more information on different options of the below setting.
+  #
+  # Setting to git 2.0 default to suppress warning message
+  default = simple
+  autoSetupRemote = true
+  followTags = true
+
+[fetch]
+  prune = true
+  pruneTags = true
+  all = true
+
+
+### Helpful Changes
+
+[help]
+  autocorrect = prompt
+
+[commit]
+  verbose = true
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[core]
+  excludesFile = ~/.gitignore
+  editor = vim
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+## Changes that are more a matter of taste
+
+[merge]
+	tool = vimdiff
+
 # Local/private config goes in the include
 [include]
         path = ~/.gitconfig.local
+
 [hub]
         protocol = https
+
 [alias]
         co = checkout
         count   = !git shortlog -sn
@@ -29,49 +92,42 @@
         status = auto
         branch = auto
         ui = true
-[core]
-        excludesfile = ~/.gitignore
-        editor = vim
+
 [apply]
         whitespace = nowarn
-[merge]
-	tool = vimdiff
+
 [mergetool]
         keepBackup = false
+
 [difftool]
         prompt = false
-[help]
-        autocorrect = 1
-[push]
-        # See `git help config` (search for push.default)
-        # for more information on different options of the below setting.
-        #
-        # Setting to git 2.0 default to suppress warning message
-        default = simple
+
 [mergetool]
   keepBackup = false
+
 [credential]
 	helper = osxkeychain
+
 [filter "lfs"]
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path =
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
-# [user]
-# 	name = patrickward
-# 	email = patrickward@users.noreply.github.com
+
+[user]
+  name = patrickward
+  email = patrickward@users.noreply.github.com
+
 [init]
 	defaultBranch = main
-[user]
-	name = Patrick Ward
-	email = patrick@octetic.com
+
+# [user]
+# 	name = Patrick Ward
+# 	email = patrick@octetic.com
+
 [pull]
 	rebase = true
+
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
+
