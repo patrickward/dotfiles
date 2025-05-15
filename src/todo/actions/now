@@ -8,7 +8,7 @@ shift
 
 [[ -z $TODO_ACTION_NOW ]] && TODO_ACTION_NOW="@now"
 
-echo "YO: $TODO_ACTION_NOW"
+echo "NOW: $TODO_ACTION_NOW"
 
 [ "$action" = "usage" ] && {
   echo "  Add and remove the @now context:"
@@ -24,37 +24,36 @@ echo "YO: $TODO_ACTION_NOW"
 }
 
 trim_string() {
-    # Usage: trim_string "   example   string    "
-    : "${1#"${1%%[![:space:]]*}"}"
-    : "${_%"${_##*[![:space:]]}"}"
-    printf '%s\n' "$_"
-  }
+  # Usage: trim_string "   example   string    "
+  : "${1#"${1%%[![:space:]]*}"}"
+  : "${_%"${_##*[![:space:]]}"}"
+  printf '%s\n' "$_"
+}
 
 if [[ "$1" =~ ^[0-9]+$ ]]; then
 
-    # Get the existing todo first
-    getTodo "$1" "$TODO_FILE"
-    # Remove any existing @now's first
-    # todo=$(echo $todo | sed "s,@now,,g")
-    todo=${todo//$TODO_ACTION_NOW/}
-    # Remove the priority as replace takes care of that
-    # todo=$(echo $todo | sed "s,^([A-Z]) ,,g")
-    todo=${todo/([A-Z]) /}
-    # clean up
-    todo=$(trim_string "$todo")
+  # Get the existing todo first
+  getTodo "$1" "$TODO_FILE"
+  # Remove any existing @now's first
+  # todo=$(echo $todo | sed "s,@now,,g")
+  todo=${todo//$TODO_ACTION_NOW/}
+  # Remove the priority as replace takes care of that
+  # todo=$(echo $todo | sed "s,^([A-Z]) ,,g")
+  todo=${todo/([A-Z]) /}
+  # clean up
+  todo=$(trim_string "$todo")
 
-    # Remove
-    if [[ "$2" =~ ^rem ]]; then
-      "$TODO_SH" command replace "$1" "$todo"
-    # Append
-    else
-      "$TODO_SH" command replace "$1" "$todo $TODO_ACTION_NOW"
-    fi
+  # Remove
+  if [[ "$2" =~ ^rem ]]; then
+    "$TODO_SH" command replace "$1" "$todo"
+  # Append
+  else
+    "$TODO_SH" command replace "$1" "$todo $TODO_ACTION_NOW"
+  fi
 
 elif "$TODO_SH" command add "$@"; then
-    # figure out the line of what we just added, and add @now
-    line=$(sed -n '$ =' "$TODO_FILE")
-    echo "$line"
-    "$TODO_SH" command app "$line" "$TODO_ACTION_NOW"
+  # figure out the line of what we just added, and add @now
+  line=$(sed -n '$ =' "$TODO_FILE")
+  echo "$line"
+  "$TODO_SH" command app "$line" "$TODO_ACTION_NOW"
 fi
-

@@ -1,0 +1,24 @@
+#!/bin/bash
+
+action=$1
+shift
+
+function usage(){
+  echo "  Edit line:"
+  echo "    edit ITEM#"
+  echo ""
+  exit
+}
+
+[ "$action" = "usage" ] && usage
+
+file="$TODO_FILE"
+
+line=$1
+if [[ "$1" == "done" ]]; then
+  line=$($ awk 'END { print NR }' "$DONE_FILE")
+  file="$DONE_FILE"
+elif ! [[ "$1" =~ ^[0-9]+$ ]]; then
+  line="1"
+fi
+${EDITOR:-vi} +$line "$file"

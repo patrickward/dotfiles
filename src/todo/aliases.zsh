@@ -1,7 +1,9 @@
 # todo-cli
 export TODOTXT_CONFIG='$DOTFILES/src/todo/todo.cfg'
 export TODOTXT_DEFAULT_ACTION=ls
+export TODOTXT_SORT_COMMAND='env LC_COLLATE=C sort -k 2,2 -k 1,1n'
 # alias t="todo.sh -n -d $TODOTXT_CONFIG"
+
 alias t="todo.sh -d $TODOTXT_CONFIG"
 alias todo="todo.sh -d $TODOTXT_CONFIG"
 
@@ -16,10 +18,10 @@ todo_alias() {
 }
 
 # alias tw="t ls +Work"
-tw() { todo_alias $@ "+Work" }
-twnext() { todo_alias $@ "+Work" "@next" "-@assigned" }
-tg() { todo_alias $@ "+GaTech" }
-th() { todo_alias $@ "+Home" }
-tl() { todo_alias $@ "+Life" }
-ts() { todo_alias $@ "+Shopping" }
+tw() { todo_alias $@ "@work" }
+th() { todo_alias $@ "@home"}
+ts() { todo_alias $@ "@self"}
+tg() { todo_alias $@ "@growth"}
+twnext() { todo_alias $@ "@work" "@next" "-@assigned" }
+
 
