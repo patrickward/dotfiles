@@ -25,11 +25,11 @@
   # Setting to git 2.0 default to suppress warning message
   default = simple
   autoSetupRemote = true
-  followTags = true
+  # followTags = true
 
 [fetch]
   prune = true
-  pruneTags = true
+  # pruneTags = true
   all = true
 
 
