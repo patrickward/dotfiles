@@ -1,0 +1,1 @@
+alias tclear="tmux-clear"
