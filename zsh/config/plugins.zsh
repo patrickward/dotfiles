@@ -18,6 +18,7 @@ GLOBALIAS_FILTER_VALUES=(
   mysql
   rmi
   t
+  vim
 )
 
 # Load plugin files
