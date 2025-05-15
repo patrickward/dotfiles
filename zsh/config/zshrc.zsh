@@ -82,7 +82,7 @@ source "$DOTFILES/zsh/config/directories.zsh"
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 # Load rbenv
-eval "$(rbenv init - zsh)"
+# eval "$(rbenv init - zsh)"
 
 # Load fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
