@@ -1,6 +1,10 @@
 # ripgrep global config
-
-# No long lines
---max-columns=150
+--smart-case
+--follow
+--glob=!.git/**
+--glob=!node_modules/**
+--glob=!vendor/**
+--max-columns=200
+--max-filesize=10M
 --max-columns-preview
 
