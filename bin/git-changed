@@ -1,18 +1,19 @@
+#!/usr/bin/env bash
 # Show files changed since origin branch point (Default: origin/main)
-local base=${1:-main}
-local merge_base=$(git merge-base HEAD origin/$base 2>/dev/null)
+base=${1:-main}
+merge_base=$(git merge-base HEAD origin/"$base" 2>/dev/null)
 
 if [ -z "$merge_base" ]; then
     echo "Could not find merge base with origin/$base"
-    return 1
+    exit 1
 fi
 
 echo "Files changed since origin/$base:"
-git diff --name-status $merge_base..HEAD | awk '{
+git diff --name-status "$merge_base"..HEAD | awk '{
     status = ($1 == "A") ? "Added" : ($1 == "M") ? "Modified" : ($1 == "D") ? "Deleted" : $1
     printf "  %-10s %s\n", status, $2
 }'
 
 echo ""
-git diff --stat $merge_base..HEAD
+git diff --stat "$merge_base"..HEAD
 

@@ -1,12 +1,13 @@
+#!/usr/bin/env bash
 # Clean up merged branches with confirmation
 if ! git rev-parse --git-dir > /dev/null 2>&1; then
     echo "Not a git repository"
-    return 1
+    exit 1
 fi
 
-local base=${1:-main}
+base=${1:-main}
 
-local branches=$(git branch --merged origin/$base | \
+branches=$(git branch --merged origin/$base | \
     grep -v "^\*" | \
     grep -v "main" | \
     grep -v "master" | \
@@ -15,17 +16,17 @@ local branches=$(git branch --merged origin/$base | \
 
 if [ -z "$branches" ]; then
     echo "No merged branches to clean up"
-    return 0
+    exit 0
 fi
 
 echo "Branches merged into origin/$base:"
-echo "$branches" | sed 's/^/  /'
+echo "${branches//^/  }"
 
-echo -n "\nDelete these branches? (y/N): "
-read response
+printf "\nDelete these branches? (y/N): "
+read -r response
 if [[ ! "$response" =~ ^[Yy]$ ]]; then
     echo "Cancelled"
-    return 0
+    exit 0
 fi
 
 echo "$branches" | while read branch; do
