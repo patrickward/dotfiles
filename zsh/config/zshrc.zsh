@@ -134,6 +134,6 @@ export PATH="$HOME/go/bin:$PATH"
 # Finally, show the mycommands hint:
 # Show hint only for interactive login shells
 if [[ -o login ]]; then
-    echo "💡 Type 'quickref' to see custom commands"
+    echo "💡 Type 'quickref' to see custom commands and aliases"
 fi
 

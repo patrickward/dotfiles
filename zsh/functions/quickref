@@ -140,3 +140,6 @@ case "$section" in
         ;;
 esac
 
+# At the end of the quickref function file, add:
+compdef '_arguments "1:section:(functions bin aliases all)" "-v[verbose]" "-f[filter]:filter:"' quickref
+

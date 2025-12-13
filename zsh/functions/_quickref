@@ -1,0 +1,30 @@
+#compdef quickref
+
+_quickref() {
+    local -a sections
+    sections=(
+        'functions:Show zsh functions'
+        'func:Show zsh functions (short)'
+        'f:Show zsh functions (shortest)'
+        'bin:Show bin scripts'
+        'b:Show bin scripts (short)'
+        'aliases:Show aliases'
+        'alias:Show aliases (short)'
+        'a:Show aliases (shortest)'
+        'all:Show everything'
+    )
+
+    _arguments \
+        '1:section:->section' \
+        '(-v --verbose)'{-v,--verbose}'[Show file paths]' \
+        '(-f --filter)'{-f,--filter}'[Filter by prefix]:filter:'
+
+    case $state in
+        section)
+            _describe 'section' sections
+            ;;
+    esac
+}
+
+_quickref "$@"
+
