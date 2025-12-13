@@ -1,5 +1,5 @@
 # Forces a rebuild of the compiled completions dump
+#
 # Use this when the completions don't seem to be working
 # or after a new completion has been added
-
 rm -f ~/.zcompdump; compinit

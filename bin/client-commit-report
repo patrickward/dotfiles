@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-#
 # Produce a report of git commits for a client
-
 
 # Set delimiter to space
 IFS=' '
@@ -29,4 +27,3 @@ done
 printf "Commits for: %s\n" "$(pwd)"
 git log --no-color --since="$since_date" --until="$until_date" "${authors[@]}" \
   --pretty=format:"%ci - %<|(60) %cn - %s" -i | grep -v "Merge"
-

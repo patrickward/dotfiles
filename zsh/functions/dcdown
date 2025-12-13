@@ -1,0 +1,17 @@
+# Stop compose stack with options
+# 
+# dcdown              -- Normal cleanup
+# dcdown -v           -- Include volumes
+# dcdown -i           -- Include images
+#
+if [ "$1" = "-v" ] || [ "$1" = "--volumes" ]; then
+    echo "Stopping and removing containers, networks, and volumes..."
+    docker compose down --volumes
+elif [ "$1" = "-i" ] || [ "$1" = "--images" ]; then
+    echo "Stopping and removing containers, networks, and images..."
+    docker compose down --rmi all
+else
+    echo "Stopping and removing containers and networks..."
+    docker compose down
+fi
+

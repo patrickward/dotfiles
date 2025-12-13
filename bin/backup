@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+# Run all backup scripts at once
 
-if mount | grep /Volumes/BACKUP > /dev/null; then
+if mount | grep /Volumes/BACKUP >/dev/null; then
   echo "Backup volume found."
 else
   echo "ERROR: Please insert the BACKUP USB stick"

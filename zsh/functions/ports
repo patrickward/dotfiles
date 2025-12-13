@@ -1,5 +1,0 @@
-# Shows open ports on macos
-echo "COMMAND              PID        USER       PORT"
-
-sudo lsof -iTCP -sTCP:LISTEN -n -P | grep -v COMMAND | awk '{printf "%-20s %-10s %-10s %s\n", $1, $2, $3, $9}'
-

@@ -8,7 +8,7 @@ alias reload!=". \$DOTFILES/zsh/config/zshrc.zsh"
 alias zsh-noconfig='zsh -d -f'
 
 # Refresh zsh functions
-alias zr=zsh_refresh
+alias zr=zsh-refresh
 
 # Show all setopt options and whether they are on or off
 alias show-all-setopt='setopt KSH_OPTION_PRINT && setopt && unsetopt KSH_OPTION_PRINT'

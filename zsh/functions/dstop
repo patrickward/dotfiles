@@ -1,0 +1,10 @@
+# Stop all running containers
+local containers=$(docker ps -q)
+if [ -z "$containers" ]; then
+    echo "No running containers"
+    return 0
+fi
+
+echo "Stopping $(echo $containers | wc -w | tr -d ' ') containers..."
+docker stop $containers
+

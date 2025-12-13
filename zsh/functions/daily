@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-# Function to quickly open daily notes
+# Quickly open daily notes 
 daily() {
     : ${NOTES_DIR:="$HOME/notes"}
     : ${EDITOR:="vim"}

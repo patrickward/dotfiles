@@ -1,0 +1,7 @@
+#!/bin/zsh
+# Reload all zsh functions under ${DOTFILES}/zsh/functions
+echo "Reloading all zsh functions under ${DOTFILES}/zsh/functions..."
+local f
+f=("$DOTFILES"/zsh/functions/*(.))
+unfunction $f:t 2> /dev/null
+autoload -U $f:t

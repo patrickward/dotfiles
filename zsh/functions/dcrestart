@@ -1,0 +1,9 @@
+# Restart compose stack
+if [ -n "$1" ]; then
+    # Restart specific service
+    docker compose restart "$1"
+else
+    # Restart all services
+    docker compose restart
+fi
+

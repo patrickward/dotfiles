@@ -1,0 +1,14 @@
+# Find next available port starting from the given port (Default: 8000)
+local start_port=${1:-8000}
+local max_attempts=100
+
+for ((port=$start_port; port<$start_port+$max_attempts; port++)); do
+    if ! sudo lsof -iTCP:$port -sTCP:LISTEN -n -P &> /dev/null; then
+        echo $port
+        return 0
+    fi
+done
+
+echo "No available ports found in range $start_port-$((start_port+max_attempts))" >&2
+return 1
+

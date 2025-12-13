@@ -1,5 +1,4 @@
 #!/bin/bash
-#
 # Nukes a branch locally and on the origin remote.
 #
 # $1 - Branch name.

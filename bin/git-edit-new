@@ -1,5 +1,4 @@
 #!/bin/sh
-#
 # Open new, unstaged files in your $EDITOR.
 #
 # This is nice to have when you run a command line generator which generates a

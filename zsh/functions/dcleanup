@@ -1,0 +1,18 @@
+# Clean up Docker resources with confirmation
+echo "Current usage:"
+docker system df
+
+echo -n "\nClean up unused resources? (y/N): "
+read response
+if [[ ! "$response" =~ ^[Yy]$ ]]; then
+    echo "Cancelled"
+    return 0
+fi
+
+docker container prune -f
+docker image prune -f
+docker volume prune -f
+
+echo "\nAfter cleanup:"
+docker system df
+

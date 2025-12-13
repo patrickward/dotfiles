@@ -1,5 +1,4 @@
 #!/usr/bin/env zsh
-#
 # Disables touch id functionality
 #
 # Note: this will only disable it until the user reenables it again.

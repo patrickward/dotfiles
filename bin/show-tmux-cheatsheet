@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#
 # Shows my personal tmux cheatsheet for this setup
 
 . "$DOTFILES/lib/utils.sh"

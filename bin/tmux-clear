@@ -1,7 +1,5 @@
 #!/bin/sh
-#
-# Clear based on whether or not your in a tmux session
-
+# Clear the terminal based on whether or not you are in a tmux session
 not_in_tmux() {
   [ -z "$TMUX" ]
 }

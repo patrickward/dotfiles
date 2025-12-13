@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Backup the veracrypt volumes 
 
 veracrypt='/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt -t --non-interactive'
 

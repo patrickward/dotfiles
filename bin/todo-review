@@ -1,5 +1,5 @@
 #!/bin/zsh
-
+# Run the todo-review python script
 # This assumes, of course, that I've already created the personal env
 source ~/.zshrc
 # workon personal

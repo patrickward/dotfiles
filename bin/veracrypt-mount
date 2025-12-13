@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
-#
-# Mounts the FINANCE VeraCrypt volume
+# Mounts one of the veracrypt volumes
 
 source "$DOTFILES/lib/utils.sh"
 
@@ -10,7 +9,7 @@ volume_choices=$(join_by "|" "${volumes[@]}")
 echo ""
 read -p "› Which volume? ($volume_choices) " -r volume
 
-if [[ ! " ${volumes[*]} " =~ ${volume}  ]]; then
+if [[ ! " ${volumes[*]} " =~ ${volume} ]]; then
   # whatever you want to do when array doesn't contain value
   fail "Invalid volume entered"
   exit 1
@@ -21,5 +20,3 @@ echo ""
 
 veracrypt='/Applications/VeraCrypt.app/Contents/MacOS/VeraCrypt -t --non-interactive'
 $veracrypt --protect-hidden=no -p "$password" "${HOME}/Documents/_/${volume}.vc" "/Volumes/${volume^^}"
-
-

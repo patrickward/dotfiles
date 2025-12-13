@@ -1,0 +1,15 @@
+# Follow compose logs (all services or specific one)
+#
+# dclogs              -- All services
+# dclogs web          -- Just web service
+# dclogs web 50       -- Last 50 lines from web
+local lines=${2:-100}
+
+if [ -n "$1" ]; then
+    # Specific service
+    docker compose logs -f --tail=$lines "$1"
+else
+    # All services
+    docker compose logs -f --tail=$lines
+fi
+

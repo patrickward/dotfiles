@@ -1,0 +1,17 @@
+# Execute command in compose service
+# 
+# dcexec web                    -- Bash into web service
+# dcexec db psql -U postgres    -- Run psql in db service
+if [ -z "$1" ]; then
+    echo "Usage: dcexec <service> [command]"
+    echo "\nRunning services:"
+    docker compose ps --services
+    return 1
+fi
+
+local service=$1
+shift
+local cmd=${@:-bash}
+
+docker compose exec "$service" $cmd
+

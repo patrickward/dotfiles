@@ -1,0 +1,9 @@
+# Test HTTP endpoint with timing
+if [ -z "$1" ]; then
+    echo "Usage: httptime <url>"
+    return 1
+fi
+
+curl -w '\nDNS:        %{time_namelookup}s\nConnect:    %{time_connect}s\nTLS:        %{time_appconnect}s\nTransfer:   %{time_starttransfer}s\nTotal:      %{time_total}s\nStatus:     %{http_code}\nSize:       %{size_download} bytes\n' \
+    -s -o /dev/null "$1"
+

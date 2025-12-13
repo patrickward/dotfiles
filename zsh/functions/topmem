@@ -1,0 +1,11 @@
+# Show top memory consumers
+local count=${1:-15}
+echo "MEM%    RSS(MB)   PID     COMMAND"
+ps aux | sort -nrk 4 | head -n $count | awk '{
+    cmd="";
+    for(i=11;i<=NF;i++) cmd=cmd $i " ";
+    # Truncate to 80 chars
+    if(length(cmd) > 80) cmd=substr(cmd,1,77)"...";
+    printf "%5s%%  %8.1f  %-7s %s\n", $4, $6/1024, $2, cmd
+}'
+

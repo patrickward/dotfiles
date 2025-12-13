@@ -1,0 +1,18 @@
+# Tail logs from container (fuzzy match)
+if [ -z "$1" ]; then
+    echo "Usage: dlog <container-pattern> [lines]"
+    echo "\nRunning containers:"
+    docker ps --format "  {{.Names}}"
+    return 1
+fi
+
+local lines=${2:-100}
+local container=$(docker ps --format '{{.Names}}' | grep -i "$1" | head -1)
+
+if [ -z "$container" ]; then
+    echo "No running container matching '$1'"
+    return 1
+fi
+
+docker logs -f --tail=$lines "$container"
+

@@ -1,6 +1,5 @@
 #!/usr/bin/env zsh
-#
-# The Run Control Script
+# The Run Control Script to run various commands. Run `run` for menu.
 #
 # Control, information, and reminders about all
 # of the scripts used to control my life

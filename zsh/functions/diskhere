@@ -1,0 +1,3 @@
+# Show directory sizes of the current directory
+du -sh */ 2>/dev/null | sort -h
+

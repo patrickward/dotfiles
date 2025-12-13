@@ -1,0 +1,10 @@
+# Show top CPU consumers
+local count=${1:-15}
+echo "CPU%    PID     COMMAND"
+ps aux | sort -nrk 3 | head -n $count | awk '{
+    cmd="";
+    for(i=11;i<=NF;i++) cmd=cmd $i " ";
+    if(length(cmd) > 80) cmd=substr(cmd,1,77)"...";
+    printf "%5s%%  %-7s %s\n", $3, $2, cmd
+}'
+
