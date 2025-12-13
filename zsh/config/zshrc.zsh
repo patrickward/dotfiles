@@ -130,3 +130,10 @@ export PATH="$HOME/go/bin:$PATH"
 ## Completion scripts setup. Remove the following line to uninstall
 [[ -f /Users/patrick/.config/.dart-cli-completion/zsh-config.zsh ]] && . /Users/patrick/.config/.dart-cli-completion/zsh-config.zsh || true
 ## [/Completion]
+
+# Finally, show the mycommands hint:
+# Show hint only for interactive login shells
+if [[ -o login ]]; then
+    echo "💡 Type 'quickref' to see custom commands"
+fi
+

@@ -1,0 +1,142 @@
+# List all custom commands with descriptions
+# Usage: quickref [section] [-v] [-f filter]
+#   section: functions, bin, aliases, or omit for all
+#   -v: show file paths
+#   -f filter: show only commands starting with filter
+
+local section="all"
+local verbose=0
+local filter=""
+
+# Parse arguments
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -v|--verbose)
+            verbose=1
+            shift
+            ;;
+        -f|--filter)
+            if [[ -n "$2" && "$2" != -* ]]; then
+                filter="$2"
+                shift 2
+            else
+                echo "Warning: -f requires a filter argument, ignoring"
+                shift
+            fi
+            ;;
+        functions|func|f|bin|b|aliases|alias|a|all)
+            section="$1"
+            shift
+            ;;
+        *)
+            echo "Usage: quickref [functions|bin|aliases|all] [-v] [-f filter]"
+            echo "Examples:"
+            echo "  quickref -f d          # all commands starting with 'd'"
+            echo "  quickref func -f git   # functions starting with 'git'"
+            echo "  quickref bin -v -f b   # bin scripts starting with 'b' with paths"
+            return 1
+            ;;
+    esac
+done
+
+# Normalize section names
+case "$section" in
+    func|f) section="functions" ;;
+    b) section="bin" ;;
+    alias|a) section="aliases" ;;
+esac
+
+# ANSI color codes
+local cyan='\033[0;36m'
+local green='\033[0;32m'
+local yellow='\033[0;33m'
+local magenta='\033[0;35m'
+local gray='\033[0;90m'
+local reset='\033[0m'
+
+show_functions() {
+    echo -e "${cyan}=== CUSTOM ZSH FUNCTIONS ($DOTFILES/zsh/functions) ===${reset}"
+    echo ""
+
+    if [ -d "$DOTFILES/zsh/functions" ]; then
+        for file in "$DOTFILES/zsh/functions"/*; do
+            [ -f "$file" ] || continue
+            local basename=$(basename "$file")
+            [[ "$basename" == _* ]] && continue
+
+            # Apply filter
+            if [[ -n "$filter" ]] && [[ ! "$basename" == "$filter"* ]]; then
+                continue
+            fi
+
+            local desc=$(awk '/^#/ && !/^#!/ {sub(/^# /, ""); print; exit}' "$file")
+
+            if (( verbose )); then
+                printf "${green}%-20s${reset} %s\n" "$basename" "$desc"
+                printf "  ${gray}%s${reset}\n" "$file"
+            else
+                printf "${green}%-20s${reset} %s\n" "$basename" "$desc"
+            fi
+        done | sort
+    fi
+    echo ""
+}
+
+show_bin() {
+    echo -e "${cyan}=== CUSTOM BIN FUNCTIONS ($DOTFILES/bin) ===${reset}"
+    echo ""
+
+    if [ -d "$DOTFILES/bin" ]; then
+        for file in "$DOTFILES/bin"/*; do
+            [ -f "$file" ] && [ -x "$file" ] || continue
+
+            local cmd=$(basename "$file")
+
+            # Apply filter
+            if [[ -n "$filter" ]] && [[ ! "$cmd" == "$filter"* ]]; then
+                continue
+            fi
+
+            local desc=$(awk '/^#/ && !/^#!/ {sub(/^# /, ""); print; exit}' "$file")
+
+            if (( verbose )); then
+                printf "${yellow}%-20s${reset} %s\n" "$cmd" "$desc"
+                printf "  ${gray}%s${reset}\n" "$file"
+            else
+                printf "${yellow}%-20s${reset} %s\n" "$cmd" "$desc"
+            fi
+        done | sort
+    fi
+    echo ""
+}
+
+show_aliases() {
+    echo -e "${cyan}=== ALIASES ===${reset}"
+    echo ""
+    alias | sed 's/=/: /' | while IFS=': ' read -r name value; do
+        # Apply filter
+        if [[ -n "$filter" ]] && [[ ! "$name" == "$filter"* ]]; then
+            continue
+        fi
+        printf "${magenta}%-20s${reset} %s\n" "$name" "$value"
+    done | sort
+    echo ""
+}
+
+case "$section" in
+    functions)
+        show_functions
+        ;;
+    bin)
+        show_bin
+        ;;
+    aliases)
+        show_aliases
+        ;;
+    all)
+        show_functions
+        show_bin
+        show_aliases
+        ;;
+esac
+
