@@ -1,2 +1,2 @@
-# Shortcut for running go tool task 
-alias gtask='go tool task'
+# Shortcut for running go tool task
+alias gotask='go tool task'

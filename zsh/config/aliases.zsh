@@ -15,15 +15,20 @@ alias show-all-setopt='setopt KSH_OPTION_PRINT && setopt && unsetopt KSH_OPTION_
 
 # Directory listings
 # alias l='ls -1A'
-alias l='ls -lFh'
-alias la='ls -lFhA'
-alias lc='lt -c'
-alias lk='ll -Sr'
-alias lm='la | "$PAGER"'
-alias ll='ls -lhG'
+alias l='ls -lFh'         # List files in long format with human-readable sizes, display a / for directories
+alias la='ls -lFhA'       # Same as l, but include hidden files
+alias lt='ls -lt'         # List files sorted by modification time, newest first
+alias lc='ls -c'          # List files sorted by change time
+alias lsl='ll -S'         # List files sorted by size, largest first
+alias lss='ll -Sr'         # List files sorted by size, smallest first
+alias lm='la | "$PAGER"'  # List all files and pipe through pager
+alias ll='ls -lhG'        # List files in long format with human-readable sizes, colorized
+
+# List only hidden directory files
+alias lhd='ls -ld .??*'
 
 # Expand to named directories
-alias c='cd ~['
+# alias c='cd ~['
 
 # Directory history
 alias d='dirs -v | head -10'
@@ -39,9 +44,6 @@ alias d='dirs -v | head -10'
 
 # What's my ip
 alias whats-my-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"
-
-# List hidden directory files
-alias lhd='ls -ld .??*'
 
 # STTY Sanity
 alias stty-sane='stty sane'
@@ -60,16 +62,6 @@ alias mvi='nocorrect mv -i'
 alias mysql='nocorrect mysql'
 alias rmi='nocorrect rm -i'
 
-# Ruby bundler commands
-alias be="bundle exec"
-alias fl="bundle exec fastlane"
-
-# Architecture 
+# Architecture
 alias mzsh="arch -arm64 zsh"
 alias izsh="USING_ARCH_X86_64=1 arch -x86_64 zsh"
-
-# Rails shortcuts 
-alias b="./bin/"
-alias rr="./bin/rails"
-alias spec="./bin/rails spec"
-
