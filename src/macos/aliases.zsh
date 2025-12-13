@@ -15,15 +15,15 @@ if [[ "$OSTYPE" == darwin* ]]; then
   alias pushdf='pushd "$(pfd)"'
 
   # Show hidden files in Finder
-  alias showHiddenFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
+  alias macShowHiddenFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
 
   # Hide hidden files in Finder
-  alias hideHiddenFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
+  alias macHideHiddenFiles='defaults write com.apple.finder AppleShowAllFiles NO; killall Finder /System/Library/CoreServices/Finder.app'
 
   # Make sure screenshots go to the Downloads folder
-  alias screenshotsToDownloads='defaults write com.apple.screencapture location ~/Downloads/ && killall SystemUIServer'
+  alias macScreenshotsToDownloads='defaults write com.apple.screencapture location ~/Downloads/ && killall SystemUIServer'
 
   # Turn off touch id temporarily, until the user turns it back on
-  alias disableTouchID='sudo bioutil -w -s -f 0'
+  alias macDisableTouchID='sudo bioutil -w -s -f 0'
 
 fi
