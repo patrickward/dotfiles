@@ -1,5 +1,5 @@
 # ------------------------------------
-# Docker 
+# Docker
 # ------------------------------------
 
 # Get latest container ID
@@ -29,6 +29,13 @@ alias dprune="docker container prune"
 alias dcup="docker compose up -d"
 alias dcps="docker compose ps"
 alias dcstop="docker compose stop"
+
+# Alias to enter terminal of running container by name
+# Example: dcbash my_container
+alias dcbash="docker compose exec $1 bash"
+
+# List all docker containers (including stopped) for current compose project
+alias dclist="docker compose ps -a"
 
 # SEE ALL dc* functions in dotfiles/zsh/functions
 

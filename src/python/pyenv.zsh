@@ -10,10 +10,10 @@ alias workoff='conda deactivate'
 # Python
 # --------------------
 # pyenv
-# export PYENV_ROOT="$HOME/.pyenv"
+export PYENV_ROOT="$HOME/.pyenv"
 
-# if command -v pyenv 1>/dev/null 2>&1; then
-#   eval "$(pyenv init -)"
-#   eval "$(pyenv virtualenv-init -)"
-# fi
+if command -v pyenv 1>/dev/null 2>&1; then
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init - zsh)"
+fi
 
