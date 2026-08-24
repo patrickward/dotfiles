@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+#
+# pre-commit hook: enforces that user.email is set per-repo (not global).
+# Prevents accidentally committing with the wrong identity on shared machines.
+#
+# Also checks that any *.vault files are properly encrypted (ansible-vault).
+
+export TERM=xterm-color
+
+RED='\033[0;31m'
+LTGREEN='\033[1;32m'
+LTPURPLE='\033[1;35m'
+NOCOLOR='\033[0m'
+
+set -u
+
+# ---------------------------------------------------------------------------
+# Check that user.email is set locally for this repo
+# ---------------------------------------------------------------------------
+EMAIL=$(git config user.email)
+
+if [ -z "$EMAIL" ]; then
+    printf "\n%bERROR: [pre-commit] Local user.email is not set.%b\n" "$RED" "$NOCOLOR"
+    printf "Configure identity for this repo:\n"
+    printf "%b\n" "${LTGREEN}"
+    printf "  git config user.name \"Your Name\"\n"
+    printf "  git config user.email \"you@example.com\"\n"
+    printf "%b\n" "${NOCOLOR}"
+    exit 1
+fi
+
+# ---------------------------------------------------------------------------
+# Check that *.vault files are encrypted
+# ---------------------------------------------------------------------------
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    against=HEAD
+else
+    against=0000000000000000000000000000000000000000
+fi
+
+exec 1>&2
+EXIT_STATUS=0
+
+while IFS= read -r -d $'\0' file; do
+    [[ "${file}" != *vault* ]] && continue
+    [[ "${file}" == *.example.* ]] && continue
+
+    file_status=$(git status --porcelain -- "$file" 2>&1 | cut -c1-2)
+    file_status_index=${file_status:0:1}
+    file_status_worktree=${file_status:1:1}
+
+    [[ "$file_status_worktree" != ' ' ]] && {
+        printf "%bERROR: vault file modified in worktree but not staged: %s%b\n" "${RED}" "${file}" "${NOCOLOR}"
+        printf "%bUse git add or git stash to fix this.%b\n" "${LTPURPLE}" "${NOCOLOR}"
+        EXIT_STATUS=1
+    }
+
+    [[ "$file_status_index" = 'D' ]] && continue
+
+    head -1 "$file" | grep --quiet '^\$ANSIBLE_VAULT;' || {
+        printf "%bERROR: non-encrypted vault file: %s%b\n" "${RED}" "${file}" "${NOCOLOR}"
+        EXIT_STATUS=1
+    }
+done < <(git diff --cached --name-only -z "$against")
+
+exit $EXIT_STATUS

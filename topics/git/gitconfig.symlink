@@ -1,0 +1,97 @@
+[column]
+  ui = auto
+
+[branch]
+  sort = -committerdate
+
+[tag]
+  sort = version:refname
+
+[init]
+  defaultBranch = main
+
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+
+[push]
+  default = simple
+  autoSetupRemote = true
+
+[fetch]
+  prune = true
+  all = true
+
+[help]
+  autocorrect = prompt
+
+[commit]
+  verbose = true
+
+[rerere]
+  enabled = true
+  autoupdate = true
+
+[core]
+  excludesFile = ~/.gitignore
+  editor = vim
+
+[rebase]
+  autoSquash = true
+  autoStash = true
+  updateRefs = true
+
+[merge]
+  tool = vimdiff
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = true
+
+[apply]
+  whitespace = nowarn
+
+[mergetool]
+  keepBackup = false
+
+[difftool]
+  prompt = false
+
+[credential]
+  helper = osxkeychain
+
+[filter "lfs"]
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+
+[pull]
+  rebase = true
+
+[url "ssh://git@github.com/"]
+  insteadOf = https://github.com/
+
+[url "ssh://git@codeberg.org/"]
+  insteadOf = https://codeberg.org/
+
+[alias]
+  co = checkout
+  st = status
+  di = diff
+  dc = diff --cached
+  amend = commit --amend
+  aa = add --all
+  unstage = reset HEAD --
+  count = !git shortlog -sn
+  dog = log --all --decorate --oneline --graph
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches
+  last = show --color --pretty=format:'%Cred(%h)%Creset %C(yellow)%s%Creset%n%Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --name-status
+
+# Local config (user identity, credential helper, private settings)
+[include]
+  path = ~/.gitconfig.local

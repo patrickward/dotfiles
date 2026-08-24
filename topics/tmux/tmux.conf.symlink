@@ -1,0 +1,105 @@
+# bind is an alias for bind-key
+# set  is an alias for set-option
+
+# ---------------------------------------------------------------------------
+# Prefix key: C-a (like GNU Screen)
+# ---------------------------------------------------------------------------
+set -g prefix C-a
+unbind C-b
+bind a send-prefix
+bind C-a send-prefix  # C-a C-a sends C-a to the inner app
+
+# ---------------------------------------------------------------------------
+# General settings
+# ---------------------------------------------------------------------------
+set -s escape-time 1         # Minimize escape key delay
+set -g base-index 1          # Windows start at 1
+setw -g pane-base-index 1    # Panes start at 1
+set -g renumber-windows on   # Keep window numbers contiguous
+
+# ---------------------------------------------------------------------------
+# Key bindings
+# ---------------------------------------------------------------------------
+
+# Reload config
+bind r source-file ~/.tmux.conf \; display ".tmux.conf reloaded!"
+
+# Splits in current directory
+bind - split-window -v -c '#{pane_current_path}'
+bind \\ split-window -h -c '#{pane_current_path}'
+
+# Pane navigation (Vim-style)
+bind -n C-h select-pane -L
+bind -n C-j select-pane -D
+bind -n C-k select-pane -U
+bind -n C-l select-pane -R
+
+# Pane resizing
+bind -n S-Left  resize-pane -L 2
+bind -n S-Right resize-pane -R 2
+bind -n S-Down  resize-pane -D 1
+bind -n S-Up    resize-pane -U 1
+
+# New window in current directory
+bind c new-window -c '#{pane_current_path}'
+
+# Break pane into new window
+bind b break-pane -d
+
+# Session chooser
+bind C-j choose-tree
+
+# ---------------------------------------------------------------------------
+# Copy mode (vi-style, pipe to macOS clipboard)
+# ---------------------------------------------------------------------------
+bind-key -T copy-mode-vi v              send -X begin-selection
+bind-key -T copy-mode-vi y              send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi Enter          send-keys -X copy-pipe-and-cancel "pbcopy"
+
+# ---------------------------------------------------------------------------
+# Stay in tmux always
+# ---------------------------------------------------------------------------
+
+# Break into a new session based on the current pane
+bind-key C-b send-keys 'tat && exit' 'C-m'
+
+# Kill session and switch to the next one (never drops out of tmux)
+bind-key K run-shell 'tmux switch-client -n \; kill-session -t "$(tmux display-message -p "#S")" || tmux kill-session'
+
+# ---------------------------------------------------------------------------
+# Quick panes
+# ---------------------------------------------------------------------------
+bind h split-window -h "htop"
+
+# ---------------------------------------------------------------------------
+# Mouse and display
+# ---------------------------------------------------------------------------
+set -g mouse on
+set -g default-terminal 'tmux-256color'
+set -g default-shell /bin/zsh
+
+# Window title reflects tmux session
+set -g set-titles on
+set -g set-titles-string '#S'
+
+# Activity monitoring
+setw -g monitor-activity on
+set -g visual-activity on
+
+# Pane border colors
+set -g pane-border-style fg=colour235
+set -g pane-active-border-style fg=colour240
+
+# ---------------------------------------------------------------------------
+# Plugins (via tpm)
+# Install tpm: git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+# ---------------------------------------------------------------------------
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'dracula/tmux'
+
+set -g @dracula-show-left-icon session
+
+# Initialize tpm (keep at bottom)
+run '~/.tmux/plugins/tpm/tpm'

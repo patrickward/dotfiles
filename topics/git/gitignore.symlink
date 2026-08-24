@@ -1,0 +1,44 @@
+# Vim swap files
+.*.sw[a-z]
+*.un~
+Session.vim
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Archives (don't commit binaries — use git's compression instead)
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Office temp files
+~$*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+!*.swift
+
+# AI coding tool artifacts
+.claude/
+CLAUDE.md
+.vibe/
+AGENTS.md

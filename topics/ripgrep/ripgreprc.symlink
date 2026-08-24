@@ -1,0 +1,10 @@
+# ripgrep global config
+# https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#configuration-file
+--smart-case
+--follow
+--glob=!.git/**
+--glob=!node_modules/**
+--glob=!vendor/**
+--max-columns=200
+--max-filesize=10M
+--max-columns-preview

@@ -1,0 +1,12 @@
+# ~/.gitconfig.local — machine-specific git config, not committed to the repo
+#
+# Created from topics/git/gitconfig.local.template by zdot setup git.
+# Edit this file to set your identity for this machine.
+
+[user]
+  name = Your Name
+  email = your@email.com
+
+[init]
+  # Points new repos at the pre-commit hook that enforces user.email
+  templatedir = ~/.config/git/templates
