@@ -51,9 +51,9 @@ export ZDOTDIR="$HOME"
 # path.zsh sets the base PATH (Homebrew, local bin, system dirs).
 # Tool-specific PATH additions live in each topic's .zsh file,
 # loaded in zshrc for interactive shells.
-# We use typeset -U (unique) to deduplicate PATH entries automatically.
+# We use typeset -U (unique) to deduplicate array entries automatically.
 # ---------------------------------------------------------------------------
-typeset -U path  # zsh-specific: auto-deduplicate the $path array
+typeset -gU path cdpath fpath mailpath  # zsh-specific: auto-deduplicate these arrays
 
 source "$DOTFILES/zsh/config/path.zsh"
 

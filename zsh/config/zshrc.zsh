@@ -41,12 +41,15 @@ done
 # ---------------------------------------------------------------------------
 # Completion system
 #
-# compinit scans $fpath for completion functions. We:
+# completion.zsh sets zstyle directives that must be in place before
+# compinit runs. compinit scans $fpath for completion functions. We:
 #   1. Add our functions dir to fpath (for custom completions like _brew, _run)
 #   2. Only rebuild .zcompdump if it's older than 20 hours (Nm-20 glob qualifier)
 #      This avoids the ~0.3s compinit penalty on every shell start.
 #   3. -i suppresses "insecure files" warnings (common with Homebrew completions)
 # ---------------------------------------------------------------------------
+source "$DOTFILES/zsh/config/completion.zsh"
+
 fpath=("$DOTFILES/zsh/functions" $fpath)
 
 # Autoload custom functions (skip completions, which start with _)
