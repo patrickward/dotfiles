@@ -1,0 +1,86 @@
+# Brewfile
+#
+# Managed by zdot. Run `brew bundle` to install.
+# Run `brew bundle cleanup` to remove packages not listed here.
+#
+# Supply chain policy:
+#   - No third-party taps (use official install methods for those tools)
+#   - Runtimes (Go, Node, Python, Ruby) via mise or direct install, not brew
+#   - Prefer the main homebrew tap; review any new addition before adding
+#
+# Go: install from https://go.dev/dl/ or via mise (mise install go)
+# Node, Python, Ruby: managed via mise (https://mise.jdx.dev)
+
+# ---------------------------------------------------------------------------
+# Core CLI
+# ---------------------------------------------------------------------------
+brew "git"
+brew "git-lfs"
+brew "gh"           # GitHub CLI
+brew "curl"
+brew "wget"
+brew "grep"         # GNU grep (macOS ships old BSD grep)
+brew "gnu-sed"      # GNU sed (macOS sed has incompatible flags)
+brew "gpg"
+brew "shellcheck"   # Shell script linter
+
+# ---------------------------------------------------------------------------
+# Shell & terminal tools
+# ---------------------------------------------------------------------------
+brew "tmux"
+brew "fzf"
+brew "bat"          # Better cat; used in the notes function
+brew "jq"           # JSON processor
+brew "gum"          # Shell script UI (prompts, spinners)
+brew "ripgrep"      # Fast search (rg)
+
+# ---------------------------------------------------------------------------
+# Build tools
+# ---------------------------------------------------------------------------
+brew "gcc"
+brew "cmake"
+brew "autoconf"
+brew "automake"
+
+# ---------------------------------------------------------------------------
+# Languages & runtimes
+# ---------------------------------------------------------------------------
+brew "php"
+brew "composer"
+
+# ---------------------------------------------------------------------------
+# Editors & code navigation
+# ---------------------------------------------------------------------------
+brew "vim"
+brew "universal-ctags"  # Code indexing for vim
+
+# ---------------------------------------------------------------------------
+# Databases
+# ---------------------------------------------------------------------------
+brew "postgresql"
+brew "pgcli"            # Improved psql REPL (autocomplete, syntax highlighting)
+brew "redis"
+brew "sqlite"
+# brew "pgloader"       # Postgres data migration tool (uncomment if needed)
+# brew "postgis"        # Postgres spatial/GIS extension (uncomment if needed)
+
+# ---------------------------------------------------------------------------
+# Image processing
+# ---------------------------------------------------------------------------
+brew "imagemagick"
+brew "vips"             # High-performance image processing
+
+# ---------------------------------------------------------------------------
+# Network & utilities
+# ---------------------------------------------------------------------------
+brew "nmap"
+brew "pandoc"           # Document converter
+brew "lynx"             # Terminal browser
+# brew "s3cmd"          # S3 CLI (uncomment if needed; aws-cli is an alternative)
+
+# ---------------------------------------------------------------------------
+# Casks
+# ---------------------------------------------------------------------------
+# brew "mactex"         # LaTeX distribution for pandoc PDF export (uncomment if needed)
+cask "ghostty"          # Terminal emulator
+cask "vlc"              # Media player
