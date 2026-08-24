@@ -114,7 +114,7 @@ fi
 
 if ! command -v mise &>/dev/null; then
     info "Installing mise via mise.run..."
-    curl https://mise.run | sh
+    curl -fsS https://mise.run | sh
     # Add mise to PATH for the remainder of this script so zdot setup
     # can use it if needed. The shell config activates it permanently.
     export PATH="$HOME/.local/bin:$PATH"
