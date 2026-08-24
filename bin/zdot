@@ -1,0 +1,318 @@
+#!/usr/bin/env zsh
+# bin/zdot
+#
+# Dotfiles management script. Named "zdot" to avoid collision with the
+# Graphviz `dot` binary that lives in PATH on many systems.
+#
+# Usage:
+#   zdot setup [--dry-run] [topic]   Create symlinks and run setup scripts
+#   zdot setdown                     Remove symlinks tracked in symlinks.txt
+#   zdot install                     Run all install.sh scripts
+#   zdot update                      Run all update.sh scripts
+#   zdot status                      Check that all tracked symlinks are intact
+#   zdot -h | --help                 Show this message
+#
+# Environment:
+#   DOTFILES        Set automatically from this script's location
+#   XDG_CONFIG_HOME Defaults to ~/.config
+#   ZDOT_DRY_RUN    Set to 1 to skip destructive operations (also: --dry-run flag)
+
+# ---------------------------------------------------------------------------
+# Resolve DOTFILES to the canonical path of the repo root.
+# We use pwd -P to follow any symlink on the bin/ directory itself.
+# ---------------------------------------------------------------------------
+cd "$(dirname "$0")/.." || exit 1
+
+export DOTFILES
+DOTFILES="$(pwd -P)"
+
+export XDG_CONFIG_HOME
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+
+# State directory: where zdot stores the symlink manifest and config
+ZDOT_CONFIG_HOME="${ZDOT_CONFIG_HOME:-$XDG_CONFIG_HOME/zdot}"
+ZDOT_SYMLINKS="$ZDOT_CONFIG_HOME/symlinks.txt"
+
+# ---------------------------------------------------------------------------
+# Source shared utilities (color helpers, link_file, OS detection)
+# ---------------------------------------------------------------------------
+source "$DOTFILES/lib/utils.sh"
+
+# ---------------------------------------------------------------------------
+# Dry-run flag: when set, no files are created, moved, or removed
+# ---------------------------------------------------------------------------
+ZDOT_DRY_RUN="${ZDOT_DRY_RUN:-0}"
+
+# ---------------------------------------------------------------------------
+# OS / arch detection (defined in lib/utils.sh, repeated here for clarity)
+# These are used to conditionally skip topic setup.sh scripts that are
+# platform-specific.
+# ---------------------------------------------------------------------------
+# is_macos, is_linux, is_arm — see lib/utils.sh
+
+# ---------------------------------------------------------------------------
+# change_shell: optionally change the login shell to zsh
+# ---------------------------------------------------------------------------
+change_shell() {
+    local zsh_path
+    zsh_path="$(command -v zsh)"
+
+    if [[ "$SHELL" == "$zsh_path" ]]; then
+        okay "Shell is already zsh ($zsh_path)"
+        return
+    fi
+
+    asks "Change login shell to $zsh_path? [y/N] "
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        # Homebrew zsh may not be in /etc/shells — add it if needed
+        if ! grep -qF "$zsh_path" /etc/shells; then
+            warn "Adding $zsh_path to /etc/shells (requires sudo)"
+            echo "$zsh_path" | sudo tee -a /etc/shells > /dev/null
+        fi
+        chsh -s "$zsh_path" "$(whoami)"
+        okay "Shell changed to $zsh_path"
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# setup: create symlinks and run setup scripts
+#
+# Optional argument: a topic name (e.g. "zdot setup git") to run only that
+# topic's symlinks and setup.sh rather than everything.
+#
+# The symlinks.txt manifest is truncated at the start of each run so it
+# accurately reflects the current state rather than accumulating history.
+# ---------------------------------------------------------------------------
+setup() {
+    local topic_filter="${1:-}"
+
+    info "Installing dotfiles from $DOTFILES"
+    [[ "$ZDOT_DRY_RUN" == "1" ]] && warn "DRY RUN — no changes will be made"
+
+    # Ensure the zdot state directory exists
+    mkdir -p "$ZDOT_CONFIG_HOME"
+
+    # Truncate the symlinks manifest at the start of a full setup.
+    # On a topic-scoped run we append rather than truncate so we don't
+    # lose track of symlinks from other topics.
+    if [[ -z "$topic_filter" ]]; then
+        : > "$ZDOT_SYMLINKS"
+    fi
+
+    # Prompt for conflict resolution strategy (skip once per run)
+    warn "When a symlink already exists but points elsewhere, what do you want to do?"
+    asks "[s]kip, [o]verwrite, [b]ackup? "
+    export LINK_FILE_BEHAVIOR=$REPLY
+    echo ""
+
+    # ------------------------------------------------------------------
+    # Symlink phase: find all *.symlink files and link them into $HOME
+    #
+    # Convention: foo/bar.symlink → ~/.bar
+    # maxdepth 3 keeps us from descending into vendored dirs (e.g. vim/bundle)
+    # ------------------------------------------------------------------
+    local find_args=(-maxdepth 3 -name '*.symlink')
+    if [[ -n "$topic_filter" ]]; then
+        # Scope to a specific topic directory
+        find_args=(-path "*/src/$topic_filter/*.symlink")
+    fi
+
+    while read -r linker; do
+        local target="$HOME/.$(basename "${linker%.*}")"
+        link_file "$linker" "$target"
+    done < <(find -H "$DOTFILES" "${find_args[@]}" 2>/dev/null)
+
+    # ------------------------------------------------------------------
+    # Setup phase: source setup.sh scripts per topic
+    #
+    # Each topic can have an optional setup.sh. If a topic is OS-specific,
+    # its setup.sh should guard itself with is_macos/is_linux.
+    # We source (not exec) so that functions and env vars from utils.sh
+    # are available inside the setup script.
+    # ------------------------------------------------------------------
+    local setup_find_args=(-maxdepth 3 -name 'setup.sh')
+    if [[ -n "$topic_filter" ]]; then
+        setup_find_args=(-path "*/src/$topic_filter/setup.sh" -o -path "*/src/$topic_filter/setup.sh")
+    fi
+
+    while read -r setter; do
+        if [[ "$ZDOT_DRY_RUN" == "1" ]]; then
+            info "[dry-run] Would run: $setter"
+        else
+            info "Running $setter"
+            # Run in a subshell so a failure doesn't abort the entire setup
+            ( source "$setter" ) || warn "setup.sh failed: $setter (continuing)"
+        fi
+    done < <(find -H "$DOTFILES" "${setup_find_args[@]}" 2>/dev/null | sort)
+
+    change_shell
+}
+
+# ---------------------------------------------------------------------------
+# setdown: remove all symlinks recorded in symlinks.txt
+# ---------------------------------------------------------------------------
+setdown() {
+    if [[ ! -f "$ZDOT_SYMLINKS" ]]; then
+        fail "No symlinks.txt found at $ZDOT_SYMLINKS — nothing to remove"
+        return 1
+    fi
+
+    while IFS= read -r link; do
+        # Strip leading/trailing whitespace
+        link="${link##*( )}"
+        link="${link%%*( )}"
+
+        [[ -z "$link" ]] && continue
+
+        if [[ -L "$link" ]]; then
+            if [[ "$ZDOT_DRY_RUN" == "1" ]]; then
+                info "[dry-run] Would remove symlink: $link"
+            else
+                rm "$link"
+                okay "Removed $link"
+            fi
+        else
+            warn "Not a symlink (skipping): $link"
+        fi
+    done < "$ZDOT_SYMLINKS"
+
+    if [[ "$ZDOT_DRY_RUN" != "1" ]]; then
+        rm "$ZDOT_SYMLINKS"
+        okay "Removed $ZDOT_SYMLINKS"
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# install: run all install.sh scripts
+#
+# Fix from original: the original while loop read from stdin instead of
+# piping from find. This version pipes correctly.
+# ---------------------------------------------------------------------------
+install() {
+    info "Running install scripts..."
+
+    while read -r installer; do
+        info "Running $installer"
+        ( source "$installer" ) || warn "install.sh failed: $installer (continuing)"
+    done < <(find -H "$DOTFILES" -maxdepth 3 -name 'install.sh' 2>/dev/null | sort)
+}
+
+# ---------------------------------------------------------------------------
+# update: run all update.sh scripts
+# ---------------------------------------------------------------------------
+update() {
+    info "Running update scripts..."
+
+    while read -r updater; do
+        info "Running $updater"
+        ( source "$updater" ) || warn "update.sh failed: $updater (continuing)"
+    done < <(find -H "$DOTFILES" -maxdepth 3 -name 'update.sh' 2>/dev/null | sort)
+}
+
+# ---------------------------------------------------------------------------
+# status: verify that all tracked symlinks are still intact
+#
+# Useful after macOS updates, which occasionally invalidate symlinks.
+# ---------------------------------------------------------------------------
+status() {
+    if [[ ! -f "$ZDOT_SYMLINKS" ]]; then
+        fail "No symlinks.txt found at $ZDOT_SYMLINKS — run 'zdot setup' first"
+        return 1
+    fi
+
+    local broken=0
+
+    while IFS= read -r link; do
+        link="${link##*( )}"
+        link="${link%%*( )}"
+        [[ -z "$link" ]] && continue
+
+        if [[ -L "$link" && -e "$link" ]]; then
+            okay "OK: $link → $(readlink "$link")"
+        elif [[ -L "$link" ]]; then
+            fail "BROKEN (target missing): $link → $(readlink "$link")"
+            (( broken++ ))
+        else
+            fail "MISSING (not a symlink): $link"
+            (( broken++ ))
+        fi
+    done < "$ZDOT_SYMLINKS"
+
+    if (( broken > 0 )); then
+        warn "$broken issue(s) found — run 'zdot setup' to repair"
+        return 1
+    else
+        okay "All symlinks intact"
+    fi
+}
+
+# ---------------------------------------------------------------------------
+# usage
+# ---------------------------------------------------------------------------
+usage() {
+    cat <<EOF
+zdot — dotfiles management (named to avoid collision with graphviz dot)
+
+Usage:
+  zdot setup [--dry-run] [topic]   Symlink dotfiles and run setup scripts
+  zdot setdown [--dry-run]         Remove tracked symlinks
+  zdot install                     Run all install.sh scripts
+  zdot update                      Run all update.sh scripts
+  zdot status                      Verify tracked symlinks are intact
+  zdot -h, --help                  Show this message
+
+Options:
+  --dry-run    Show what would be done without making changes
+               (also: export ZDOT_DRY_RUN=1)
+
+Examples:
+  zdot setup              # Set up everything
+  zdot setup git          # Set up only the git topic
+  zdot setup --dry-run    # Preview what setup would do
+  zdot status             # Check symlink health
+EOF
+    exit 0
+}
+
+# ---------------------------------------------------------------------------
+# Argument parsing
+# ---------------------------------------------------------------------------
+
+# Parse --dry-run flag from any position
+args=()
+for arg in "$@"; do
+    if [[ "$arg" == "--dry-run" ]]; then
+        ZDOT_DRY_RUN=1
+    else
+        args+=("$arg")
+    fi
+done
+
+case "${args[1]:-}" in
+    "s"|"setup")
+        setup "${args[2]:-}"
+        ;;
+    "d"|"setdown")
+        setdown
+        ;;
+    "i"|"install")
+        install
+        ;;
+    "u"|"update")
+        update
+        ;;
+    "status"|"st")
+        status
+        ;;
+    "-h"|"--help"|"h"|"help")
+        usage
+        ;;
+    "")
+        usage
+        ;;
+    *)
+        fail "Unknown command: ${args[1]}"
+        echo ""
+        usage
+        ;;
+esac
