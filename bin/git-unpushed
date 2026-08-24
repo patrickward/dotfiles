@@ -1,0 +1,4 @@
+#!/bin/sh
+# Show the diff of commits not yet pushed to origin
+branch=$(git rev-parse --abbrev-ref HEAD)
+git diff origin/"$branch"..HEAD

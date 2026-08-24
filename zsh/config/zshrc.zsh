@@ -48,6 +48,10 @@ done
 #   3. -i suppresses "insecure files" warnings (common with Homebrew completions)
 # ---------------------------------------------------------------------------
 fpath=("$DOTFILES/zsh/functions" $fpath)
+
+# Autoload custom functions (skip completions, which start with _)
+autoload -Uz $DOTFILES/zsh/functions/^_*(N.:t)
+
 autoload -Uz compinit
 local comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
 if (( $#comp_files )); then

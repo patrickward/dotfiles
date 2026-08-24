@@ -1,0 +1,87 @@
+# List all custom commands with descriptions
+#
+# Usage:
+#   quickref                   show everything
+#   quickref functions         show only functions
+#   quickref bin               show only bin scripts
+#   quickref aliases           show only aliases
+#   quickref -f <prefix>       filter by prefix
+#   quickref -v                show file paths
+quickref() {
+    local section="all"
+    local verbose=0
+    local filter=""
+
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            -v|--verbose) verbose=1; shift ;;
+            -f|--filter)
+                [[ -n "$2" && "$2" != -* ]] && { filter="$2"; shift 2; } || shift
+                ;;
+            functions|func|f) section="functions"; shift ;;
+            bin|b)            section="bin"; shift ;;
+            aliases|alias|a)  section="aliases"; shift ;;
+            all)              section="all"; shift ;;
+            *)
+                echo "Usage: quickref [functions|bin|aliases|all] [-v] [-f prefix]"
+                return 1
+                ;;
+        esac
+    done
+
+    local cyan='\033[0;36m'
+    local green='\033[0;32m'
+    local yellow='\033[0;33m'
+    local magenta='\033[0;35m'
+    local gray='\033[0;90m'
+    local reset='\033[0m'
+
+    show_functions() {
+        printf "${cyan}=== FUNCTIONS (%s/zsh/functions) ===${reset}\n\n" "$DOTFILES"
+        [[ ! -d "$DOTFILES/zsh/functions" ]] && return
+        for file in "$DOTFILES/zsh/functions"/^_*(N.); do
+            local name="${file:t}"
+            [[ -n "$filter" && "$name" != "$filter"* ]] && continue
+            local desc=$(awk 'NR==1 && /^#/ { sub(/^# /, ""); print; exit }' "$file")
+            if (( verbose )); then
+                printf "${green}%-22s${reset} %s\n  ${gray}%s${reset}\n" "$name" "$desc" "$file"
+            else
+                printf "${green}%-22s${reset} %s\n" "$name" "$desc"
+            fi
+        done | sort
+        echo ""
+    }
+
+    show_bin() {
+        printf "${cyan}=== BIN (%s/bin) ===${reset}\n\n" "$DOTFILES"
+        [[ ! -d "$DOTFILES/bin" ]] && return
+        for file in "$DOTFILES/bin"/*(N.x); do
+            local name="${file:t}"
+            [[ -n "$filter" && "$name" != "$filter"* ]] && continue
+            local desc=$(awk 'NR==1 && /^#/ { sub(/^# /, ""); print; exit }
+                          /^#/ && !/^#!/ { sub(/^# /, ""); print; exit }' "$file")
+            if (( verbose )); then
+                printf "${yellow}%-22s${reset} %s\n  ${gray}%s${reset}\n" "$name" "$desc" "$file"
+            else
+                printf "${yellow}%-22s${reset} %s\n" "$name" "$desc"
+            fi
+        done | sort
+        echo ""
+    }
+
+    show_aliases() {
+        printf "${cyan}=== ALIASES ===${reset}\n\n"
+        alias | while IFS='=' read -r name value; do
+            [[ -n "$filter" && "$name" != "$filter"* ]] && continue
+            printf "${magenta}%-22s${reset} %s\n" "$name" "$value"
+        done | sort
+        echo ""
+    }
+
+    case "$section" in
+        functions) show_functions ;;
+        bin)       show_bin ;;
+        aliases)   show_aliases ;;
+        all)       show_functions; show_bin; show_aliases ;;
+    esac
+}

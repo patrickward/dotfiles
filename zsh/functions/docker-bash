@@ -1,0 +1,19 @@
+# Bash into a running container by fuzzy name match
+docker-bash() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: docker-bash <container-pattern>"
+        echo "\nRunning containers:"
+        docker ps --format "  {{.Names}}"
+        return 1
+    fi
+
+    local container
+    container=$(docker ps --format '{{.Names}}' | grep -i "$1" | head -1)
+
+    if [[ -z "$container" ]]; then
+        echo "No running container matching '$1'"
+        return 1
+    fi
+
+    docker exec -it "$container" bash
+}

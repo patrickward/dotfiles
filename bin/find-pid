@@ -1,0 +1,6 @@
+#!/bin/bash
+# Find processes matching a pattern
+#
+# Usage: find-pid <pattern>
+
+ps aux | grep "$1"

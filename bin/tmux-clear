@@ -1,0 +1,8 @@
+#!/bin/sh
+# Clear the terminal — also clears tmux scrollback history if inside tmux
+
+if [ -z "$TMUX" ]; then
+    clear
+else
+    clear && tmux clear-history
+fi

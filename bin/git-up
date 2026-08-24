@@ -1,0 +1,20 @@
+#!/bin/sh
+# Pull and show a log of what changed. When invoked as git-reup, pulls with --rebase.
+
+set -e
+
+PULL_ARGS="$*"
+
+# When invoked as git-reup, add --rebase
+test "$(basename "$0")" = "git-reup" && PULL_ARGS="--rebase $PULL_ARGS"
+
+git pull $PULL_ARGS
+
+# Show diffstat for rebase pulls
+test "$(basename "$0")" = "git-reup" && {
+    echo "Diff:"
+    git --no-pager diff --color --stat HEAD@{1}.. | sed 's/^/ /'
+}
+
+echo "Log:"
+git log --color --pretty=oneline --abbrev-commit HEAD@{1}.. | sed 's/^/  /'

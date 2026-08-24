@@ -1,0 +1,12 @@
+# Reload all custom zsh functions from $DOTFILES/zsh/functions/
+zsh-refresh() {
+    local funcs=("$DOTFILES"/zsh/functions/^_*(N.))
+    if (( ${#funcs} == 0 )); then
+        echo "No functions found in $DOTFILES/zsh/functions/"
+        return 1
+    fi
+    echo "Reloading ${#funcs} functions from $DOTFILES/zsh/functions/..."
+    unfunction "${funcs[@]:t}" 2>/dev/null
+    autoload -Uz "${funcs[@]:t}"
+    echo "Done"
+}

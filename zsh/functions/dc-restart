@@ -1,0 +1,12 @@
+# Restart Docker Compose services
+#
+# Usage:
+#   dc-restart          All services
+#   dc-restart web      Specific service
+dc-restart() {
+    if [[ -n "$1" ]]; then
+        docker compose restart "$1"
+    else
+        docker compose restart
+    fi
+}

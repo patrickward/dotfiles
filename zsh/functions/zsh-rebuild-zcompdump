@@ -1,0 +1,7 @@
+# Force a rebuild of the zsh completion dump
+# Use when completions seem stale or after adding new completion files
+zsh-rebuild-zcompdump() {
+    rm -f "${ZDOTDIR:-$HOME}/.zcompdump"
+    compinit
+    echo "Completion dump rebuilt"
+}

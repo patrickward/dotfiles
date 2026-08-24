@@ -1,0 +1,9 @@
+#!/bin/sh
+# Show a diffstat of commits not yet pushed to origin
+branch=$(git rev-parse --abbrev-ref HEAD)
+count=$(git rev-list --count HEAD origin/"$branch"...HEAD)
+
+[ "$count" -eq "1" ] && s='' || s='s'
+
+git diff --stat origin/"$branch"..HEAD
+echo " $count commit$s total"

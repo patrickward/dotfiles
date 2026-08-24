@@ -1,0 +1,3 @@
+#!/bin/sh
+# Amend the last commit, reusing its message
+git commit --amend -C HEAD

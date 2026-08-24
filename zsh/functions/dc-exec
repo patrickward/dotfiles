@@ -1,0 +1,19 @@
+# Execute a command in a running Docker Compose service
+#
+# Usage:
+#   dc-exec web                   bash into the web service
+#   dc-exec db psql -U postgres   run psql in the db service
+dc-exec() {
+    if [[ -z "$1" ]]; then
+        echo "Usage: dc-exec <service> [command]"
+        echo "\nRunning services:"
+        docker compose ps --services
+        return 1
+    fi
+
+    local service=$1
+    shift
+    local cmd=${*:-bash}
+
+    docker compose exec "$service" $cmd
+}

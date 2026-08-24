@@ -1,0 +1,9 @@
+#!/bin/zsh
+# Flush the macOS DNS cache
+
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder
+    echo "DNS cache flushed"
+else
+    echo "Non-macOS DNS flush not implemented"
+fi

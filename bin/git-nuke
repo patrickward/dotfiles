@@ -1,0 +1,19 @@
+#!/bin/bash
+# Delete a branch locally and on origin
+#
+# Usage: git-nuke <branch-name>
+
+. "$DOTFILES/lib/utils.sh"
+
+if [ $# -eq 0 ]; then
+    echo "Usage: git-nuke <branch-name>"
+    exit 1
+fi
+
+asks "Delete '$1' locally and on origin? This cannot be undone. (y/N) "
+
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    git branch -D "$1"
+    git push origin :"$1"
+    okay "Nuked: $1"
+fi

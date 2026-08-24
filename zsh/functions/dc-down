@@ -1,0 +1,18 @@
+# Stop and remove Docker Compose stack
+#
+# Usage:
+#   dc-down        Stop containers and remove networks
+#   dc-down -v     Also remove volumes
+#   dc-down -i     Also remove images
+dc-down() {
+    if [[ "$1" == "-v" || "$1" == "--volumes" ]]; then
+        echo "Stopping and removing containers, networks, and volumes..."
+        docker compose down --volumes
+    elif [[ "$1" == "-i" || "$1" == "--images" ]]; then
+        echo "Stopping and removing containers, networks, and images..."
+        docker compose down --rmi all
+    else
+        echo "Stopping and removing containers and networks..."
+        docker compose down
+    fi
+}

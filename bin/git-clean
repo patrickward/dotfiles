@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Delete local branches that have been merged into origin (default: main)
+#
+# Usage: git-clean [base-branch]
+
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "Not a git repository"
+    exit 1
+fi
+
+base=${1:-main}
+
+branches=$(git branch --merged origin/"$base" \
+    | grep -v "^\*" \
+    | grep -Ev "^\s*(main|master|develop)\s*$" \
+    | sed 's/^[[:space:]]*//')
+
+if [ -z "$branches" ]; then
+    echo "No merged branches to clean up"
+    exit 0
+fi
+
+echo "Branches merged into origin/$base:"
+echo "$branches" | sed 's/^/  /'
+
+printf "\nDelete these branches? (y/N): "
+read -r response
+if [[ ! "$response" =~ ^[Yy]$ ]]; then
+    echo "Cancelled"
+    exit 0
+fi
+
+echo "$branches" | while read -r branch; do
+    git branch -d "$branch" && echo "  Deleted: $branch"
+done

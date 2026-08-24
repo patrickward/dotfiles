@@ -1,0 +1,25 @@
+#compdef notes
+
+local -a subcmds
+subcmds=(
+  'cd:Change to the notes directory'
+  'ls:List notes, optionally filtered'
+  'list:List notes, optionally filtered'
+  'rm:Remove a note'
+  'find:Search note contents'
+  'search:Search note contents'
+  'new:Create a new note'
+  'show:View a note'
+  'view:View a note'
+  'edit:Edit a note'
+  'push:Commit and push changes'
+  'pull:Pull changes from remote'
+  'sync:Commit, pull, and push'
+  'tags:List all tags'
+  'subjects:List all subjects'
+  'contents:Generate table of contents'
+  'help:Show help'
+)
+_describe 'notes' subcmds
+
+_files -W "$NOTES_DIR"
