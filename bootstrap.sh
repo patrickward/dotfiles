@@ -6,7 +6,7 @@
 # hands off to zdot for the rest.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/patrickward/dotfiles/main/bootstrap.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/patrickward/dotfiles-v2/main/bootstrap.sh | bash
 #   OR, after cloning:
 #   bash ~/dotfiles/bootstrap.sh
 #
@@ -21,7 +21,7 @@ set -euo pipefail
 # ---------------------------------------------------------------------------
 
 DOTFILES_DIR="${DOTFILES_DIR:-$HOME/dotfiles}"
-DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/patrickward/dotfiles.git}"
+DOTFILES_REPO="${DOTFILES_REPO:-https://github.com/patrickward/dotfiles-v2.git}"
 
 # ---------------------------------------------------------------------------
 # Helpers — plain bash versions (lib/utils.sh is zsh, not usable here)
@@ -107,7 +107,24 @@ elif is_linux; then
 fi
 
 # ---------------------------------------------------------------------------
-# Step 3: Make zdot executable and hand off
+# Step 3: Install mise (runtime version manager)
+# ---------------------------------------------------------------------------
+# mise manages Go, Node, Python, Ruby, and other runtimes.
+# Install via mise.run — NOT via Homebrew — per supply chain policy.
+
+if ! command -v mise &>/dev/null; then
+    info "Installing mise via mise.run..."
+    curl https://mise.run | sh
+    # Add mise to PATH for the remainder of this script so zdot setup
+    # can use it if needed. The shell config activates it permanently.
+    export PATH="$HOME/.local/bin:$PATH"
+    okay "mise installed"
+else
+    okay "mise already installed"
+fi
+
+# ---------------------------------------------------------------------------
+# Step 4: Make zdot executable and hand off
 # ---------------------------------------------------------------------------
 
 chmod +x "$DOTFILES_DIR/bin/zdot"
