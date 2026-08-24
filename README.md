@@ -40,13 +40,14 @@ zdot update             # Run all update.sh scripts
 bootstrap.sh        Entry point for fresh machines
 bin/zdot            Dotfiles manager (see docs/zdot.md)
 lib/utils.sh        Shared shell utilities and OS detection
-os/
-  macos/            macOS-specific setup (Brewfile, defaults.sh)
-  linux/            Linux-specific setup
-topics/                Topics — one directory per tool/concern
-  git/
-  go/
-  nvim/
+local/
+  localrc.template  Template for machine-specific overrides (~/.localrc)
+topics/             One file or directory per tool
+  mise.zsh          shell-config-only tool (flat file)
+  git/              tool with symlinks or setup.sh (directory)
+    gitconfig.symlink
+    gitignore.symlink
+    setup.sh
   ...
 zsh/
   config/           Core zsh config (path, aliases, prompt, completion)
@@ -55,12 +56,18 @@ zsh/
 
 ## Topics
 
-Each directory under `topics/` is a topic. A topic can contain:
+A topic is either a flat `.zsh` file or a directory, depending on what it needs:
+
+| Form                   | When to use                              |
+|------------------------|------------------------------------------|
+| `topics/tool.zsh`      | Tool needs only shell config (PATH, aliases, init) |
+| `topics/tool/`         | Tool needs symlinked dotfiles or a `setup.sh` |
+
+Files recognized inside a topic directory:
 
 | File             | Purpose                                |
 |------------------|----------------------------------------|
-| `path.zsh`       | PATH modifications (loaded in zshenv)  |
-| `*.zsh`          | Anything sourced in interactive shells |
+| `*.zsh`          | Sourced in interactive shells          |
 | `completion.zsh` | Completions (loaded after compinit)    |
 | `setup.sh`       | Run once on setup (installs, config)   |
 | `install.sh`     | Run by `zdot install`                  |
@@ -88,15 +95,3 @@ Topic `setup.sh` scripts gate themselves. The same repo works on both platforms.
 
 System updates can break symlinks. Run `zdot status` to check.
 
-## Next Steps
-
-We can now walk through any of the remaining files in detail:
-
-- zsh/config/config.zsh — shell options, history settings
-- zsh/config/aliases.zsh — clean up and organize
-- zsh/config/prompt.zsh — pure prompt config
-- zsh/config/plugins.zsh — globalias and anything else
-- Individual topic setup.sh files — git, go, nvim, homebrew
-- localrc.template — template for the gitignored local overrides (where Herd, company tools, etc. go)
-- 
-The ~/.localrc pattern is actually where Herd's injections, the PHP version pins, dart-cli-completion, etc. belong — they're machine-specific and shouldn't be committed. We can set up a local.zsh.template as a starting point.

@@ -114,7 +114,7 @@ setup() {
     local find_args=(-maxdepth 3 -name '*.symlink')
     if [[ -n "$topic_filter" ]]; then
         # Scope to a specific topic directory
-        find_args=(-path "*/src/$topic_filter/*.symlink")
+        find_args=(-path "*/topics/$topic_filter/*.symlink")
     fi
 
     while read -r linker; do
@@ -132,7 +132,7 @@ setup() {
     # ------------------------------------------------------------------
     local setup_find_args=(-maxdepth 3 -name 'setup.sh')
     if [[ -n "$topic_filter" ]]; then
-        setup_find_args=(-path "*/src/$topic_filter/setup.sh" -o -path "*/src/$topic_filter/setup.sh")
+        setup_find_args=(-path "*/topics/$topic_filter/setup.sh")
     fi
 
     while read -r setter; do

@@ -4,22 +4,22 @@ Dotfiles manager. Named `zdot` to avoid collision with the Graphviz `dot` binary
 
 ## Commands
 
-| Command | Description |
-|---|---|
-| `zdot setup [topic]` | Symlink dotfiles, run setup scripts |
-| `zdot setup --dry-run` | Preview without making changes |
-| `zdot setdown` | Remove all tracked symlinks |
-| `zdot install` | Run all `install.sh` scripts |
-| `zdot update` | Run all `update.sh` scripts |
-| `zdot status` | Verify tracked symlinks are intact |
+| Command                | Description                         |
+|------------------------|-------------------------------------|
+| `zdot setup [topic]`   | Symlink dotfiles, run setup scripts |
+| `zdot setup --dry-run` | Preview without making changes      |
+| `zdot setdown`         | Remove all tracked symlinks         |
+| `zdot install`         | Run all `install.sh` scripts        |
+| `zdot update`          | Run all `update.sh` scripts         |
+| `zdot status`          | Verify tracked symlinks are intact  |
 
 ## How Symlinks Work
 
-`zdot setup` finds all files matching `*.symlink` under `src/` and links them:
+`zdot setup` finds all files matching `*.symlink` under `topics/` and links them:
 
 ```
-src/git/gitconfig.symlink  →  ~/.gitconfig
-src/git/gitignore.symlink  →  ~/.gitignore
+topics/git/gitconfig.symlink  →  ~/.gitconfig
+topics/git/gitignore.symlink  →  ~/.gitignore
 ```
 
 The `~/.` prefix comes from stripping the `.symlink` extension and prepending `$HOME/.`.
@@ -47,11 +47,19 @@ No files are created, moved, or deleted. Actions are printed to stdout.
 
 ## Adding a Topic
 
+For a tool that only needs shell config (PATH, aliases, init):
+
 ```sh
-mkdir src/mytool
-touch src/mytool/path.zsh       # optional: PATH additions
-touch src/mytool/mytool.zsh     # optional: aliases, env vars
-touch src/mytool/setup.sh       # optional: one-time setup
+touch topics/mytool.zsh    # PATH additions, aliases, tool init
+```
+
+For a tool that needs symlinked dotfiles or a setup script:
+
+```sh
+mkdir topics/mytool
+touch topics/mytool/mytool.zsh     # aliases, env vars, init
+touch topics/mytool/setup.sh       # optional: one-time setup
+touch topics/mytool/config.symlink # optional: links to ~/.config
 ```
 
 `zdot setup` picks up new topics automatically. No registration required.
@@ -66,11 +74,11 @@ full setup.
 
 ## Environment Variables
 
-| Variable | Default | Description |
-|---|---|---|
-| `DOTFILES` | Resolved from bin/zdot location | Repo root |
-| `ZDOT_DRY_RUN` | `0` | Set to `1` to skip destructive ops |
-| `ZDOT_CONFIG_HOME` | `$XDG_CONFIG_HOME/zdot` | Where symlinks.txt is stored |
+| Variable           | Default                         | Description                        |
+|--------------------|---------------------------------|------------------------------------|
+| `DOTFILES`         | Resolved from bin/zdot location | Repo root                          |
+| `ZDOT_DRY_RUN`     | `0`                             | Set to `1` to skip destructive ops |
+| `ZDOT_CONFIG_HOME` | `$XDG_CONFIG_HOME/zdot`         | Where symlinks.txt is stored       |
 
 ## References
 

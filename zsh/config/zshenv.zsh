@@ -48,19 +48,14 @@ export ZDOTDIR="$HOME"
 # ---------------------------------------------------------------------------
 # PATH: load canonical path definitions
 #
-# path.zsh sets the base PATH. Each topic's path.zsh adds to it.
+# path.zsh sets the base PATH (Homebrew, local bin, system dirs).
+# Tool-specific PATH additions live in each topic's .zsh file,
+# loaded in zshrc for interactive shells.
 # We use typeset -U (unique) to deduplicate PATH entries automatically.
-# All PATH manipulation lives here (zshenv) — never in zshrc.
 # ---------------------------------------------------------------------------
 typeset -U path  # zsh-specific: auto-deduplicate the $path array
 
 source "$DOTFILES/zsh/config/path.zsh"
-
-# Source all topic path.zsh files.
-# maxdepth 1 per topic dir prevents descending into vendored dirs.
-for file in "$DOTFILES"/topics/**/path.zsh(N); do
-    source "$file"
-done
 
 # ---------------------------------------------------------------------------
 # Rust/Cargo: source cargo env if present

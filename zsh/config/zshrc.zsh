@@ -12,24 +12,29 @@
 #   zprof                 ← add at bottom
 # Then run: for i in $(seq 1 5); do /usr/bin/time zsh -i -c exit; done
 
-# ---------------------------------------------------------------------------
-# config_files: collected in zshenv, used here to load topic zsh files
-#
-# We exclude:
-#   path.zsh       → already loaded in zshenv
-#   completion.zsh → loaded after compinit below (order matters)
-#   config/*       → loaded explicitly, not via glob
-# ---------------------------------------------------------------------------
-# (config_files array was set in zshenv)
-
 # Load shell options, history, etc.
 source "$DOTFILES/zsh/config/config.zsh"
 
 # Load aliases
 source "$DOTFILES/zsh/config/aliases.zsh"
 
-# Load all topic zsh files except path.zsh, completion.zsh, and config dirs
-for file in ${${${config_files:#*/topics/*path.zsh}:#*/topics/*completion.zsh}:#*/config/*}; do
+# ---------------------------------------------------------------------------
+# Topic files: flat files and topic directory files
+#
+# Flat:      topics/tool.zsh       — shell-config-only tools
+# Directory: topics/tool/*.zsh     — tools with symlinks or setup.sh
+#
+# Exclusions:
+#   path.zsh       → not used in new structure (PATH is in zsh/config/path.zsh)
+#   completion.zsh → loaded after compinit below (order matters)
+# ---------------------------------------------------------------------------
+for file in "$DOTFILES"/topics/*.zsh(N); do
+    source "$file"
+done
+
+for file in "$DOTFILES"/topics/*/*.zsh(N); do
+    [[ "${file:t}" == path.zsh ]] && continue
+    [[ "${file:t}" == completion.zsh ]] && continue
     source "$file"
 done
 
@@ -53,10 +58,9 @@ fi
 unset comp_files
 
 # Load completion files (after compinit, so completions can register properly)
-for file in ${(M)config_files:#*/*completion.zsh}; do
+for file in "$DOTFILES"/topics/*/completion.zsh(N); do
     source "$file"
 done
-unset config_files
 
 # ---------------------------------------------------------------------------
 # Key bindings: history search with arrow keys
@@ -98,16 +102,6 @@ if command -v fzf &>/dev/null; then
     elif [[ -f "$HOME/.fzf.zsh" ]]; then
         source "$HOME/.fzf.zsh"
     fi
-fi
-
-# ---------------------------------------------------------------------------
-# mise: runtime version manager (replaces asdf, nvm, rbenv, pyenv)
-#
-# If you're not using mise, comment this out. If you're using asdf instead,
-# see topics/asdf/path.zsh. Don't load both — they conflict.
-# ---------------------------------------------------------------------------
-if command -v mise &>/dev/null; then
-    eval "$(mise activate zsh)"
 fi
 
 # ---------------------------------------------------------------------------
