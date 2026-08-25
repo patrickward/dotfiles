@@ -21,8 +21,10 @@ brew "curl"
 brew "wget"
 brew "grep"         # GNU grep (macOS ships old BSD grep)
 brew "gnu-sed"      # GNU sed (macOS sed has incompatible flags)
-brew "gpg"
+brew "gnupg"        # GNU Privacy Guard
 brew "shellcheck"   # Shell script linter
+brew "tree"
+# brew "todo-txt"
 
 # ---------------------------------------------------------------------------
 # Shell & terminal tools
@@ -47,17 +49,20 @@ brew "automake"
 # ---------------------------------------------------------------------------
 brew "php"
 brew "composer"
+# brew "goreleaser"
 
 # ---------------------------------------------------------------------------
 # Editors & code navigation
 # ---------------------------------------------------------------------------
 brew "vim"
 brew "universal-ctags"  # Code indexing for vim
+# brew "helix"          # Alternate, vim-like editor
+
 
 # ---------------------------------------------------------------------------
 # Databases
 # ---------------------------------------------------------------------------
-brew "postgresql"
+# brew "postgresql"
 brew "pgcli"            # Improved psql REPL (autocomplete, syntax highlighting)
 brew "redis"
 brew "sqlite"
@@ -67,16 +72,25 @@ brew "sqlite"
 # ---------------------------------------------------------------------------
 # Image processing
 # ---------------------------------------------------------------------------
+brew "d2"               # Text-to-diagram tool
+brew "ffmpeg"
 brew "imagemagick"
 brew "vips"             # High-performance image processing
+brew "svgo"             # SVG optimization
+# brew "inkscape"       # Vector graphics editor -- often useful on cli
+# brew "mpv"              # Media player (https://mpv.io)
 
 # ---------------------------------------------------------------------------
 # Network & utilities
 # ---------------------------------------------------------------------------
+brew "ansible"
+brew "ngrok"
 brew "nmap"
 brew "pandoc"           # Document converter
 brew "lynx"             # Terminal browser
+brew "caddy"            # Caddy server
 # brew "s3cmd"          # S3 CLI (uncomment if needed; aws-cli is an alternative)
+# brew "overmind"
 
 # ---------------------------------------------------------------------------
 # Casks
@@ -84,3 +98,9 @@ brew "lynx"             # Terminal browser
 # brew "mactex"         # LaTeX distribution for pandoc PDF export (uncomment if needed)
 cask "ghostty"          # Terminal emulator
 cask "vlc"              # Media player
+cask "calibre"          # Ebook management
+
+# ---------------------------------------------------------------------------
+# Miscellaneous
+# ---------------------------------------------------------------------------
+# brew "lagrange"       # Gemini protocol browser

@@ -1,0 +1,27 @@
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+# Ignore vim bundles
+src/vim/bundle/
+src/vim/.netrwhist
+src/vim/pack/
+
+# Ignore zsh-completions project
+zsh/zsh-completions/
+
+# Ignore python cache
+__pycache__
+
+# Ignore plugins, they should be downloaded per box
+src/vim/plugged/
+
+# Ignore temp
+tmp/
+todo.md
+
