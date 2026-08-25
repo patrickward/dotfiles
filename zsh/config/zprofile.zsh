@@ -3,10 +3,22 @@
 # Loaded for LOGIN shells only, before zshrc.
 # Load order: zshenv → zprofile → zshrc → zlogin
 #
-# PATH and Homebrew are already handled in zshenv (runs for all shells),
-# so this file is for login-shell-specific setup: editors, locale, pager.
-#
 # Keep this file fast — it runs for every login shell (including ssh sessions).
+
+# ---------------------------------------------------------------------------
+# PATH: re-establish precedence after macOS path_helper
+#
+# macOS runs /usr/libexec/path_helper in /etc/zprofile, which executes AFTER
+# ~/.zshenv. path_helper reads /etc/paths and reorders PATH so system dirs
+# (/usr/bin, /bin, etc.) come first — undoing the order we set in path.zsh.
+#
+# Re-sourcing path.zsh here (after path_helper) restores the intended order:
+#   local bin → dotfiles bin → homebrew → system
+#
+# typeset -gU in zshenv handles deduplication, so no duplicate entries result.
+# On Linux (no path_helper), this is a harmless no-op.
+# ---------------------------------------------------------------------------
+source "$DOTFILES/zsh/config/path.zsh"
 
 # ---------------------------------------------------------------------------
 # Editors
