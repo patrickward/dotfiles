@@ -89,6 +89,9 @@ brew "nmap"
 brew "pandoc"           # Document converter
 brew "lynx"             # Terminal browser
 brew "caddy"            # Caddy server
+brew "dnsmasq"          # Local dns
+brew "mailpit"          # Local mail testing
+brew "openssl"          # SSL/TLS
 # brew "s3cmd"          # S3 CLI (uncomment if needed; aws-cli is an alternative)
 # brew "overmind"
 
