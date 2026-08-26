@@ -134,7 +134,7 @@ if OS.mac?
   # --- Browsers (uncomment what you use) ---
   # cask "firefox"            # Mozilla Firefox — open source, strong privacy defaults, but has built-in AI
   # cask "brave-browser"      # Chromium-based; built-in ad/tracker blocking, no Google telemetry
-  cask "zen-browser"          # Firefox-based; vertical sidebar, workspaces, split view (Arc successor)
+  cask "zen"                  # Firefox-based; vertical sidebar, workspaces, split view (Arc successor)
   cask "vivaldi"              # Chromium-based; built-in ad/tracker blocking, nice features, no Google telemetry; alt to the crypto/fascist brave bros
 
   # --- Database GUIs ---
