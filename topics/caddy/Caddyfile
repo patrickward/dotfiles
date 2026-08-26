@@ -1,0 +1,21 @@
+# Caddyfile — managed by dotfiles
+#
+# This is a template. setup.sh substitutes BREW_PREFIX with the actual
+# brew --prefix path when installing to $(brew --prefix)/etc/Caddyfile.
+#
+# Per-site configs: $(brew --prefix)/etc/caddy/sites/*.caddy
+#
+# Caddy generates a local CA and signs certs automatically.
+# Run `caddy trust` once to add it to the macOS Keychain (setup.sh does this).
+
+{
+    # Use Caddy's built-in local CA instead of Let's Encrypt.
+    # Required for *.test domains (not publicly resolvable).
+    local_certs
+}
+
+# Import per-site configs. Add files to:
+#   $(brew --prefix)/etc/caddy/sites/<project>.caddy
+#
+# See topics/caddy/README.md for site config examples.
+import BREW_PREFIX/etc/caddy/sites/*.caddy

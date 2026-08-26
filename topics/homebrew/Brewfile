@@ -10,101 +10,183 @@
 #
 # Go: install from https://go.dev/dl/ or via mise (mise install go)
 # Node, Python, Ruby: managed via mise (https://mise.jdx.dev)
+#
+# After `brew bundle`, run your post-install script for:
+#   - Adding $(brew --prefix)/bin/bash to /etc/shells (keg-only shells)
+#   - Registering dnsmasq / mailpit as launchd services (macOS)
 
 # ---------------------------------------------------------------------------
-# Core CLI
+# Taps
 # ---------------------------------------------------------------------------
-brew "bash"         # Upgrade bash
-brew "git"
-brew "git-lfs"
-brew "gh"           # GitHub CLI
-brew "curl"
-brew "wget"
-brew "grep"         # GNU grep (macOS ships old BSD grep)
-brew "gnu-sed"      # GNU sed (macOS sed has incompatible flags)
-brew "gnupg"        # GNU Privacy Guard
-brew "shellcheck"   # Shell script linter
-brew "tree"
-# brew "todo-txt"
+tap "goreleaser/tap"
 
 # ---------------------------------------------------------------------------
-# Shell & terminal tools
+# Shell & CLI core
 # ---------------------------------------------------------------------------
-brew "tmux"
-brew "fzf"
-brew "bat"          # Better cat; used in the notes function
-brew "jq"           # JSON processor
-brew "gum"          # Shell script UI (prompts, spinners)
-brew "ripgrep"      # Fast search (rg)
+brew "bash"         if OS.mac?  # Newer bash (macOS ships v3 due to GPLv3); keg-only: needs PATH wiring
+brew "grep"         if OS.mac?  # GNU grep (macOS ships BSD grep with incompatible flags)
+brew "gnu-sed"      if OS.mac?  # GNU sed (macOS sed -i syntax differs; scripts break cross-platform)
+brew "git"                      # Version control
+brew "git-lfs"                  # Git Large File Storage for binary assets
+brew "gh"                       # GitHub CLI — PRs, issues, workflows from the terminal
+brew "curl"                     # HTTP client; newer than macOS system curl (supports HTTP/3)
+brew "httpie"                   # Alternative to curl
+brew "wget"                     # HTTP downloader; useful for scripting where curl idioms are awkward
+brew "gnupg"                    # GNU Privacy Guard — signing, encryption, SSH key agent
+brew "shellcheck"               # Static analysis for bash/sh scripts; catches common pitfalls
+brew "tree"                     # Directory tree listing
+
+# ---------------------------------------------------------------------------
+# Shell utilities & productivity
+# ---------------------------------------------------------------------------
+brew "tmux"         # Terminal multiplexer — persistent sessions, pane splitting
+brew "fzf"          # Fuzzy finder — shell history, file picker, general interactive filter
+brew "bat"          # Syntax-highlighted cat replacement; used in notes function
+brew "jq"           # JSON processor and query tool (like sed/awk for JSON)
+brew "ripgrep"      # Fast recursive grep (rg) — respects .gitignore, significantly faster than ag
+brew "gum"          # Composable shell UI components — prompts, spinners, selectors in scripts
+# brew "eza"        # Modern ls replacement — Git status, icons, tree view; aliases: ls="eza" ll="eza -la --git"
+# brew "fd"         # Modern find replacement — respects .gitignore, friendlier syntax than find
+# brew "zoxide"     # Smarter cd — tracks visit frequency; jump with `z proj` instead of full path
+brew "htop"         # Interactive process viewer — color-coded per-core CPU/mem, consistent cross-platform
 
 # ---------------------------------------------------------------------------
 # Build tools
 # ---------------------------------------------------------------------------
-brew "gcc"
-brew "cmake"
-brew "autoconf"
-brew "automake"
+brew "gcc"          # GNU compiler collection — needed by many gems, extensions, native addons
+brew "cmake"        # Cross-platform build system generator — required by many C/C++ projects
+brew "autoconf"     # Generates configure scripts for GNU-style build systems
+brew "automake"     # Generates Makefile.in files; companion to autoconf
 
 # ---------------------------------------------------------------------------
-# Languages & runtimes
+# Languages (non-mise managed)
 # ---------------------------------------------------------------------------
-brew "php"
-brew "composer"
-# brew "goreleaser"
+# PHP and Composer are managed here, not via mise, because they are used
+# as CLI tools (e.g. composer global installs) rather than per-project runtimes.
+brew "php"          # PHP CLI + php-fpm (used for local *.test sites via Caddy)
+brew "composer"     # PHP dependency manager
 
 # ---------------------------------------------------------------------------
 # Editors & code navigation
 # ---------------------------------------------------------------------------
-brew "vim"
-brew "universal-ctags"  # Code indexing for vim
-# brew "helix"          # Alternate, vim-like editor
-
+brew "vim"              # Vi IMproved — terminal editor; fallback when GUI editors unavailable
+brew "universal-ctags"  # Source code indexing for vim/neovim tag navigation
+# brew "helix"          # Modern modal editor (vim-like); pure Rust, built-in LSP
 
 # ---------------------------------------------------------------------------
 # Databases
 # ---------------------------------------------------------------------------
-# brew "postgresql"
-brew "pgcli"            # Improved psql REPL (autocomplete, syntax highlighting)
-brew "redis"
-brew "sqlite"
-# brew "pgloader"       # Postgres data migration tool (uncomment if needed)
-# brew "postgis"        # Postgres spatial/GIS extension (uncomment if needed)
+brew "redis"        # In-memory data store — used as cache, queue, pub/sub
+brew "sqlite"       # Embedded SQL database; used by many tools as local storage
+
+# PostgreSQL: use Postgres.app (https://postgresapp.com) — better multi-version support than brew
+# brew "postgresql" # Postgres server (prefer Docker/OrbStack for isolation)
+# brew "pgloader"   # Postgres data migration tool — CSV, MySQL, SQLite → Postgres
+# brew "postgis"    # Postgres spatial/GIS extension
+brew "pgcli"        # Postgres REPL with autocomplete, syntax highlighting, pager
+
+# MySQL, Redis, and other services: run via Docker/OrbStack when needed
+# Example: docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:8
+# Example: docker run -d -p 6379:6379 redis:alpine
 
 # ---------------------------------------------------------------------------
-# Image processing
+# Media & graphics
 # ---------------------------------------------------------------------------
-brew "d2"               # Text-to-diagram tool
-brew "ffmpeg"
-brew "imagemagick"
-brew "vips"             # High-performance image processing
-brew "svgo"             # SVG optimization
-# brew "inkscape"       # Vector graphics editor -- often useful on cli
-# brew "mpv"              # Media player (https://mpv.io)
+brew "ffmpeg"       # Audio/video encoding, decoding, streaming, transcoding
+brew "imagemagick"  # Image conversion, resizing, compositing from CLI
+brew "vips"         # High-performance image processing library; faster than ImageMagick for web use
+brew "svgo"         # SVG optimization — removes redundant attributes, minifies output
+# brew "mpv"        # Lightweight media player with good CLI scripting support
 
 # ---------------------------------------------------------------------------
-# Network & utilities
+# Dev tools & documentation
 # ---------------------------------------------------------------------------
-brew "ansible"
-brew "ngrok"
-brew "nmap"
-brew "pandoc"           # Document converter
-brew "lynx"             # Terminal browser
-brew "caddy"            # Caddy server
-brew "dnsmasq"          # Local dns
-brew "mailpit"          # Local mail testing
-brew "openssl"          # SSL/TLS
-# brew "s3cmd"          # S3 CLI (uncomment if needed; aws-cli is an alternative)
-# brew "overmind"
+brew "d2"           # Declarative text-to-diagram tool (like Mermaid, but more expressive)
+brew "pandoc"       # Universal document converter — Markdown → PDF/DOCX/HTML/EPUB etc.
+brew "lynx"         # Terminal web browser — useful for quick HTML inspection or CI checks
 
 # ---------------------------------------------------------------------------
-# Casks
+# Network & local dev infrastructure
 # ---------------------------------------------------------------------------
-# brew "mactex"         # LaTeX distribution for pandoc PDF export (uncomment if needed)
-cask "ghostty"          # Terminal emulator
-cask "vlc"              # Media player
-cask "calibre"          # Ebook management
+brew "openssl"      # SSL/TLS library (keg-only — does NOT shadow system OpenSSL without PATH wiring)
+brew "nmap"         # Network scanner and port mapper — host discovery, service fingerprinting
+brew "ansible"      # Agentless IT automation — config management, provisioning, orchestration
+brew "caddy"        # HTTP/2 server with automatic HTTPS — useful for local HTTPS dev proxy
+brew "dnsmasq"      # Lightweight DNS server — local *.test / *.localhost domain resolution
+brew "mailpit"      # Local SMTP server with web UI for catching outbound email in development
+# brew "pgrok"      # Open-source ngrok alternative — HTTP tunnels, no account required
+# brew "s3cmd"      # S3 CLI (alternative: aws-cli via mise or direct install)
+# brew "overmind"   # Procfile process manager with tmux integration
 
 # ---------------------------------------------------------------------------
-# Miscellaneous
+# macOS-only: GUI apps (casks) and macOS-specific CLI
 # ---------------------------------------------------------------------------
-# brew "lagrange"       # Gemini protocol browser
+if OS.mac?
+
+  # --- Terminals ---
+  cask "ghostty"              # Fast, GPU-accelerated terminal with native macOS UI; requires macOS ≥ 13
+
+  # --- Editors & IDEs ---
+  # cask "visual-studio-code" # Microsoft VS Code — most widely used editor; large extension ecosystem
+  # cask "zed"                # Fast Rust-based editor; best cold-start on Apple Silicon; built-in AI
+  # cask "cursor"             # VS Code fork with deep AI code assistance built in
+
+  # --- Browsers (uncomment what you use) ---
+  # cask "firefox"            # Mozilla Firefox — open source, strong privacy defaults, but has built-in AI
+  # cask "brave-browser"      # Chromium-based; built-in ad/tracker blocking, no Google telemetry
+  cask "zen-browser"          # Firefox-based; vertical sidebar, workspaces, split view (Arc successor)
+  cask "vivaldi"              # Chromium-based; built-in ad/tracker blocking, nice features, no Google telemetry; alt to the crypto/fascist brave bros
+
+  # --- Database GUIs ---
+  # cask "tableplus"          # Native DB GUI — Postgres, MySQL, SQLite, Redis, MongoDB and more; fast, clean
+  # cask "dbeaver-community"  # Free, heavier DB client; handles obscure drivers well
+
+  # --- API / HTTP / Network ---
+  # cask "proxyman"           # Native macOS HTTP proxy with SSL inspection — essential for API debugging
+  # cask "mitmproxy"          # CLI-first, scriptable HTTP proxy — automate traffic interception in CI
+  # cask "insomnia"           # REST/GraphQL/gRPC GUI client
+
+  # --- Containers & Virtualization ---
+  cask "orbstack"           # Docker Desktop replacement — faster, lighter, native Apple Silicon; runs Linux VMs too
+  # cask "utm"                # QEMU-based VM manager — free, runs ARM and x86 VMs; disposable sandboxes
+
+  # --- Security ---
+  # cask "1password"          # Password manager — gold standard; pair with brew "1password-cli" for terminal
+  # cask "bitwarden"          # Open-source password manager alternative
+  # cask "apparency"          # Quick Look plugin — inspect .app code signing and notarization before running
+  # cask "suspicious-package" # Quick Look plugin — inspect .pkg install scripts before running
+  # cask "little-snitch"      # Outbound firewall — audits what processes phone home; ~$70
+
+  # --- macOS Productivity & Ergonomics ---
+  # Still using Alfred, but raycast is a nice alternative
+  # cask "raycast"            # Spotlight replacement — scriptable, clipboard history, window snapping, extensions
+  # cask "karabiner-elements" # Keyboard remapper — Caps Lock → Esc/Ctrl, Hyper key, app-specific binds
+  # cask "thaw"               # Menu bar icon manager — open-source Bartender/Ice successor (macOS 14/15)
+  cask "thaw@beta"            # Thaw v2 beta — use this on macOS 26 (Tahoe) instead of cask "thaw"
+  cask "cleanshot"            # Screenshot, scrolling capture, GIF/video recording — replaces multiple tools
+  # Installed directly, but keeping here for options
+  # cask "dash"                 # Offline API docs — 200+ docsets (MDN, Go, Rust, AWS SDK, etc.); ~$30
+
+  # --- Media ---
+  cask "vlc"                  # Open source media player; handles virtually every codec
+  cask "calibre"              # Ebook management, conversion, and library organization
+
+  # --- Go release tooling ---
+  cask "goreleaser/tap/goreleaser"  # Go release automation (cross-compile, sign, publish binaries)
+
+  # --- Tunneling (requires free ngrok account + `ngrok config add-authtoken <token>`) ---
+  cask "ngrok"                # Reverse proxy / secure tunnel to localhost for webhook testing
+
+  # --- LaTeX (heavy, ~5 GB; required for pandoc PDF export) ---
+  # cask "mactex"             # Full TeX Live distribution for macOS
+
+end
+
+# ---------------------------------------------------------------------------
+# Fonts (macOS only via cask; on Linux install via distro package manager)
+# ---------------------------------------------------------------------------
+if OS.mac?
+  cask "font-jetbrains-mono-nerd-font"  # JetBrains Mono with Nerd Font icon glyphs — terminal default
+  cask "font-fira-code-nerd-font"       # Fira Code with ligatures + Nerd Font glyphs
+  # cask "font-monaspace-nerd-font"     # Monaspace — GitHub's variable-axis font family
+end

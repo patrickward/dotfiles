@@ -91,6 +91,10 @@ is_linux && sudo apt-get install -y something
 
 Topic `setup.sh` scripts gate themselves. The same repo works on both platforms.
 
+## Local Dev Stack
+
+See [`topics/homebrew/README.md`](topics/homebrew/README.md) for the local dev reference: Caddy, dnsmasq, PHP, Go, Python, mise, Mailpit, Redis, ngrok, and per-language project setup.
+
 ## After macOS Updates
 
 System updates can break symlinks. Run `zdot status` to check.
