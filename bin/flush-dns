@@ -1,9 +1,69 @@
-#!/bin/zsh
-# Flush the macOS DNS cache
+#!/usr/bin/env zsh
+# Flush the DNS resolver cache.
+#
+# Two layers can cache a lookup on a dev machine:
+#   1. The OS resolver (macOS mDNSResponder, systemd-resolved, nscd)
+#   2. dnsmasq itself, when it's running as the local resolver for *.test
+#
+# Both are cleared here. Uses `env zsh` rather than /bin/zsh because zsh
+# lives in /usr/bin or /usr/local/bin on most Linux distributions.
 
-if [[ "$(uname -s)" == "Darwin" ]]; then
-    sudo dscacheutil -flushcache && sudo killall -HUP mDNSResponder
-    echo "DNS cache flushed"
-else
-    echo "Non-macOS DNS flush not implemented"
-fi
+set -euo pipefail
+
+# Returns 0 only if dnsmasq was actually running and signalled, so callers
+# can tell "flushed something" from "found nothing to flush".
+flush_dnsmasq() {
+    # SIGHUP makes dnsmasq clear its cache and re-read /etc/hosts.
+    # Static `address=` entries (like *.test) survive; upstream answers don't.
+    if pgrep -x dnsmasq >/dev/null 2>&1; then
+        sudo pkill -HUP -x dnsmasq
+        echo "dnsmasq cache cleared"
+        return 0
+    fi
+    return 1
+}
+
+case "$OSTYPE" in
+
+    darwin*)
+        sudo dscacheutil -flushcache
+        sudo killall -HUP mDNSResponder
+        echo "macOS DNS cache flushed"
+        flush_dnsmasq || true    # absent dnsmasq is fine; don't trip set -e
+        ;;
+
+    linux*)
+        flushed=false
+
+        # systemd-resolved — the default on most modern distributions
+        if command -v resolvectl >/dev/null 2>&1 && \
+           systemctl is-active --quiet systemd-resolved 2>/dev/null; then
+            sudo resolvectl flush-caches
+            echo "systemd-resolved cache flushed"
+            flushed=true
+        fi
+
+        # nscd — older glibc name service cache
+        if systemctl is-active --quiet nscd 2>/dev/null; then
+            sudo systemctl restart nscd
+            echo "nscd restarted"
+            flushed=true
+        fi
+
+        if flush_dnsmasq; then
+            flushed=true
+        fi
+
+        if [[ "$flushed" != true ]]; then
+            echo "No known DNS cache found (checked systemd-resolved, nscd, dnsmasq)" >&2
+            echo "Nothing to flush — your resolver may not cache at all." >&2
+            exit 1
+        fi
+        ;;
+
+    *)
+        echo "Unsupported platform: $OSTYPE" >&2
+        exit 1
+        ;;
+
+esac
