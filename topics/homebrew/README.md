@@ -14,6 +14,15 @@ This directory manages the Homebrew package set and post-install wiring for the 
 | **[Tailscale](https://tailscale.com/kb)**                    | Mesh VPN for device-to-device dev access                      |
 | **[ngrok](https://ngrok.com/docs)**                          | Public tunnel for webhook testing and external sharing        |
 
+Two of these are not Homebrew-managed: **mise** is installed via `mise.run` in
+`bootstrap.sh` (the Brewfile's supply-chain policy keeps runtimes out of brew), and
+**Tailscale** is installed separately (Mac App Store or tailscale.com). Everything
+else comes from `Brewfile`.
+
+**Scope**: dotfiles provide the *infrastructure* — DNS, TLS, the reverse proxy, and
+the backing services. Individual `*.test` sites are not tracked here; they differ per
+machine and per project. See [Adding a new *.test site](#adding-a-new-test-site).
+
 ---
 
 ## How dnsmasq works
@@ -31,13 +40,36 @@ ping -c1 anything.test          # should resolve to 127.0.0.1
 scutil --dns | grep -A3 test    # should show nameserver 127.0.0.1
 ```
 
+Because dnsmasq runs as a root service, `brew services list` (without sudo) reports it
+as `none` — that only means it isn't running in *your* user domain. Use
+`sudo brew services list` to see its real status.
+
+After editing `dnsmasq.conf` or `/etc/resolver/test`, restart dnsmasq and clear the
+OS resolver cache:
+
+```sh
+sudo brew services restart dnsmasq
+flush-dns                       # bin/flush-dns
+```
+
 ---
 
 ## How Caddy works
 
-Caddy listens on port 443 (HTTPS) and 80 (HTTP → redirects to HTTPS). It acts as a reverse proxy, routing `*.test` hostnames to local processes.
+Caddy acts as a reverse proxy, routing `*.test` hostnames to local processes. Once at
+least one site is configured it listens on 443 (HTTPS) and 80 (HTTP → redirects to
+HTTPS).
 
-**Local CA**: On first run `caddy trust` generates Caddy's own certificate authority and installs it into the macOS Keychain — after that, browsers and `curl` accept `*.test` certs without warnings. `topics/caddy/setup.sh` handles this automatically.
+**A fresh install serves nothing, and that's expected.** The base `Caddyfile` contains
+only global options plus an `import` glob, so with an empty `sites/` directory Caddy has
+no site blocks and binds only its admin API on `127.0.0.1:2019` — nothing on 80 or 443.
+A glob matching zero files is not an error. Add your first `.caddy` file and reload, and
+the listeners appear.
+
+**Local CA**: Caddy generates its own certificate authority the first time it serves a
+site with `local_certs`; `caddy trust` installs that CA into the macOS Keychain so
+browsers and `curl` accept `*.test` certs without warnings. `topics/caddy/setup.sh` runs
+`caddy trust` for you (once, guarded by a Keychain check).
 
 **Per-site configs**: The base `Caddyfile` imports everything in `$(brew --prefix)/etc/caddy/sites/*.caddy`. Drop a `.caddy` file there for each project. Caddy does **not** watch for file changes — after adding or modifying a site file, reload explicitly:
 
@@ -52,6 +84,12 @@ Docs: [Caddyfile reference](https://caddyserver.com/docs/caddyfile) · [reverse_
 ---
 
 ## Adding a new *.test site
+
+Site configs live in `$(brew --prefix)/etc/caddy/sites/<project>.caddy` — outside this
+repo, by design. Which projects exist is a property of the machine, not of the dotfiles.
+
+Each block below is a complete file. After adding or editing one, reload Caddy (see
+[reload](#how-caddy-works)).
 
 ### 1. Static site
 
@@ -208,9 +246,10 @@ Configure your app:
 
 ```sh
 # Laravel / PHP (.env)
+MAIL_MAILER=smtp
 MAIL_HOST=127.0.0.1
 MAIL_PORT=1025
-MAIL_ENCRYPTION=null
+MAIL_SCHEME=smtp      # Laravel 11+; on Laravel 9/10 use MAIL_ENCRYPTION=null
 
 # Go (net/smtp)
 smtp.SendMail("127.0.0.1:1025", nil, "from@test", []string{"to@test"}, msg)
@@ -258,7 +297,8 @@ tailscale funnel off            # stop
 
 Funnel is simpler than ngrok for basic cases, but lacks request inspection and replay.
 
-Install: `cask "tailscale"` in Brewfile (currently commented), or from the Mac App Store.
+Install: not managed by this repo — install from the Mac App Store or
+[tailscale.com/download](https://tailscale.com/download).
 
 ### ngrok — public tunnels for webhook testing
 
@@ -271,10 +311,22 @@ ngrok config add-authtoken <your-token>   # from dashboard.ngrok.com
 
 **Usage**:
 ```sh
-ngrok http 8080                              # tunnel to local port
-ngrok http myapp.test                        # tunnel via Caddy (HTTPS)
+ngrok http 8080                              # tunnel to local port (preferred)
 ngrok http --domain=yourname.ngrok.app 8080  # reserved domain (paid)
 ```
+
+**Point ngrok at the app's port, not at the `*.test` hostname.** `ngrok http myapp.test`
+resolves to `http://myapp.test:80`, where Caddy immediately redirects to HTTPS and the
+tunnel breaks. Fronting Caddy requires rewriting the Host header *and* getting ngrok to
+accept Caddy's local CA:
+
+```sh
+ngrok http https://myapp.test --host-header=myapp.test
+```
+
+That's rarely worth it — bypass Caddy and tunnel the port directly. The exception is an
+app that only works behind its real hostname (absolute URL generation, cookie domains),
+in which case reach for Tailscale Funnel instead.
 
 The ngrok web UI at `http://localhost:4040` shows all requests and lets you replay them — useful for debugging webhook payloads.
 
@@ -340,7 +392,11 @@ sudo brew services start|stop|restart dnsmasq
 
 ## What's NOT handled here
 
-- **PostgreSQL**: Use [Postgres.app](https://postgresapp.com) for multi-version support. `setup.sh` auto-wires the CLI to PATH when it's installed.
+- **PostgreSQL**: Use [Postgres.app](https://postgresapp.com) for multi-version support.
+  `setup.sh` writes `/etc/paths.d/postgresapp` so `psql`, `pg_dump`, etc. resolve. Two
+  related pieces *are* tracked here: `pgcli` (Brewfile) for a REPL with autocomplete, and
+  `topics/postgresql/psqlrc.symlink` → `~/.psqlrc` for `psql` defaults (auto-expanded
+  output, per-database history, `ON_ERROR_STOP`).
 - **MySQL**: Run via Docker/OrbStack: `docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root mysql:8`
 - **SSL for external access**: Caddy's local CA is not trusted by external parties — use ngrok or Tailscale Funnel.
 - **LAN access from other devices**: Tailscale is the cleanest solution; manual firewall rules and DNS otherwise.
