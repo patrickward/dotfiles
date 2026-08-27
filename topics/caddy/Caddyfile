@@ -1,7 +1,9 @@
 # Caddyfile — managed by dotfiles
 #
-# This is a template. setup.sh substitutes BREW_PREFIX with the actual
-# brew --prefix path when installing to $(brew --prefix)/etc/Caddyfile.
+# This is a template. setup.sh rewrites the placeholder in the import path
+# below to the real brew prefix when installing to
+# $(brew --prefix)/etc/Caddyfile. Keep that placeholder out of these
+# comments, or they get rewritten too.
 #
 # Per-site configs: $(brew --prefix)/etc/caddy/sites/*.caddy
 #
@@ -17,5 +19,9 @@
 # Import per-site configs. Add files to:
 #   $(brew --prefix)/etc/caddy/sites/<project>.caddy
 #
-# See topics/caddy/README.md for site config examples.
+# Site configs are intentionally NOT tracked in dotfiles — projects differ
+# per machine. See topics/homebrew/README.md for site config examples.
+#
+# A glob matching zero files is not an error: with an empty sites/ directory
+# Caddy starts but serves nothing (admin API on :2019 only).
 import BREW_PREFIX/etc/caddy/sites/*.caddy
