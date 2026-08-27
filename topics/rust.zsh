@@ -1,7 +1,12 @@
 # topics/rust.zsh
 #
 # Rust toolchain configuration.
-# Install via: https://rustup.rs
+#
+# Installed via mise, which wraps rustup under the hood — you get .mise.toml
+# pinning on top of the standard toolchain manager:
+#   mise use --global rust@stable
+# Toolchain targets still go through rustup directly:
+#   rustup target add wasm32-unknown-unknown
 #
 # ~/.cargo/env (adds ~/.cargo/bin to PATH) is sourced in zshenv.zsh for all shells.
 # No further PATH setup is needed here.
