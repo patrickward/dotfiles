@@ -126,4 +126,3 @@ if [[ -o login ]]; then
     echo "💡 Type 'quickref' to see custom commands and aliases"
 fi
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
