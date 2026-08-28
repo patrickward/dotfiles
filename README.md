@@ -93,7 +93,9 @@ Topic `setup.sh` scripts gate themselves. The same repo works on both platforms.
 
 ## Local Dev Stack
 
-See [`topics/homebrew/README.md`](topics/homebrew/README.md) for the local dev reference: Caddy, dnsmasq, PHP, Go, Python, mise, Mailpit, Redis, ngrok, and per-language project setup.
+See [`docs/brew.md`](docs/brew.md) for the local dev reference: Caddy, dnsmasq, PHP, Go, Python, mise, Mailpit, Redis, ngrok, and per-language project setup.
+
+Caddy-specific site snippet examples live in [`docs/caddy.md`](docs/caddy.md).
 
 ## After macOS Updates
 

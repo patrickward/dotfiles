@@ -64,7 +64,7 @@ So the division is:
 
 ## Default extensions
 
-`setup.sh` installs a conservative global extension set:
+`../topics/php/setup.sh` installs a conservative global extension set:
 
 | Extension | Why |
 |---|---|
@@ -147,7 +147,7 @@ php -i | grep extension_dir
 
 ## php-fpm
 
-After installing or changing extensions, `setup.sh` restarts Homebrew's PHP
+After installing or changing extensions, `../topics/php/setup.sh` restarts Homebrew's PHP
 service so `php-fpm` sees the new extension state.
 
 Check service status:
@@ -166,7 +166,7 @@ brew services restart php
 
 ## Adding another extension
 
-Add another call in `setup.sh`:
+Add another call in `../topics/php/setup.sh`:
 
 ```sh
 install_pecl_extension "pcov"
