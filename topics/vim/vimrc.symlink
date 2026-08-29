@@ -1,0 +1,140 @@
+" ============================================================
+" ~/.vimrc
+" ============================================================
+
+" ---------- Core ----------
+set nocompatible
+filetype plugin indent on
+syntax on
+set encoding=utf-8
+set hidden                  " switch buffers w/o forcing a save
+set updatetime=300
+set shortmess+=c
+set signcolumn=yes
+set nobackup nowritebackup
+set undofile
+set undodir=$HOME/.vim/undo//
+set backupdir=$HOME/.vim/backup//
+set directory=$HOME/.vim/swap//
+for d in [&undodir, &backupdir, &directory]
+  if !isdirectory(d) | call mkdir(d, 'p', 0700) | endif
+endfor
+
+" Skip syntax/undo/swap on large files (logs, dumps) to stay responsive —
+" pure performance guard, no plugin, checked before any other autocmd fires
+augroup large_file
+  autocmd!
+  autocmd BufReadPre * if getfsize(expand('<afile>')) > 5*1024*1024
+        \ | setlocal noundofile nobackup noswapfile syntax=off
+        \ | endif
+augroup END
+
+" ---------- UI ----------
+set number relativenumber
+set cursorline
+set scrolloff=5
+set wildmenu wildmode=longest:full,full
+set splitbelow splitright
+set noshowmode               " statusline shows mode instead
+colorscheme ansi16
+
+" Show tabs/trailing whitespace/nbsp — catches mixed indentation before
+" JetBrains would otherwise flag it
+set list
+set listchars=tab:▸\ ,trail:·,nbsp:_
+
+" Built-in file browser (:Explore / :Ex) — lightweight fallback for boxes
+" where fzf isn't installed yet
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+
+" ---------- Search ----------
+set incsearch hlsearch ignorecase smartcase
+
+" Use ripgrep (already installed for fzf) for :grep instead of slow builtin —
+" populates quickfix list, good for :cdo substitutions across all matches
+set grepprg=rg\ --vimgrep\ --smart-case
+set grepformat=%f:%l:%c:%m
+
+" ---------- Indentation (defaults; per-language overrides below) ----------
+set expandtab tabstop=4 shiftwidth=4 softtabstop=4
+set autoindent smartindent
+
+" ---------- Clipboard ----------
+" Shares the unnamed register with the OS clipboard where available.
+" Requires vim built with +clipboard (e.g. `vim-gtk3` on Debian/Ubuntu).
+" On headless/SSH boxes without +clipboard, this silently no-ops —
+" use "+y / "+p there instead, or set up OSC52 if that becomes painful.
+if has('clipboard')
+  set clipboard^=unnamed,unnamedplus
+endif
+
+" ---------- Leader ----------
+let mapleader = ' '
+
+" ---------- Native package loading ----------
+" Plugins live as git submodules under ~/.vim/pack/plugins/start/*
+" `git submodule update --init` after cloning dotfiles is the only setup step.
+packloadall
+
+" matchit ships with Vim but isn't loaded by default — extends % to jump
+" between HTML/XML tag pairs and if/else/end keywords (useful for php/html)
+packadd! matchit
+
+" ---------- Per-filetype indent ----------
+augroup ft_indent
+  autocmd!
+  autocmd FileType go                      setlocal noexpandtab shiftwidth=4 tabstop=4
+  autocmd FileType python                  setlocal expandtab shiftwidth=4 softtabstop=4
+  autocmd FileType javascript,html,css,php setlocal expandtab shiftwidth=2 softtabstop=2
+  autocmd FileType sh,zsh                  setlocal expandtab shiftwidth=2 softtabstop=2
+augroup END
+
+" ---------- Format-on-save (toolchain only, no plugin) ----------
+augroup fmt_on_save
+  autocmd!
+  autocmd BufWritePre *.go  silent! execute '!gofmt -w %' | edit!
+  autocmd BufWritePre *.rs  silent! execute '!rustfmt %'  | edit!
+augroup END
+
+" ---------- Native statusline ----------
+function! GitBranch() abort
+  return exists('*FugitiveHead') ? FugitiveHead() : ''
+endfunction
+
+set laststatus=2
+set statusline=
+set statusline+=%#StatusLine#\ %{mode()}\
+set statusline+=%#StatusLineNC#\ %{GitBranch()!=''?'\ ':''}%{GitBranch()}
+set statusline+=\ %f\ %m
+set statusline+=%=
+set statusline+=%y\ %{&fileencoding?&fileencoding:&encoding}\
+set statusline+=%l:%c\ %p%%\
+
+" ---------- fzf ----------
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>g :GFiles<CR>
+nnoremap <leader>r :Rg<CR>
+nnoremap <leader>b :Buffers<CR>
+
+" ---------- fugitive ----------
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gd :Gdiffsplit<CR>
+nnoremap <leader>gb :Git blame<CR>
+
+" ---------- tmux-runner ----------
+nnoremap <leader>vr :VtrOpenRunner<CR>
+nnoremap <leader>vs :VtrSendLinesToRunner<CR>
+
+" ---------- Misc quality-of-life ----------
+nnoremap <leader>w :w<CR>
+nnoremap <leader>q :q<CR>
+nnoremap <Esc><Esc> :nohlsearch<CR>
+
+" ---------- Per-machine overrides ----------
+if filereadable(expand('~/.vimrc.local'))
+  source ~/.vimrc.local
+endif
+
+" Regenerate plugin help on demand, not on every startup (that'd be wasteful)
+command! HelpTags helptags ALL

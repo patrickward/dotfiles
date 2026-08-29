@@ -1,0 +1,29 @@
+# vim/.gitignore
+
+# runtime-generated state (created by vimrc on startup)
+/undo/
+/backup/
+/swap/
+
+# view/session files, if you ever use :mkview or :mksession into ~/.vim
+/view/
+*.vim.session
+
+# netrw history
+.netrwhist
+
+# Ignore all plugins
+/pack/plugins/start
+
+# spell file additions (personal dictionary growth, e.g. zz.utf-8.add.spl)
+/spell/*.add.spl
+
+# local-only override, never committed
+/vimrc.local
+/vimrc.local.example.bak
+
+# OS/editor cruft
+.DS_Store
+*.swp
+*.swo
+*~

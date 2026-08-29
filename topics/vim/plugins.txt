@@ -1,0 +1,10 @@
+# vim/plugins.txt
+# url                                                   ref            dest
+https://github.com/tpope/vim-surround.git               master         vim-surround
+https://github.com/tpope/vim-commentary.git             master         vim-commentary
+https://github.com/tpope/vim-unimpaired.git             master         vim-unimpaired
+https://github.com/tpope/vim-fugitive.git               master         vim-fugitive
+https://github.com/editorconfig/editorconfig-vim.git    master         editorconfig-vim
+https://github.com/junegunn/fzf.git                     master         fzf
+https://github.com/junegunn/fzf.vim.git                 master         fzf.vim
+https://github.com/christoomey/vim-tmux-runner.git      master         vim-tmux-runner

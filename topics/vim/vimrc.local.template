@@ -1,0 +1,11 @@
+" vim/vimrc.local.example
+" Copy manually to ~/.vimrc.local on boxes that need overrides. Not tracked/symlinked.
+
+" Example: box without fzf/rg installed
+" if !executable('fzf')
+"   nunmap <leader>f
+"   nunmap <leader>r
+" endif
+
+" Example: box without +clipboard support
+" set clipboard=
