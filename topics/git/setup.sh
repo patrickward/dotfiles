@@ -11,7 +11,7 @@ if [ ! -f "$HOME/.gitconfig.local" ]; then
     cp "$DOTFILES/topics/git/gitconfig.local.template" "$HOME/.gitconfig.local"
     warn "Edit ~/.gitconfig.local to set your name and email"
 else
-    okay "~/.gitconfig.local already exists (skipping)"
+    okay "$HOME/.gitconfig.local already exists (skipping)"
 fi
 
 # ---------------------------------------------------------------------------
@@ -19,7 +19,7 @@ fi
 # The pre-commit hook enforces that user.email is set per-repo.
 # gitconfig.local points git at this directory via init.templatedir.
 # ---------------------------------------------------------------------------
-local hooks_dir="$HOME/.config/git/templates/hooks"
+hooks_dir="$HOME/.config/git/templates/hooks"
 
 if [ ! -d "$hooks_dir" ]; then
     info "Installing git hook templates to $hooks_dir..."
