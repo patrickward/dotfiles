@@ -7,15 +7,15 @@
 # gitconfig.local: machine-specific identity (name, email, templatedir)
 # ---------------------------------------------------------------------------
 if [ ! -f "$HOME/.gitconfig.local" ]; then
-    info "Creating ~/.gitconfig.local from template..."
+    info "Creating $HOME/.gitconfig.local from template..."
     cp "$DOTFILES/topics/git/gitconfig.local.template" "$HOME/.gitconfig.local"
-    warn "Edit ~/.gitconfig.local to set your name and email"
+    warn "Edit $HOME/.gitconfig.local to set your name and email"
 else
     okay "$HOME/.gitconfig.local already exists (skipping)"
 fi
 
 # ---------------------------------------------------------------------------
-# Git hook templates: copied to ~/.config/git/templates/hooks/
+# Git hook templates: copied to $HOME/.config/git/templates/hooks/
 # The pre-commit hook enforces that user.email is set per-repo.
 # gitconfig.local points git at this directory via init.templatedir.
 # ---------------------------------------------------------------------------
