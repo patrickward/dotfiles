@@ -1,30 +1,74 @@
-# List all custom commands with descriptions
+# Quick reference for custom dotfiles commands, helpers, docs, and aliases.
 #
 # Usage:
-#   quickref                   show everything
-#   quickref functions         show only functions
-#   quickref bin               show only bin scripts
-#   quickref aliases           show only aliases
-#   quickref -f <prefix>       filter by prefix
-#   quickref -v                show file paths
+#   quickref                   show sections and examples
+#   quickref commands          show functions, topic helpers, and bin scripts
+#   quickref functions         show zsh/functions helpers
+#   quickref topics            show functions from topics/**/*.zsh
+#   quickref bin               show executable scripts from bin/
+#   quickref docs              show docs/*.md
+#   quickref aliases           show active aliases
+#   quickref all               show everything
+#   quickref caddy             search all sections for "caddy"
+#   quickref -f caddy          same as above
+#   quickref commands -v       show source paths
 quickref() {
-    local section="all"
+    local section="menu"
     local verbose=0
     local filter=""
 
     while [[ $# -gt 0 ]]; do
         case "$1" in
-            -v|--verbose) verbose=1; shift ;;
-            -f|--filter)
-                [[ -n "$2" && "$2" != -* ]] && { filter="$2"; shift 2; } || shift
+            -v|--verbose)
+                verbose=1
+                shift
                 ;;
-            functions|func|f) section="functions"; shift ;;
-            bin|b)            section="bin"; shift ;;
-            aliases|alias|a)  section="aliases"; shift ;;
-            all)              section="all"; shift ;;
+            -f|--filter)
+                if [[ -n "$2" && "$2" != -* ]]; then
+                    filter="$2"
+                    section="all"
+                    shift 2
+                else
+                    echo "quickref: --filter requires a value" >&2
+                    return 2
+                fi
+                ;;
+            commands|cmd|c)
+                section="commands"
+                shift
+                ;;
+            functions|func|f)
+                section="functions"
+                shift
+                ;;
+            topics|topic|t)
+                section="topics"
+                shift
+                ;;
+            bin|b)
+                section="bin"
+                shift
+                ;;
+            docs|doc|d)
+                section="docs"
+                shift
+                ;;
+            aliases|alias|a)
+                section="aliases"
+                shift
+                ;;
+            all)
+                section="all"
+                shift
+                ;;
+            help|-h|--help)
+                section="menu"
+                shift
+                ;;
             *)
-                echo "Usage: quickref [functions|bin|aliases|all] [-v] [-f prefix]"
-                return 1
+                filter="$1"
+                section="all"
+                shift
                 ;;
         esac
     done
@@ -33,55 +77,253 @@ quickref() {
     local green='\033[0;32m'
     local yellow='\033[0;33m'
     local magenta='\033[0;35m'
+    local blue='\033[0;34m'
     local gray='\033[0;90m'
     local reset='\033[0m'
 
+    _quickref_match() {
+        local name="$1"
+        local desc="$2"
+
+        [[ -z "$filter" ]] && return 0
+        [[ "$name" == *"$filter"* || "$desc" == *"$filter"* ]]
+    }
+
+    _quickref_first_comment() {
+        local file="$1"
+
+        awk '
+            /^#[[:space:]]*quickref:[[:space:]]*/ {
+                sub(/^#[[:space:]]*quickref:[[:space:]]*/, "")
+                print
+                exit
+            }
+
+            /^#!/ { next }
+            /^#compdef/ { next }
+            /^#[[:space:]]*$/ { next }
+            /^#/ {
+                sub(/^#[[:space:]]*/, "")
+                print
+                exit
+            }
+        ' "$file"
+    }
+
+    _quickref_doc_desc() {
+        local file="$1"
+
+        awk '
+            /<!--[[:space:]]*quickref:[[:space:]]*/ {
+                line = $0
+                sub(/^.*<!--[[:space:]]*quickref:[[:space:]]*/, "", line)
+                sub(/[[:space:]]*-->.*$/, "", line)
+                print line
+                exit
+            }
+
+            /^#[[:space:]]+/ {
+                sub(/^#[[:space:]]+/, "")
+                print
+                exit
+            }
+        ' "$file"
+    }
+
+    _quickref_print() {
+        local color="$1"
+        local name="$2"
+        local desc="$3"
+        local file="$4"
+
+        if [[ -z "$desc" ]]; then
+            desc="(no description)"
+        fi
+
+        if (( verbose )) && [[ -n "$file" ]]; then
+            printf "${color}%-24s${reset} %s\n  ${gray}%s${reset}\n" "$name" "$desc" "$file"
+        else
+            printf "${color}%-24s${reset} %s\n" "$name" "$desc"
+        fi
+    }
+
+    show_menu() {
+        cat <<EOF
+quickref — dotfiles reference
+
+Usage:
+  quickref commands       Shell functions, topic helpers, and bin scripts
+  quickref functions      Autoloaded zsh functions
+  quickref topics         Functions from topic .zsh files
+  quickref bin            Executable scripts
+  quickref docs           Documentation files
+  quickref aliases        Active aliases
+  quickref all            Everything
+  quickref caddy          Search everything for "caddy"
+
+Options:
+  -v, --verbose           Show source paths
+  -f, --filter TEXT       Filter names/descriptions
+
+Examples:
+  quickref commands
+  quickref docs
+  quickref caddy
+  quickref topics -v
+EOF
+    }
+
     show_functions() {
-        printf "${cyan}=== FUNCTIONS (%s/zsh/functions) ===${reset}\n\n" "$DOTFILES"
+        printf "${cyan}=== ZSH FUNCTIONS (%s/zsh/functions) ===${reset}\n\n" "$DOTFILES"
+
         [[ ! -d "$DOTFILES/zsh/functions" ]] && return
-        for file in "$DOTFILES/zsh/functions"/^_*(N.); do
-            local name="${file:t}"
-            [[ -n "$filter" && "$name" != "$filter"* ]] && continue
-            local desc=$(awk 'NR==1 && /^#/ { sub(/^# /, ""); print; exit }' "$file")
-            if (( verbose )); then
-                printf "${green}%-22s${reset} %s\n  ${gray}%s${reset}\n" "$name" "$desc" "$file"
-            else
-                printf "${green}%-22s${reset} %s\n" "$name" "$desc"
-            fi
-        done | sort
+
+        while IFS= read -r file; do
+            local name=""
+            local desc=""
+
+            name="$(basename "$file")"
+            desc="$(_quickref_first_comment "$file")"
+
+            _quickref_match "$name" "$desc" || continue
+            _quickref_print "$green" "$name" "$desc" "$file"
+        done < <(find "$DOTFILES/zsh/functions" -maxdepth 1 -type f ! -name '_*' 2>/dev/null | sort)
+
+        echo ""
+    }
+
+    show_topic_helpers() {
+        printf "${cyan}=== TOPIC HELPERS (%s/topics) ===${reset}\n\n" "$DOTFILES"
+
+        [[ ! -d "$DOTFILES/topics" ]] && return
+
+        while IFS= read -r file; do
+            local line=""
+            local name=""
+            local desc=""
+
+            while IFS= read -r line; do
+                name="${line%%:*}"
+                desc="${line#*:}"
+
+                _quickref_match "$name" "$desc" || continue
+                _quickref_print "$blue" "$name" "$desc" "$file"
+            done < <(
+                awk '
+                    /^#[[:space:]]*/ {
+                        comment = $0
+                        sub(/^#[[:space:]]*/, "", comment)
+                        sub(/^quickref:[[:space:]]*/, "", comment)
+                        next
+                    }
+
+                    /^[[:space:]]*[A-Za-z0-9_-]+[[:space:]]*\(\)[[:space:]]*\{/ {
+                        line = $0
+                        sub(/^[[:space:]]*/, "", line)
+                        sub(/[[:space:]]*\(\)[[:space:]]*\{.*/, "", line)
+
+                        if (comment == "") {
+                            comment = "(no description)"
+                        }
+
+                        print line ":" comment
+                        comment = ""
+                        next
+                    }
+
+                    /^[[:space:]]*$/ {
+                        next
+                    }
+
+                    {
+                        comment = ""
+                    }
+                ' "$file"
+            )
+        done < <(find "$DOTFILES/topics" -type f -name '*.zsh' 2>/dev/null | sort) | sort -u
+
         echo ""
     }
 
     show_bin() {
-        printf "${cyan}=== BIN (%s/bin) ===${reset}\n\n" "$DOTFILES"
+        printf "${cyan}=== BIN SCRIPTS (%s/bin) ===${reset}\n\n" "$DOTFILES"
+
         [[ ! -d "$DOTFILES/bin" ]] && return
-        for file in "$DOTFILES/bin"/*(N.x); do
-            local name="${file:t}"
-            [[ -n "$filter" && "$name" != "$filter"* ]] && continue
-            local desc=$(awk 'NR==1 && /^#/ { sub(/^# /, ""); print; exit }
-                          /^#/ && !/^#!/ { sub(/^# /, ""); print; exit }' "$file")
-            if (( verbose )); then
-                printf "${yellow}%-22s${reset} %s\n  ${gray}%s${reset}\n" "$name" "$desc" "$file"
-            else
-                printf "${yellow}%-22s${reset} %s\n" "$name" "$desc"
-            fi
-        done | sort
+
+        while IFS= read -r file; do
+            local name=""
+            local desc=""
+
+            name="$(basename "$file")"
+            desc="$(_quickref_first_comment "$file")"
+
+            _quickref_match "$name" "$desc" || continue
+            _quickref_print "$yellow" "$name" "$desc" "$file"
+        done < <(find "$DOTFILES/bin" -maxdepth 1 -type f -perm -u+x 2>/dev/null | sort)
+
+        echo ""
+    }
+
+    show_docs() {
+        printf "${cyan}=== DOCS (%s/docs) ===${reset}\n\n" "$DOTFILES"
+
+        [[ ! -d "$DOTFILES/docs" ]] && return
+
+        while IFS= read -r file; do
+            local name=""
+            local desc=""
+
+            name="$(basename "$file" .md)"
+            desc="$(_quickref_doc_desc "$file")"
+
+            _quickref_match "$name" "$desc" || continue
+            _quickref_print "$magenta" "$name" "$desc" "$file"
+        done < <(find "$DOTFILES/docs" -maxdepth 1 -type f -name '*.md' 2>/dev/null | sort)
+
         echo ""
     }
 
     show_aliases() {
         printf "${cyan}=== ALIASES ===${reset}\n\n"
+
         alias | while IFS='=' read -r name value; do
-            [[ -n "$filter" && "$name" != "$filter"* ]] && continue
-            printf "${magenta}%-22s${reset} %s\n" "$name" "$value"
+            _quickref_match "$name" "$value" || continue
+            printf "${magenta}%-24s${reset} %s\n" "$name" "$value"
         done | sort
+
         echo ""
     }
 
     case "$section" in
-        functions) show_functions ;;
-        bin)       show_bin ;;
-        aliases)   show_aliases ;;
-        all)       show_functions; show_bin; show_aliases ;;
+        menu)
+            show_menu
+            ;;
+        commands)
+            show_functions
+            show_topic_helpers
+            show_bin
+            ;;
+        functions)
+            show_functions
+            ;;
+        topics)
+            show_topic_helpers
+            ;;
+        bin)
+            show_bin
+            ;;
+        docs)
+            show_docs
+            ;;
+        aliases)
+            show_aliases
+            ;;
+        all)
+            show_functions
+            show_topic_helpers
+            show_bin
+            show_docs
+            show_aliases
+            ;;
     esac
 }

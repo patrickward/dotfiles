@@ -3,20 +3,28 @@
 _quickref() {
     local -a sections
     sections=(
-        'functions:Show zsh functions'
-        'bin:Show bin scripts'
-        'aliases:Show aliases'
+        'commands:Show zsh functions, topic helpers, and bin scripts'
+        'functions:Show autoloaded zsh/functions helpers'
+        'topics:Show functions from topic .zsh files'
+        'bin:Show executable scripts from bin/'
+        'docs:Show docs/*.md files'
+        'aliases:Show active shell aliases'
         'all:Show everything'
+        'help:Show usage menu'
     )
 
     _arguments \
-        '1:section:->section' \
-        '(-v --verbose)'{-v,--verbose}'[Show file paths]' \
-        '(-f --filter)'{-f,--filter}'[Filter by prefix]:filter:'
+        '(-v --verbose)'{-v,--verbose}'[Show source paths]' \
+        '(-f --filter)'{-f,--filter}'[Filter names/descriptions]:filter text:' \
+        '(-h --help)'{-h,--help}'[Show usage menu]' \
+        '1:section or search term:->section_or_search' \
+        '*::extra arguments:->extra'
 
-    case $state in
-        section)
+    case "$state" in
+        section_or_search)
             _describe 'section' sections
+            ;;
+        extra)
             ;;
     esac
 }

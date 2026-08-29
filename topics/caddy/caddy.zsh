@@ -7,6 +7,7 @@ if command -v brew >/dev/null 2>&1; then
   export CADDY_SITES_DIR="${CADDY_SITES_DIR:-$(brew --prefix)/etc/caddy/sites}"
 fi
 
+# Show the configured sites for caddy
 caddy-sites() {
   if [[ ! -d "$CADDY_SITES_DIR" ]]; then
     echo "Caddy sites directory does not exist: $CADDY_SITES_DIR" >&2
@@ -23,14 +24,17 @@ caddy-sites() {
   printf '%s\n' "${sites[@]}"
 }
 
+# CD to the caddy sites directory
 caddy-sites-cd() {
   cd "$CADDY_SITES_DIR"
 }
 
+# Edit the main Caddyfile
 caddy-edit() {
   ${EDITOR:-vi} "$CADDYFILE"
 }
 
+# Edit a specific caddy file under the caddy/sites directory
 caddy-site() {
   if [[ $# -lt 1 ]]; then
     echo "usage: caddy-site <name>" >&2
@@ -42,6 +46,7 @@ caddy-site() {
   ${EDITOR:-vi} "$CADDY_SITES_DIR/${name}.caddy"
 }
 
+# Format a specific caddy file (or leave empty and format all)
 caddy-fmt() {
   if [[ $# -gt 0 ]]; then
     local name="${1%.caddy}"
@@ -52,14 +57,18 @@ caddy-fmt() {
   fi
 }
 
+# Validate the Caddyfile and imports are correct
 caddy-check() {
   caddy validate --config "$CADDYFILE"
 }
 
+# Reload the caddy server
 caddy-reload() {
   caddy reload --config "$CADDYFILE"
 }
 
+# Restart the caddy server
 caddy-restart() {
   brew services restart caddy
 }
+
