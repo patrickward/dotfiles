@@ -7,10 +7,10 @@ set nocompatible
 filetype plugin indent on
 syntax on
 set encoding=utf-8
-set hidden                  " switch buffers w/o forcing a save
-set updatetime=300
-set shortmess+=c
-set signcolumn=yes
+set hidden              "Allows switching buffers without saving - buffers stay loaded in background"
+set updatetime=300      "Faster CursorHold events (used by plugins, swap write timing)"
+set shortmess+=c        "Suppress 'inscribed' completion messages"
+set signcolumn=yes      "Prevents layout shift when git gutter/linters add signs"
 set nobackup nowritebackup
 set undofile
 set undodir=$HOME/.vim/undo//
@@ -31,11 +31,11 @@ augroup END
 
 " ---------- UI ----------
 set number relativenumber
-set cursorline
-set scrolloff=5
-set wildmenu wildmode=longest:full,full
+set cursorline                              "Highlights current line for visual orientation"
+set scrolloff=5                             "Keeps 5 lines of context above/below cursor when scrolling"
+set wildmenu wildmode=longest:full,full     "Enhanced tab completion: shows longest match first, then full list"
 set splitbelow splitright
-set noshowmode               " statusline shows mode instead
+set noshowmode                              "Statusline shows mode instead of the -- INSERT -- bar"
 colorscheme ansi16
 
 " Show tabs/trailing whitespace/nbsp — catches mixed indentation before
@@ -49,15 +49,15 @@ let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 
 " ---------- Search ----------
-set incsearch hlsearch ignorecase smartcase
+set incsearch hlsearch ignorecase smartcase     "Incremental search highlighting, case-smart matching"
 
 " Use ripgrep (already installed for fzf) for :grep instead of slow builtin —
 " populates quickfix list, good for :cdo substitutions across all matches
 set grepprg=rg\ --vimgrep\ --smart-case
-set grepformat=%f:%l:%c:%m
+set grepformat=%f:%l:%c:%m              "Parse ripgrep's --vimgrep output format"
 
 " ---------- Indentation (defaults; per-language overrides below) ----------
-set expandtab tabstop=4 shiftwidth=4 softtabstop=4
+set expandtab tabstop=4 shiftwidth=4 softtabstop=4          "Default: tabs become spaces, 4-space indentation"
 set autoindent smartindent
 
 " ---------- Clipboard ----------
@@ -70,7 +70,7 @@ if has('clipboard')
 endif
 
 " ---------- Leader ----------
-let mapleader = ' '
+let mapleader = ' '         "Space as leader - more ergonomic than backslash"
 
 " ---------- Native package loading ----------
 " Plugins live as git submodules under ~/.vim/pack/plugins/start/*
@@ -93,15 +93,18 @@ augroup END
 " ---------- Format-on-save (toolchain only, no plugin) ----------
 augroup fmt_on_save
   autocmd!
+  "silent! suppresses errors; edit! reloads buffer after external format"
   autocmd BufWritePre *.go  silent! execute '!gofmt -w %' | edit!
   autocmd BufWritePre *.rs  silent! execute '!rustfmt %'  | edit!
 augroup END
 
 " ---------- Native statusline ----------
+"Falls back gracefully if fugitive.vim not loaded"
 function! GitBranch() abort
   return exists('*FugitiveHead') ? FugitiveHead() : ''
 endfunction
 
+"Mode, branch, filename, flags, encoding, position, percentage"
 set laststatus=2
 set statusline=
 set statusline+=%#StatusLine#\ %{mode()}\
@@ -132,9 +135,10 @@ nnoremap <leader>q :q<CR>
 nnoremap <Esc><Esc> :nohlsearch<CR>
 
 " ---------- Per-machine overrides ----------
+"Local overrides (machine-specific settings, secrets)"
 if filereadable(expand('~/.vimrc.local'))
   source ~/.vimrc.local
 endif
 
-" Regenerate plugin help on demand, not on every startup (that'd be wasteful)
+"Regenerate all plugin help tags on demand"
 command! HelpTags helptags ALL
