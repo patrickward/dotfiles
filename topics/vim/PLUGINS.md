@@ -74,15 +74,15 @@ upstream before touching `.vimrc`.
 
 Requires both `fzf` (binary + vim API) and `fzf.vim` (commands) — see troubleshooting in README if commands error out.
 
-| Command          | Effect                                      |
-|------------------|---------------------------------------------|
-| `:Files`         | Fuzzy find files (`<leader>f`)              |
-| `:Buffers`       | Open buffers with fzf                       |
-| `:Changes`       | Open changes with fzf                       |
-| `:GFiles [opts]` | Fuzzy find git-tracked files (`<leader>g`)  |
-| `:GFiles?`       | Git files (git status)                      |
-| `:Rg {term}`     | ripgrep search, live-updating (`<leader>r`) |
-| `:Buffers`       | fuzzy find open buffers (`<leader>b`)       |
+| Command          | Effect                                                    |
+|------------------|-----------------------------------------------------------|
+| `:Files`         | Fuzzy find files (`<leader>f`)                            |
+| `:Buffers`       | Open buffers with fzf                                     |
+| `:Changes`       | Open changes with fzf                                     |
+| `:GFiles [opts]` | Fuzzy find git-tracked files (git ls-files) (`<leader>g`) |
+| `:GFiles?`       | Git files (git status)                                    |
+| `:Rg {term}`     | ripgrep search, live-updating (`<leader>r`)               |
+| `:Buffers`       | fuzzy find open buffers (`<leader>b`)                     |
 
 Inside any fzf window: `Tab` multi-select, `Ctrl-T` open in new tab,
 `Ctrl-X` open in horizontal split, `Ctrl-V` open in vertical split.

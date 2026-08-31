@@ -240,7 +240,7 @@ EOF
                     }
                 ' "$file"
             )
-        done < <(find "$DOTFILES/topics" -type f -name '*.zsh' 2>/dev/null | sort) | sort -u
+        done < <(find "$DOTFILES/topics" -type f -name '*.zsh' -not -path "$DOTFILES/topics/vim/plugged/*" 2>/dev/null | sort) | sort -u
 
         echo ""
     }
