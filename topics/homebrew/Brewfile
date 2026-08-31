@@ -27,6 +27,7 @@ brew "bash"         if OS.mac?  # Newer bash (macOS ships v3 due to GPLv3); keg-
 brew "grep"         if OS.mac?  # GNU grep (macOS ships BSD grep with incompatible flags)
 brew "gnu-sed"      if OS.mac?  # GNU sed (macOS sed -i syntax differs; scripts break cross-platform)
 brew "git"                      # Version control
+brew "lazygit"                  # Terminal UI for git
 brew "git-lfs"                  # Git Large File Storage for binary assets
 brew "gh"                       # GitHub CLI — PRs, issues, workflows from the terminal
 brew "curl"                     # HTTP client; newer than macOS system curl (supports HTTP/3)
