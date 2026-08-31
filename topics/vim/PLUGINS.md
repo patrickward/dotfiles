@@ -1,16 +1,17 @@
 <!-- topics/vim/PLUGINS.md -->
+
 # Plugin basics
 
-Quick reference for each plugin — just enough to be productive. Full docs
-via `:h {plugin}` (see README's help section) once `:helptags ALL` has run.
+Quick reference for each plugin — just enough to be productive. Full docs via `:h {plugin}` (see README's help section)
+once `:helptags ALL` has run.
 
 > **Note**: After installation, run `:PlugInstall` in Vim to install all plugins.
 > Use `:PlugUpdate` to update, `:PlugClean` to remove unreferenced plugins.
 
 ## vim-surround — pairs (quotes, brackets, tags)
 
-Verbs: `ds` (delete), `cs` (change), `ys` (add, "you-surround"). Targets are
-a character (`"`, `'`, `(`, `[`, `t` for tag) or a motion/text-object .
+Verbs: `ds` (delete), `cs` (change), `ys` (add, "you-surround"). Targets are a character (`"`, `'`, `(`, `[`, `t` for
+tag) or a motion/text-object .
 
 | Command            | Effect                         |
 |--------------------|--------------------------------|
@@ -31,8 +32,8 @@ a character (`"`, `'`, `(`, `[`, `t` for tag) or a motion/text-object .
 
 ## vim-unimpaired — bracket pairs
 
-`[` = previous/above, `]` = next/below, `yo` = toggle an option. Full set is
-documented as complementary pairs of ex-command aliases and option toggles .
+`[` = previous/above, `]` = next/below, `yo` = toggle an option. Full set is documented as complementary pairs of
+ex-command aliases and option toggles .
 
 | Command                 | Effect                                                 |
 |-------------------------|--------------------------------------------------------|
@@ -64,30 +65,31 @@ Mapped in `.vimrc`: `<leader>gs` (status), `<leader>gd` (diffsplit), `<leader>gb
 
 ## editorconfig-vim — no commands needed
 
-Reads `.editorconfig` on file open and silently sets `shiftwidth`/`expandtab`/
-etc. to match. `:EditorConfigReload` re-applies if you edit `.editorconfig`
+Reads `.editorconfig` on file open and silently sets `shiftwidth`/`expandtab`/ etc. to match. `:EditorConfigReload`
+re-applies if you edit `.editorconfig`
 mid-session. If indentation looks "wrong," check for a `.editorconfig`
 upstream before touching `.vimrc`.
 
 ## fzf.vim — fuzzy finding
 
-Requires both `fzf` (binary + vim API) and `fzf.vim` (commands) — see
-troubleshooting in README if commands error out.
+Requires both `fzf` (binary + vim API) and `fzf.vim` (commands) — see troubleshooting in README if commands error out.
 
-| Command      | Effect                                      |
-|--------------|---------------------------------------------|
-| `:Files`     | fuzzy find files (`<leader>f`)              |
-| `:GFiles`    | fuzzy find git-tracked files (`<leader>g`)  |
-| `:Rg {term}` | ripgrep search, live-updating (`<leader>r`) |
-| `:Buffers`   | fuzzy find open buffers (`<leader>b`)       |
+| Command          | Effect                                      |
+|------------------|---------------------------------------------|
+| `:Files`         | Fuzzy find files (`<leader>f`)              |
+| `:Buffers`       | Open buffers with fzf                       |
+| `:Changes`       | Open changes with fzf                       |
+| `:GFiles [opts]` | Fuzzy find git-tracked files (`<leader>g`)  |
+| `:GFiles?`       | Git files (git status)                      |
+| `:Rg {term}`     | ripgrep search, live-updating (`<leader>r`) |
+| `:Buffers`       | fuzzy find open buffers (`<leader>b`)       |
 
 Inside any fzf window: `Tab` multi-select, `Ctrl-T` open in new tab,
 `Ctrl-X` open in horizontal split, `Ctrl-V` open in vertical split.
 
 ## vim-tmux-runner — send code to a tmux pane
 
-Requires running inside tmux. Workflow: open a runner pane once, then keep
-sending lines/commands to it .
+Requires running inside tmux. Workflow: open a runner pane once, then keep sending lines/commands to it .
 
 | Command                   | Effect                                                        |
 |---------------------------|---------------------------------------------------------------|
