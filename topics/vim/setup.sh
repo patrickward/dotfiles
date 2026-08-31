@@ -6,6 +6,5 @@
 # Link the vim directory
 link_file "${DOTFILES}/topics/vim" "$HOME/.vim"
 
-# Run the plugin installation
-"$DOTFILES/topics/vim/bin/install-plugins.sh"
-
+# vim-plug is installed on-demand via :PlugInstall
+# The plug.vim file is stored in ~/.vim/autoload/plug.vim

@@ -4,6 +4,9 @@
 Quick reference for each plugin — just enough to be productive. Full docs
 via `:h {plugin}` (see README's help section) once `:helptags ALL` has run.
 
+> **Note**: After installation, run `:PlugInstall` in Vim to install all plugins.
+> Use `:PlugUpdate` to update, `:PlugClean` to remove unreferenced plugins.
+
 ## vim-surround — pairs (quotes, brackets, tags)
 
 Verbs: `ds` (delete), `cs` (change), `ys` (add, "you-surround"). Targets are

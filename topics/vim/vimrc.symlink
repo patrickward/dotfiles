@@ -72,14 +72,24 @@ endif
 " ---------- Leader ----------
 let mapleader = ' '         "Space as leader - more ergonomic than backslash"
 
-" ---------- Native package loading ----------
-" Plugins live as git submodules under ~/.vim/pack/plugins/start/*
-" `git submodule update --init` after cloning dotfiles is the only setup step.
-packloadall
+" ---------- Plugin Manager (vim-plug) ----------
+" https://github.com/junegunn/vim-plug
+call plug#begin('~/.vim/plugged')
 
-" matchit ships with Vim but isn't loaded by default — extends % to jump
-" between HTML/XML tag pairs and if/else/end keywords (useful for php/html)
-packadd! matchit
+" Core plugins
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-fugitive'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'christoomey/vim-tmux-runner'
+
+" matchit - extends % to jump between tags/if-else blocks
+Plug 'tpope/vim-sleuth'  " Auto-detect indent settings (also loads matchit)
+
+call plug#end()
 
 " ---------- Per-filetype indent ----------
 augroup ft_indent

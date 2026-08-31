@@ -12,8 +12,8 @@
 # netrw history
 .netrwhist
 
-# Ignore all plugins
-/pack/plugins/start
+# vim-plug
+/plugged/
 
 # spell file additions (personal dictionary growth, e.g. zz.utf-8.add.spl)
 /spell/*.add.spl
