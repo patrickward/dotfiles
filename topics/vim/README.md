@@ -5,6 +5,13 @@
 Minimal, no plugin manager, no AI, no IDE pretensions — JetBrains handles heavy lifting; this is for quick edits, git,
 and terminal work across all Linux boxes.
 
+## Other docs
+
+See [`GRAMMAR.md`](./GRAMMAR.md) — the verb/motion/text-object mental model, for when muscle memory needs a jog.
+
+See [`PLUGINS.md`](./PLUGINS.md) for a quick-reference on using each installed plugin (surround, commentary, 
+unimpaired, fugitive, fzf, tmux-runner).
+
 ## Key bindings (leader = space)
 
 | Map                       | Action                                                                    |
