@@ -19,26 +19,6 @@ source "$DOTFILES/zsh/config/config.zsh"
 source "$DOTFILES/zsh/config/aliases.zsh"
 
 # ---------------------------------------------------------------------------
-# Topic files: flat files and topic directory files
-#
-# Flat:      topics/tool.zsh       — shell-config-only tools
-# Directory: topics/tool/*.zsh     — tools with symlinks or setup.sh
-#
-# Exclusions:
-#   path.zsh       → not used in new structure (PATH is in zsh/config/path.zsh)
-#   completion.zsh → loaded after compinit below (order matters)
-# ---------------------------------------------------------------------------
-for file in "$DOTFILES"/topics/*.zsh(N); do
-    source "$file"
-done
-
-for file in "$DOTFILES"/topics/*/*.zsh(N); do
-    [[ "${file:t}" == path.zsh ]] && continue
-    [[ "${file:t}" == completion.zsh ]] && continue
-    source "$file"
-done
-
-# ---------------------------------------------------------------------------
 # Completion system
 #
 # completion.zsh sets zstyle directives that must be in place before
@@ -63,6 +43,28 @@ else
     compinit -i
 fi
 unset comp_files
+
+
+# ---------------------------------------------------------------------------
+# Topic files: flat files and topic directory files (now loading after compinit)
+#
+# Flat:      topics/tool.zsh       — shell-config-only tools
+# Directory: topics/tool/*.zsh     — tools with symlinks or setup.sh
+#
+# Exclusions:
+#   path.zsh       → not used in new structure (PATH is in zsh/config/path.zsh)
+#   completion.zsh → loaded after compinit below (order matters)
+# ---------------------------------------------------------------------------
+for file in "$DOTFILES"/topics/*.zsh(N); do
+    source "$file"
+done
+
+for file in "$DOTFILES"/topics/*/*.zsh(N); do
+    [[ "${file:t}" == path.zsh ]] && continue
+    [[ "${file:t}" == completion.zsh ]] && continue
+    source "$file"
+done
+
 
 # Load completion files (after compinit, so completions can register properly)
 for file in "$DOTFILES"/topics/*/completion.zsh(N); do
