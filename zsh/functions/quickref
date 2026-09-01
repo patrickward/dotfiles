@@ -235,7 +235,7 @@ EOF
                         next
                     }
 
-                    /^[[:space:]]*[A-Za-z0-9_-]+[[:space:]]*\(\)[[:space:]]*\{/ {
+                    /^[[:space:]]*[A-Za-z0-9][A-Za-z0-9_-]*[[:space:]]*\(\)[[:space:]]*\{/ {
                         line = $0
                         sub(/^[[:space:]]*/, "", line)
                         sub(/[[:space:]]*\(\)[[:space:]]*\{.*/, "", line)
