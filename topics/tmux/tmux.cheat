@@ -1,0 +1,77 @@
+# tmux cheatsheet — personal config reminders
+# Generated from tmux.conf.symlink (prefix: C-a)
+
+---
+
+## Prefix
+  Prefix = **C-a** (remapped from default C-b)
+  `prefix + a` or `prefix + C-a`  Send C-a to inner app (for nested tmux)
+
+---
+
+## Sessions
+  `tmux new -s <name>`        New named session
+  `tmux ls`                   List sessions
+  `tmux attach -t <name>`     Attach to session
+  `prefix + $`                Rename current session
+  `prefix + d`                Detach from session
+  `prefix + C-j`              Choose session tree (visual)
+  `prefix + K`                Kill session, switch to next (never drops to bare terminal)
+  `prefix + C-b`              Break pane into new named session (via tat), then exit
+
+---
+
+## Windows
+  `prefix + c`                New window (in **current dir**)
+  `prefix + ,`                Rename window
+  `prefix + n` / `p`          Next / previous window
+  `prefix + <number>`         Jump to window by index (starts at **1**, not 0)
+  `prefix + b`                Break pane into new **detached** window
+
+---
+
+## Panes
+### Navigation (no prefix!)
+  **C-h**  **C-j**  **C-k**  **C-l**    Move left/down/up/right (vim-style)
+
+### Resizing (no prefix!)
+  **S-Left**  **S-Right**  **S-Down**  **S-Up**    Resize pane
+
+### Splitting
+  `prefix + -`                Split **vertical** (in current dir)
+  `prefix + \`                Split **horizontal** (in current dir)
+
+### Quick Panes (persistent)
+  `prefix + h`                Open htop in horizontal split
+  `prefix + D`                Open `docker stats` in horizontal split
+  `prefix + L`                Open `tail -f log/development.log` in vertical split (current dir)
+
+### Other
+  `prefix + z`                Toggle pane zoom
+  `prefix + x`                Kill pane
+
+---
+
+## Popups (floating, dismiss when done)
+  `prefix + p`                Scratch shell popup (80% width, 70% height, current dir)
+  `prefix + m`                Man page popup: prompts for page, displays at 80%x80%
+  `prefix + =`                Calculator popup (`bc -l`) at 40%x30%
+
+---
+## Copy Mode (vi-style)
+  `prefix + [`                Enter copy mode
+  `v`                         Begin selection
+  `y`                         Yank selection to **macOS clipboard** (pbcopy)
+  `Enter`                     Copy selection to clipboard and exit
+  `MouseDragEnd1Pane`         Copy selection to clipboard (mouse)
+  `prefix + ]`                Paste from clipboard
+
+---
+## Config & Settings
+  `prefix + r`                **Reload** tmux.conf
+  **Base index:** Windows and panes start at **1** (not 0)
+  **Mouse:** Enabled
+  **History:** 50,000 lines scrollback
+  **Display time:** 4 seconds (messages stay visible longer)
+  **Pane borders:** Color #235 (inactive), #240 (active)
+  **Stay in tmux:** Always — uses `tat` for new named sessions

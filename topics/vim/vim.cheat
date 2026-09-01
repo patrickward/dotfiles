@@ -1,0 +1,108 @@
+# vim cheatsheet — personal config reminders
+
+---
+
+## Leader
+  **Leader = `<Space>`**
+
+---
+
+## File Operations
+  `<leader>w`   Save
+  `<leader>q`   Quit
+  `:w` / `:q`   Standard save/quit
+
+---
+
+## Navigation
+  **Relative line numbers** enabled
+  **Cursorline** highlighted
+  **Scrolloff=5** (5 lines context)
+
+### Window splits
+  `:split` / `:vsplit`   Split (opens **below/right** by default)
+
+---
+
+## Search
+  `/` / `?`           Search forward/backward
+  `<Esc><Esc>`        Clear search highlight
+  `incsearch`          Incremental search (live as you type)
+  `hlsearch`           Highlight matches
+  `ignorecase` + `smartcase`  Case-insensitive unless uppercase present
+
+### ripgrep integration
+  `<leader>r`         `:Rg` — search project with ripgrep
+  `:grep <pattern>`   Search, populate quickfix list
+  `:copen` / `:cclose` Open/close quickfix list
+  `:cdo %s/old/new/g` Replace across all matches
+
+---
+## fzf
+  `<leader>f`   `:Files` — fuzzy find files
+  `<leader>g`   `:GFiles` — fuzzy find git files
+  `<leader>b`   `:Buffers` — fuzzy find open buffers
+
+---
+## Git (fugitive)
+  `<leader>gs`  `:Git` — git status
+  `<leader>gd`  `:Gdiffsplit` — diff against HEAD
+  `<leader>gb`  `:Git blame` — show blame for current line
+  `:Gcommit`     Commit
+  `:Gpush`       Push
+
+---
+## Plugins
+
+### surround
+  `ys<motion><char>`    Wrap motion in char (e.g., `ysiw"` → wrap word in quotes)
+  `cs<old><new>`         Change surrounding (e.g., `cs'"` → change " to ')
+  `ds<char>`            Delete surrounding
+
+### commentary
+  `gc<motion>`          Toggle comment on motion (e.g., `gcj` comment line, `gcap` comment paragraph)
+  `gcc`                 Toggle comment on current line (visual mode works too)
+
+### unimpaired
+  `[b` / `]b`           Previous / next buffer
+  `[B` / `]B`           First / last buffer
+  `[p` / `]p`           Previous / next positional mark
+  `[<` / `]>`           Previous / next fold
+
+### tmux-runner
+  `<leader>vr`          Open tmux runner
+  `<leader>vs`          Send current line/visual selection to tmux runner
+
+---
+## Settings & Behavior
+
+### Indentation
+  Default: **4 spaces** (expandtab)
+  Go: **tabs** (noexpandtab, sw=4, ts=4)
+  Python/JS/HTML/CSS/PHP/Shell: **2 spaces**
+
+### Clipboard
+  `"+y` / `"+p`          Yank to / paste from OS clipboard
+  (Note: unnamed register **shares with clipboard** if +clipboard)
+
+### UI
+  `list` enabled         Show tabs as `▸`, trailing spaces as `·`, nbsp as `_`
+  `noshowmode`          Mode shown in statusline, not in command area
+  Custom statusline     Shows: mode, git branch, filename, flags, encoding, line:col, percentage
+
+### Performance
+  Files > **5MB**: no undo, no swap, no syntax (prevents lag on large files)
+
+### Format on Save
+  **Go**: auto-format with `gofmt` on save
+  **Rust**: auto-format with `rustfmt` on save
+
+---
+## File Browser (netrw fallback)
+  `:Explore` / `:Ex`     Open built-in file browser
+  Banner disabled, liststyle=3
+
+---
+## Undo
+  Persistent undo enabled (saved to `~/.vim/undo/`)
+  `:undo` / `:redo`      Navigate undo history

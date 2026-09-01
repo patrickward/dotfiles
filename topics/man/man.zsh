@@ -1,0 +1,65 @@
+# topics/man/man.zsh
+#
+# Use bat as the man pager with proper roff stripping.
+# "ansi" theme means bat defers color to the terminal palette (Ghostty).
+# col -bx strips backspace-based bold/underline escape sequences groff emits.
+# -p flag tells bat to act as a plain pager (no decorations, just color).
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+# Prevent bold/italic escape sequences from leaking (BSD man / groff).
+export MANROFF_MODE=ps
+
+# Stop man from wrapping at 80 cols on wide terminals.
+export MANWIDTH=120
+
+# -----------------------------------------------------------------------------
+# man quick reference
+# -----------------------------------------------------------------------------
+#
+# BASICS
+#   man <cmd>                 Open the man page for a command
+#   man ls                    e.g. man page for ls
+#   man -k <keyword>          Search all man page names/descriptions (= apropos)
+#   man -K <keyword>          Full-text search across all man pages (slow)
+#   man -f <cmd>              Show one-line description (= whatis)
+#   man -a <cmd>              Cycle through ALL sections for a command
+#
+# SECTIONS  (macOS / BSD)
+#   1  User commands          man ls, man grep, man curl
+#   2  System calls           man 2 open, man 2 read
+#   3  Library functions      man 3 printf, man 3 malloc
+#   4  Special files          man 4 null
+#   5  File formats           man 5 crontab, man 5 hosts
+#   6  Games                  (rarely populated on macOS)
+#   7  Miscellany             man 7 ascii (Linux); man 7 re_format (BSD)
+#   8  Sysadmin commands      man 8 mount, man 8 fsck
+#
+#   man <section> <cmd>       Open a specific section explicitly
+#   man 3 printf              e.g. C library printf, not the shell builtin
+#   man -a printf             Cycle through shell builtin, then C library, etc.
+#
+# NAVIGATION (less keybindings — same with bat as pager)
+#   j / k                     Scroll down / up one line
+#   d / u                     Scroll down / up half a page
+#   / <pattern>               Search forward
+#   n / N                     Next / previous match
+#   g / G                     Jump to top / bottom
+#   q                         Quit
+#
+# USEFUL FLAGS
+#   man -P cat <cmd>          Dump man page to stdout (no pager) — good for piping
+#   man -w <cmd>              Print the path to the man page file (don't open it)
+#   man -l <file.1>           Open a local man page file directly
+#   MANWIDTH=80 man <cmd>     Override column width for one invocation
+#
+# FINDING THINGS
+#   apropos <keyword>         Same as man -k; searches name + synopsis
+#   whatis <cmd>              Same as man -f; one-liner description
+#   man -k .                  List every man page on the system
+#
+# EXAMPLES
+#   man rsync                 Full rsync reference (faster than googling flags)
+#   man 5 ssh_config          SSH client config file format
+#   man 8 launchd             macOS service manager
+#   man -k compress           Find compression-related commands
+#   man -K "time zone"        Find man pages mentioning time zones (full-text)
