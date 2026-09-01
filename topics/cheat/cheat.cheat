@@ -2,45 +2,38 @@
 
 ## Local (your dotfiles)
   cheat                       List all local cheatsheets
-  cheat <topic>               Show local cheatsheet (falls back to remote)
+  cheat <topic>               Show local cheatsheet; falls back to remote if not found
   cheat -e <topic>            Edit / create a local cheatsheet
-  cheat -r <topic>            Force remote lookup via cheat.sh
-  cheat -r <topic> <query>    Remote sub-query (e.g. cheat -r git rebase)
+  cheat -r <topic>            Force remote — useful when you have a local sheet
+                              but want the cheat.sh version (e.g. cheat -r tmux)
   cheat -s <keyword>          Search cheat.sh across all sheets
-  cheat -l <lang> <query>     Language cheatsheet (e.g. cheat -l python lambda)
 
-## Remote: Unix/Linux commands
-  cheat -r tar
-  cheat -r rsync
-  cheat -r curl
+## Remote fallback: Unix/Linux commands
+  cheat tar
+  cheat rsync
+  cheat curl
 
-## Remote: Language cheatsheets
-  cheat -l go Pointers
-  cheat -l python lambda
-  cheat -l js "parse+json"        Use + for multi-word queries
-  cheat -l scala Functions
-  cheat -l go "reverse+a+list"    Phrase queries use + as word separator
+## Remote fallback: Language cheatsheets (lang/query namespace)
+  cheat go/Pointers
+  cheat python/lambda
+  cheat js/"parse+json"       Use + for multi-word queries
+  cheat go/"reverse+a+list"
 
-## Remote: Multi-result paging (numbered answers)
-  cheat -r python/random+string/1   First answer
-  cheat -r python/random+string/2   Second answer
+## Remote fallback: Multiple answers (numbered)
+  cheat python/"random+string"/1    First answer
+  cheat python/"random+string"/2    Second answer
 
-## Remote: Language meta-queries
-  cheat -r go/:list            List all available topics for a language
-  cheat -r go/:learn           Intro/primer for a language ("Learn X in Y")
-  cheat -r go/:random          Random page for a language
-
-## Remote: Search
-  cheat -s snapshot            Search all sheets for keyword
-  cheat -s "snapshot/r"        Recursive search across all sheets
+## Remote fallback: Language meta-queries
+  cheat go/:list              List all topics for a language
+  cheat go/:learn             Language primer ("Learn X in Y")
+  cheat go/:random            Random page for a language
 
 ## Remote: Special pages
-  cheat -r :help               All special pages and options
-  cheat -r :intro              cheat.sh introduction
-  cheat -r :list               List every available cheatsheet
-  cheat -r :random             Random cheatsheet
+  cheat :help                 All special pages and options
+  cheat :list                 List every available cheatsheet
+  cheat :random               Random cheatsheet
 
-## Query options (appended to remote URLs internally)
-  ?T                           Strip cheat.sh ANSI colors (bat re-colorizes)
-  ?Q                           Strip text comments, code only
-  ?QT                          Both — clean code, no color, no comments
+## Query options (appended to remote URLs internally by cheat function)
+  ?T                          Strip cheat.sh ANSI colors (bat re-colorizes)
+  ?Q                          Strip comments, code only
+  ?QT                         Both — clean code, no color, no comments

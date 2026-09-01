@@ -87,16 +87,6 @@ cheat() {
       return 0
       ;;
 
-    -l)
-      # Language-specific cheatsheet
-      # cheat -l python lambda
-      # cheat -l go Pointers
-      local lang="${2:?Usage: cheat -l <lang> <query>}"
-      local query="${3:?Usage: cheat -l <lang> <query>}"
-      _cheat_display_remote "${base_url}/${lang}/${query}"
-      return 0
-      ;;
-
   esac
 
   # ---- Default: local first, remote fallback ---------------------------------
