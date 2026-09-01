@@ -211,9 +211,27 @@ EOF
             done < <(
                 awk '
                     /^#[[:space:]]*/ {
-                        comment = $0
-                        sub(/^#[[:space:]]*/, "", comment)
-                        sub(/^quickref:[[:space:]]*/, "", comment)
+                        sub(/^#[[:space:]]*/, "", $0)
+                        sub(/^quickref:[[:space:]]*/, "")
+                        
+                        # Trim trailing whitespace
+                        sub(/[[:space:]]*$/, "", $0)
+                        
+                        # Separator lines reset the comment accumulator
+                        if ($0 ~ /^[[:space:]]*[-=]+[[:space:]]*$/) {
+                            comment = ""
+                            next
+                        }
+                        
+                        # Skip empty comments
+                        if ($0 == "") {
+                            next
+                        }
+                        
+                        # Only keep the first non-empty, non-separator comment line
+                        if (comment == "") {
+                            comment = $0
+                        }
                         next
                     }
 
