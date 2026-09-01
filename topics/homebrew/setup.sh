@@ -12,7 +12,7 @@ if ! command -v brew &>/dev/null; then
 fi
 
 info "Installing Homebrew packages from Brewfile..."
-brew bundle --file="$DOTFILES/topics/homebrew/Brewfile"
+brew bundle --verbose --file="$DOTFILES/topics/homebrew/Brewfile"
 okay "Homebrew packages installed"
 
 # Post install

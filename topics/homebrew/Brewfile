@@ -179,7 +179,7 @@ if OS.mac?
   cask "ngrok"                # Reverse proxy / secure tunnel to localhost for webhook testing
 
   # --- LaTeX (heavy, ~5 GB; required for pandoc PDF export) ---
-  # cask "mactex"             # Full TeX Live distribution for macOS
+  cask "mactex-no-gui"             # Full TeX Live distribution for macOS, without the GUIs
 
 end
 
