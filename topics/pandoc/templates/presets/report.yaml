@@ -1,0 +1,8 @@
+# presets/report.yaml — recurring project reports, data-heavy
+titlepage: true
+toc: true
+toc-own-page: true
+numbersections: true
+geometry: margin=2.5cm
+code-block-font-size: \small
+listings-no-page-break: true

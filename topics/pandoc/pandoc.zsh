@@ -4,20 +4,20 @@
 # Requires: pandoc
 
 # Templates directory for mkpdf (Eisvogel LaTeX templates)
-export MKPDF_TEMPLATES="$HOME/code/templates/mkpdf"
+export PANDOC_TEMPLATES="$DOTFILES/topics/pandoc/templates"
 
 # ---------------------------------------------------------------------------
 # mkpdf <brand> <preset> <file.md> [output.pdf]
 # ---------------------------------------------------------------------------
 # Converts markdown to PDF via pandoc. Run `mkpdf` alone for usage.
-# Brand and preset files are composed from $MKPDF_TEMPLATES/.
+# Brand and preset files are composed from $PANDOC_TEMPLATES/.
 #
 # For variables in the templates, see:
 # https://github.com/enhuiz/eisvogel#custom-template-variables
 # https://pandoc.org/MANUAL.html#variables-for-latex
 mkpdf() {
   emulate -L zsh
-  local T="$MKPDF_TEMPLATES"
+  local T="$PANDOC_TEMPLATES"
   local usage="Usage: mkpdf <brand> <preset> <file.md> [output.pdf]
   brand   - name in $T/brands/<brand>.yaml
   preset  - name in $T/presets/<preset>.yaml
@@ -109,11 +109,11 @@ Examples:
 # Converts markdown to DOCX via pandoc. Run `mkdocx` alone for usage.
 # With --open, opens the result in Apple Pages (or default DOCX handler).
 # With --template, uses a custom reference DOCX file.
-# If no --template is provided, uses reference.docx from $MKPDF_TEMPLATES if found,
+# If no --template is provided, uses reference.docx from $PANDOC_TEMPLATES if found,
 # otherwise falls back to pandoc's default template.
 mkdocx() {
   emulate -L zsh
-  local T="$MKPDF_TEMPLATES"
+  local T="$PANDOC_TEMPLATES"
   local usage="Usage: mkdocx [--open] [--template <file.docx>] <file.md> [output.docx]"
 
   local open_flag=false
@@ -189,7 +189,7 @@ mkdocx() {
       return 1
     fi
   else
-    # Use reference.docx from $MKPDF_TEMPLATES if it exists
+    # Use reference.docx from $PANDOC_TEMPLATES if it exists
     if [[ -f "$T/reference.docx" ]]; then
       template="$T/reference.docx"
     fi

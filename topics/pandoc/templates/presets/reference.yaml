@@ -1,0 +1,9 @@
+# presets/reference.yaml — lasting reference docs, book-like
+# Uses Eisvogel's book mode: chapters, running heads, denser layout.
+book: true
+titlepage: true
+toc: true
+toc-own-page: true
+numbersections: true
+geometry: margin=2.8cm
+code-block-font-size: \footnotesize

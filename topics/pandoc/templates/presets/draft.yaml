@@ -1,0 +1,7 @@
+# presets/draft.yaml — internal review copies, marked as such
+titlepage: true
+titlepage-color: "8A817C"          # deliberately drab — signals "not final"
+titlepage-text-color: "FFFFFF"
+toc: false
+numbersections: false
+geometry: margin=2.5cm

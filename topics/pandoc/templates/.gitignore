@@ -1,0 +1,6 @@
+*.pdf
+*.docx
+# examples/
+
+!reference.docx
+!reference-blue.docx

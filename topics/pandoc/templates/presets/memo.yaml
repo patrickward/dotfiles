@@ -1,0 +1,7 @@
+# presets/memo.yaml — short, ongoing, no frills
+# Memos are read, not admired: no title page, no TOC, tight margins.
+titlepage: false
+toc: false
+numbersections: false
+geometry: margin=2.2cm
+code-block-font-size: \small

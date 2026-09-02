@@ -1,0 +1,20 @@
+# House style: deep violet, warm serif body, calm and quiet.
+titlepage: true
+titlepage-color: "2F2440"
+titlepage-text-color: "FFFFFF"
+titlepage-rule-color: "6D4AFF"
+titlepage-rule-height: 2
+# logo: "assets/mycompany-logo.pdf"      # uncomment when you have a vector logo
+# mainfont: Helvetica Neue
+sansfont: Helvetica Neue
+monofont: "Menlo"
+fontsize: 11pt
+linestretch: 1.15
+colorlinks: true
+linkcolor: primary
+urlcolor: primary
+lastpage: true
+# footer-center: "\\thepage\\ of \\pageref*{LastPage}"
+header-includes:
+  - \usepackage{lastpage}
+

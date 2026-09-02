@@ -1,0 +1,7 @@
+# presets/quote.yaml — one-pager tendency, signature-ready
+# Keep it to a page or two: itemized table + terms + signature block.
+titlepage: false
+toc: false
+numbersections: false
+geometry: margin=2cm
+fontsize: 10pt
