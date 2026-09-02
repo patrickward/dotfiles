@@ -1,0 +1,51 @@
+# ---- Go ---------------------------------------------------------------------
+go/docs          https://pkg.go.dev                         Go package documentation
+go/spec          https://go.dev/ref/spec                    Go language specification
+go/playground    https://go.dev/play                        Go playground
+
+# ---- Web / Frontend ---------------------------------------------------------
+mdn              https://developer.mozilla.org              MDN Web Docs
+caniuse          https://caniuse.com                        Browser compatibility
+w3c              https://www.w3.org/TR/                     W3C specifications
+webperf          https://web.dev                            Web performance (Google)
+
+# ---- JavaScript / TypeScript ------------------------------------------------
+js/mdn           https://developer.mozilla.org/en-US/docs/Web/JavaScript  JS reference (MDN)
+ts/docs          https://www.typescriptlang.org/docs/                     TypeScript documentation
+ts/playground    https://www.typescriptlang.org/play                      TypeScript playground
+node/docs        https://nodejs.org/en/docs                               Node.js documentation
+npm/registry     https://www.npmjs.com                                    npm registry
+npm/docs              https://docs.npmjs.com/                             npm documentation
+deno/docs        https://docs.deno.com                                    Deno documentation
+
+# ---- Python -----------------------------------------------------------------
+py/docs          https://docs.python.org/3/                 Python 3 documentation
+py/peps          https://peps.python.org                    Python Enhancement Proposals
+py/pypi          https://pypi.org                           Python package index
+
+# ---- Rust -------------------------------------------------------------------
+rust/docs        https://doc.rust-lang.org/book/            The Rust Book
+rust/std         https://doc.rust-lang.org/std/             Rust standard library
+rust/crates      https://crates.io                          Rust package registry
+
+# ---- Databases --------------------------------------------------------------
+pg/docs          https://www.postgresql.org/docs/current/                 PostgreSQL current docs
+pg/explain       https://explain.depesz.com                               EXPLAIN plan visualizer
+redis/docs       https://redis.io/docs/latest/                            Redis documentation
+sqlite/docs      https://www.sqlite.org/docs.html                        SQLite documentation
+sql/zoo          https://sqlzoo.net                                       Interactive SQL reference
+
+# ---- Infra / DevOps ---------------------------------------------------------
+k8s/docs         https://kubernetes.io/docs/home/           Kubernetes documentation
+k8s/api          https://kubernetes.io/docs/reference/      Kubernetes API reference
+docker/docs      https://docs.docker.com                    Docker documentation
+podman/docs      https://podman.io/docs/                    Podman documentation
+terraform        https://registry.terraform.io              Terraform registry
+
+# ---- General Dev ------------------------------------------------------------
+devdocs          https://devdocs.io                         Aggregated API docs (offline capable)
+tldr             https://tldr.inbrowser.app                 tldr pages (web)
+regex            https://regex101.com                       Regex tester
+json             https://jqlang.github.io/jq/manual/        jq manual
+semver           https://semver.org                         Semantic versioning spec
+http/status      https://httpstatuses.io                    HTTP status code reference

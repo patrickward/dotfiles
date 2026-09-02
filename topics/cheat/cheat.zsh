@@ -1,7 +1,7 @@
 export CHEAT_DIR="${DOTFILES}/topics"
 export CHEAT_DOWNLOAD_DIR="${CHEAT_DIR}/cheat/downloads"
 
-# Display a local cheatsheet, or fall back to cheat.sh for remote lookup.
+# Display a local cheatsheet, tldr, or fall back to cheat.sh for remote lookup.
 # Requires: curl (remote), bat (optional, for display), $DOTFILES set.
 #
 # If $CHEAT_DIR is not found, uses $DOTFILES/topics.

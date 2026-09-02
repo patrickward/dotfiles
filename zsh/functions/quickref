@@ -159,7 +159,7 @@ Usage:
   quickref docs           Documentation files
   quickref aliases        Active aliases
   quickref all            Everything
-  quickref caddy          Search everything for "caddy"
+  quickref <search>       Search everything for "<search>"
 
 Options:
   -v, --verbose           Show source paths
@@ -168,8 +168,8 @@ Options:
 Examples:
   quickref commands
   quickref docs
-  quickref caddy
   quickref topics -v
+  quickref caddy         Search everything for "caddy"
 EOF
     }
 

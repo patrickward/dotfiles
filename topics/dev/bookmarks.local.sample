@@ -1,0 +1,9 @@
+# Private / work-specific bookmarks
+
+# ---- Work -------------------------------------------------------------------
+work/ci          https://ci.mycompany.internal              CI dashboard
+work/runbooks    https://wiki.mycompany.internal/runbooks   Runbooks
+
+# ---- Staging ----------------------------------------------------------------
+staging/api      https://api.staging.mycompany.com          Staging API
+staging/grafana  https://grafana.staging.mycompany.com      Staging metrics

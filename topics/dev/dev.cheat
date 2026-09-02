@@ -1,6 +1,7 @@
 # dev — web development reference lookups
 
 ## mdn — MDN Web Docs
+
   mdn <query>                 Search MDN, show top 5 results with summaries + URLs
   mdn <query> -o              Open top result in browser
   mdn <query> -n <count>      Show more results (default: 5)
@@ -11,11 +12,25 @@
   mdn "intersection observer" -n 3 -o
 
 ## cani — caniuse.com
+
   cani <feature>              Open caniuse.com search in browser (default)
   cani <feature> -u           Print URL only, do not open browser (pipeable)
   cani "css grid"
   cani "webp"
   cani "container queries" -u
+
+## goto — bookmarks
+
+  goto <tag>                Open bookmark in browser (single match opens directly)
+  goto <tag> -u             Print tag + URL only, do not open browser
+  goto                      List all bookmarks (no query = always lists)
+
+  Bookmark files:
+    topics/dev/bookmarks          Committed to dotfiles (shared)
+    topics/dev/bookmarks.local    Gitignored (machine/work-specific)
+
+  Format: <tag>  <url>  <description>
+  Tip: use specific tags (goto go/docs) to guarantee a single match
 
 ## Notes
   MDN uses an undocumented but stable JSON search API — returns real summaries.

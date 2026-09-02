@@ -98,3 +98,105 @@ cani() {
     _dev_open_url "$url"
   fi
 }
+
+# ------------------------------------------------------------------------------
+# goto [query] [-o] [-g]
+# ------------------------------------------------------------------------------
+# List and open bookmarks from topics/dev/bookmarks (committed) and topics/dev/bookmarks.local (gitignored, optional).
+#
+#   goto                    List all bookmarks (sorted alphabetically)
+#   goto -g                 List all bookmarks with section groups
+#   goto <query>            Filter bookmarks by name/tag/description (sorted)
+#   goto -g <query>         Filter bookmarks, preserving section groups
+#   goto <query> -o         Open the matched URL in browser (first match)
+#   goto -o <query>         Same — flag order doesn't matter
+# ------------------------------------------------------------------------------
+
+# Bookmark files — local extends/overrides committed set
+_BM_FILE="${DOTFILES}/topics/dev/bookmarks"
+_BM_LOCAL="${DOTFILES}/topics/dev/bookmarks.local"
+
+goto() {
+  local query=""
+  local url_only=0
+  local groups=0
+
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -u) url_only=1 ;;
+      -g) groups=1 ;;
+      *)  query="$1" ;;
+    esac
+    shift
+  done
+
+  _bm_all() {
+    if [[ $groups -eq 1 ]]; then
+      # Groups mode: keep comments and blank lines for visual grouping
+      for f in "$_BM_FILE" "$_BM_LOCAL"; do
+        [[ -f "$f" ]] && cat "$f"
+      done
+    else
+      # Default: strip comments and blanks, then sort by tag
+      for f in "$_BM_FILE" "$_BM_LOCAL"; do
+        [[ -f "$f" ]] && grep -v '^\s*#' "$f" | grep -v '^\s*$'
+      done | sort
+    fi
+  }
+
+  local results
+  if [[ -n "$query" ]]; then
+    results=$(_bm_all | grep -i "$query")
+  else
+    results=$(_bm_all)
+  fi
+
+  if [[ -z "$results" ]]; then
+    echo "No bookmarks found${query:+ matching '${query}'}." >&2
+    return 1
+  fi
+
+  if [[ $url_only -eq 1 ]]; then
+    # Print all matches — useful for piping or copying
+    # Filter out comments/blanks even in groups mode
+    echo "$results" | grep -v '^\s*#' | grep -v '^\s*$' | awk '{print $1, $2}'
+  else
+    local non_comment_results
+    non_comment_results=$(echo "$results" | grep -v '^\s*#' | grep -v '^\s*$')
+    local match_count
+    match_count=$(echo "$non_comment_results" | wc -l | tr -d ' ')
+
+    if [[ $match_count -eq 1 ]]; then
+      # Single match — open it directly
+      local url
+      url=$(echo "$non_comment_results" | awk '{print $2}')
+      echo "Opening: $url" >&2
+      _dev_open_url "$url"
+    else
+      # Multiple matches — list them
+      if [[ -n "$query" ]]; then
+        echo "Multiple matches — narrow your query or use -u to list URLs:" >&2
+      fi
+      echo "$results" | awk '
+        /^\s*#/ { print; next }
+        /^\s*$/ { print; next }
+        { printf "%-20s %-45s %s\n", $1, $2, substr($0, index($0,$3)) }
+      ' | _dev_display
+    fi
+  fi
+}
+
+_goto_complete() {
+  local -a tags
+
+  # Pull tag column (field 1) from both bookmark files, strip comments/blanks
+  tags=("${(@f)$(
+    for f in "$_BM_FILE" "$_BM_LOCAL"; do
+      [[ -f "$f" ]] && grep -v '^\s*#' "$f" | grep -v '^\s*$' | awk '{print $1}'
+    done | sort
+  )}")
+
+  compadd -a tags
+}
+
+compdef _goto_complete goto
