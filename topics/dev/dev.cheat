@@ -1,0 +1,24 @@
+# dev — web development reference lookups
+
+## mdn — MDN Web Docs
+  mdn <query>                 Search MDN, show top 5 results with summaries + URLs
+  mdn <query> -o              Open top result in browser
+  mdn <query> -n <count>      Show more results (default: 5)
+  mdn <query> -n <count> -o   Show more results and open top in browser
+  mdn "fetch api"
+  mdn "css grid" -o
+  mdn "web workers" -n 10
+  mdn "intersection observer" -n 3 -o
+
+## cani — caniuse.com
+  cani <feature>              Open caniuse.com search in browser (default)
+  cani <feature> -u           Print URL only, do not open browser (pipeable)
+  cani "css grid"
+  cani "webp"
+  cani "container queries" -u
+
+## Notes
+  MDN uses an undocumented but stable JSON search API — returns real summaries.
+  caniuse has no per-feature CLI API — browser is the only real option.
+  Browser opener: 'open' (macOS) or 'xdg-open' (Linux), detected automatically.
+  Flags for mdn can be combined in any order: mdn "css grid" -n 10 -o

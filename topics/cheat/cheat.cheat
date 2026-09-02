@@ -1,4 +1,6 @@
 # cheat — local + remote cheatsheets
+  A wrapper around local cheatsheets, tealdeer, and cheat.sh.
+
   cheat -h                    Show this help
 
 ## Local (your dotfiles)
