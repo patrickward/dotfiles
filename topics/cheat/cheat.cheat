@@ -1,4 +1,5 @@
 # cheat — local + remote cheatsheets
+  cheat -h                    Show this help
 
 ## Local (your dotfiles)
   cheat                       List all local cheatsheets
@@ -6,6 +7,8 @@
   cheat -e <topic>            Edit / create a local cheatsheet
   cheat -r <topic>            Force remote — useful when you have a local sheet
                               but want the cheat.sh version (e.g. cheat -r tmux)
+  cheat -d <topic>            Download remote sheet to local downloads folder
+  cheat -m                    Restore all sheets from downloads/.cheat-manifest
   cheat -s <keyword>          Search cheat.sh across all sheets
 
 ## Remote fallback: Unix/Linux commands
@@ -32,6 +35,16 @@
   cheat :help                 All special pages and options
   cheat :list                 List every available cheatsheet
   cheat :random               Random cheatsheet
+
+## Downloaded cheatsheets (offline)
+  cheat -d tar                Download tar sheet to topics/cheat/downloads/
+  cheat tar                   Finds downloaded sheet automatically (no flag needed)
+
+## tealdeer (tldr) — offline fallback, runs automatically
+  tldr <cmd>                  Direct tealdeer lookup (bypasses cheat function)
+  tldr --update               Refresh the local tldr cache (run periodically)
+  tldr --list                 List all locally cached pages
+  tldr --render <file.md>     Preview a local markdown file as a tldr page
 
 ## Query options (appended to remote URLs internally by cheat function)
   ?T                          Strip cheat.sh ANSI colors (bat re-colorizes)

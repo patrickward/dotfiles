@@ -1,0 +1,5 @@
+# .cheat-manifest
+# A simple manifest file to keep track of cheat sheets I want to re-download.
+# Not stored in dotfiles, but may be useful to re-download on a new machine for offline use.
+# Regenerate with `cheat -m`
+

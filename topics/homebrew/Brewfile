@@ -105,6 +105,7 @@ brew "svgo"         # SVG optimization — removes redundant attributes, minifie
 brew "d2"           # Declarative text-to-diagram tool (like Mermaid, but more expressive)
 brew "pandoc"       # Universal document converter — Markdown → PDF/DOCX/HTML/EPUB etc.
 brew "lynx"         # Terminal web browser — useful for quick HTML inspection or CI checks
+brew "tealdeer"     # Tealdeer is a very fast implementation of tldr in Rust: Simplified, example based and community-driven man pages.
 
 # ---------------------------------------------------------------------------
 # Network & local dev infrastructure
