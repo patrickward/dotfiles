@@ -43,6 +43,9 @@ cheat() {
   # ---- No args: list local cheatsheets + downloads --------------------------
 
   if [[ $# -eq 0 ]]; then
+    echo ""
+    echo "cheat -h for help"
+    echo ""
     echo "Local cheatsheets:"
     find "$CHEAT_DIR" -name "*.cheat" \
       ! -path "${CHEAT_DOWNLOAD_DIR}/*" | while read -r f; do
