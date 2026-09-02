@@ -1,6 +1,7 @@
-# topics/cheat/cheat.zsh
-#
-# cheat: display a local cheatsheet, or fall back to cheat.sh for remote lookup.
+export CHEAT_DIR="${DOTFILES}/topics"
+export CHEAT_DOWNLOAD_DIR="${CHEAT_DIR}/cheat/downloads"
+
+# Display a local cheatsheet, or fall back to cheat.sh for remote lookup.
 # Requires: curl (remote), bat (optional, for display), $DOTFILES set.
 #
 # If $CHEAT_DIR is not found, uses $DOTFILES/topics.
@@ -13,12 +14,6 @@
 #   cheat -r <topic> <query>  Search within a topic remotely (e.g. cheat -r git rebase)
 #   cheat -s <keyword>        Search cheat.sh across all sheets for a keyword
 #   cheat -d <topic>          Force remote lookup and download to a .cheat file in the topic file.
-
-# topics/cheat/cheat.zsh
-
-export CHEAT_DIR="${DOTFILES}/topics"
-export CHEAT_DOWNLOAD_DIR="${CHEAT_DIR}/cheat/downloads"
-
 cheat() {
   local base_url="https://cht.sh"
 

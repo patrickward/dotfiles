@@ -10,14 +10,17 @@
 ---
 
 ## Sessions
-  `tmux new -s <name>`        New named session
-  `tmux ls`                   List sessions
-  `tmux attach -t <name>`     Attach to session
-  `prefix + $`                Rename current session
-  `prefix + d`                Detach from session
-  `prefix + C-j`              Choose session tree (visual)
-  `prefix + K`                Kill session, switch to next (never drops to bare terminal)
-  `prefix + C-b`              Break pane into new named session (via tat), then exit
+  `tmux new -s <name>`          New named session
+  `tmux ls`                     List sessions
+  `tmux attach -t <name>`       Attach to session
+  `tmux kill-session`           Kill current session
+  `tmux kill-session -a`        Kill all sessions
+  `tmux kill-session -t <name>` Kill session by name`
+  `prefix + $`                  Rename current session
+  `prefix + d`                  Detach from session
+  `prefix + C-j`                Choose session tree (visual)
+  `prefix + K`                  Kill session, switch to next (never drops to bare terminal)
+  `prefix + C-b`                Break pane into new named session (via tat), then exit
 
 ---
 

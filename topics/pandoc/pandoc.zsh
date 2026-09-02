@@ -287,7 +287,7 @@ html2md() {
 # ---------------------------------------------------------------------------
 # docx2md <file.docx> [output.md]
 # ---------------------------------------------------------------------------
-# Converts DOCX (Word) to markdown. Run `dox2md` alone for usage.
+# Converts DOCX (Word) to markdown. Run `docx2md` alone for usage.
 #
 # Examples:
 #   docx2md Report.docx
