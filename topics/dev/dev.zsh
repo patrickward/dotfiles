@@ -25,7 +25,7 @@ _dev_display() {
 # ------------------------------------------------------------------------------
 # mdn <query> [-o] [-n <count>]
 # ------------------------------------------------------------------------------
-# Search MDN and print top results with summaries and URLs.
+# zref: mdn: Search MDN and print top results with summaries and URLs.
 #   -o opens the top result in the browser.
 #   -n <count> controls how many results to show (default: 5)
 #
@@ -76,7 +76,7 @@ mdn() {
 # ------------------------------------------------------------------------------
 # cani <feature> [-u]
 # ------------------------------------------------------------------------------
-# Opens caniuse.com in the browser by default.
+# zref: cani: Opens caniuse.com in the browser by default.
 #   -u prints the URL only, without opening the browser.
 #
 #   cani "css grid"
@@ -102,7 +102,9 @@ cani() {
 # ------------------------------------------------------------------------------
 # goto [query] [-o] [-g]
 # ------------------------------------------------------------------------------
-# List and open bookmarks from topics/dev/bookmarks (committed) and topics/dev/bookmarks.local (gitignored, optional).
+# zref: goto: List and open bookmarks
+#
+# Opens from topics/dev/bookmarks (committed) and topics/dev/bookmarks.local (gitignored, optional).
 #
 #   goto                    List all bookmarks (sorted alphabetically)
 #   goto -g                 List all bookmarks with section groups

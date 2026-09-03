@@ -1,5 +1,5 @@
 #!/bin/sh
-# Attach to (or create) a tmux session named after the current directory
+# zref: @tmux: Attach to (or create) a tmux session named after the current directory
 
 session_name="$(basename "$PWD" | tr . -)"
 

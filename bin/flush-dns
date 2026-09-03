@@ -1,5 +1,5 @@
 #!/usr/bin/env zsh
-# Flush the DNS resolver cache.
+# zref: @utils: Flush the DNS resolver cache.
 #
 # Two layers can cache a lookup on a dev machine:
 #   1. The OS resolver (macOS mDNSResponder, systemd-resolved, nscd)

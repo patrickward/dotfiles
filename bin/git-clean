@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Delete local branches that have been merged into origin (default: main)
+# zref: @git: Delete local branches that have been merged into origin (default: main)
 #
 # Usage: git-clean [base-branch]
 

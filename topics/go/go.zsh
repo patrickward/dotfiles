@@ -11,4 +11,4 @@ fi
 # GOPRIVATE: set in ~/.localrc for private module paths
 # export GOPRIVATE=github.com/myorg/*
 
-alias gotask='go tool task'  # Run go tool task
+alias gotask='go tool task'  # zref: Run go tool task

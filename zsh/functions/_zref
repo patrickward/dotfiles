@@ -1,0 +1,45 @@
+#compdef zref
+# zsh/functions/_zref — completion for bin/zref
+
+_zref() {
+    local -a sections=(
+        'commands:functions + topic entries + bin scripts'
+        'config:aliases from zsh/config/*.zsh'
+        'functions:autoloaded zsh functions'
+        'topics:functions/aliases from topics/**/*.zsh'
+        'aliases:entries tagged as aliases'
+        'bin:executable scripts'
+        'docs:documentation files'
+        'all:everything'
+    )
+
+    local -a topics
+    if [[ -n "$DOTFILES" && -d "$DOTFILES/topics" ]]; then
+        topics=("$DOTFILES"/topics/*(/:t))
+    fi
+
+    _arguments -C \
+        '(-v --verbose)'{-v,--verbose}'[show source file:line]' \
+        '(-f --filter)'{-f,--filter}'[filter names/descriptions]:filter text:' \
+        '(-e --edit)'{-e,--edit}'[open exact-name match in $EDITOR]:entry name:_zref_names' \
+        '(-h --help)'{-h,--help}'[show usage]' \
+        '1: :->section_or_topic' \
+        '*:: :->rest'
+
+    case "$state" in
+        section_or_topic)
+            _describe -t sections 'section' sections
+            _describe -t topics 'topic' topics
+            ;;
+    esac
+}
+
+# Completes entry names by asking zref itself for the current list —
+# keeps completion in sync with whatever's actually tagged, no duplication.
+_zref_names() {
+    local -a names
+    names=("${(@f)$(command zref all 2>/dev/null | awk -F'\t' 'NF>1{print $2}' | sort -u)}")
+    _describe -t zref-names 'entry' names
+}
+
+_zref "$@"

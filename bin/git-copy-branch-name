@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copy the current branch name to the clipboard (macOS)
+# zref: @git: Copy the current branch name to the clipboard (macOS)
 branch=$(git rev-parse --abbrev-ref HEAD)
 echo "$branch"
 printf '%s' "$branch" | pbcopy

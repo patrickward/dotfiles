@@ -1,4 +1,4 @@
 #!/bin/sh
-# Set the current branch to track its origin counterpart
+# zref: @git: Set the current branch to track its origin counterpart
 branch=$(git rev-parse --abbrev-ref HEAD)
 git branch "$branch" --set-upstream-to origin/"$branch"

@@ -1,4 +1,5 @@
 # zdot
+<!-- zref: Information on using the zdot management script --> 
 
 Dotfiles manager. Named `zdot` to avoid collision with the Graphviz `dot` binary.
 

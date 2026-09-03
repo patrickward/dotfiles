@@ -12,10 +12,10 @@
 # ---------------------------------------------------------------------------
 # Shell management
 # ---------------------------------------------------------------------------
-alias reload='exec zsh'          # Replace current shell with a fresh one (full reload)
-alias zsh-noconfig='zsh -d -f'   # Start zsh with no config at all (for debugging)
+alias reload='exec zsh'          # zref: @zsh: Replace current shell with a fresh one (full reload)
+alias zsh-noconfig='zsh -d -f'   # zref: @zsh: Start zsh with no config at all (for debugging)
 
-# Show all zsh options and whether each is on or off
+# zref: @zsh: Show all zsh options and whether each is on or off
 alias show-setopt='setopt KSH_OPTION_PRINT && setopt && unsetopt KSH_OPTION_PRINT'
 
 # ---------------------------------------------------------------------------
@@ -27,13 +27,13 @@ alias show-setopt='setopt KSH_OPTION_PRINT && setopt && unsetopt KSH_OPTION_PRIN
 #   -G: colorize output (macOS)        -t: sort by modification time
 #   -S: sort by size                   -r: reverse sort order
 # ---------------------------------------------------------------------------
-alias l='ls -lFh'      # Long, classified, human-readable
-alias la='ls -lFhA'    # Same as l, plus hidden files
-alias ll='ls -lhG'     # Long, colorized (kept for muscle memory)
-alias lt='ls -lth'     # Sort by modification time, newest first
-alias lS='ls -lSh'     # Sort by size, largest first
-alias lSr='ls -lShr'   # Sort by size, smallest first
-alias lhd='ls -ld .??*'  # List hidden entries only (dot-files and dot-dirs)
+alias l='ls -lFh'         # zref: @zsh: Long, classified, human-readable
+alias la='ls -lFhA'       # zref: @zsh: Same as l, plus hidden files
+alias ll='ls -lhG'        # zref: @zsh: Long, colorized (kept for muscle memory)
+alias lt='ls -lth'        # zref: @zsh: Sort by modification time, newest first
+alias lS='ls -lSh'        # zref: @zsh: Sort by size, largest first
+alias lSr='ls -lShr'      # zref: @zsh: Sort by size, smallest first
+alias lhd='ls -ld .??*'   # zref: @zsh: List hidden entries only (dot-files and dot-dirs)
 
 # ---------------------------------------------------------------------------
 # Directory navigation
@@ -42,17 +42,13 @@ alias lhd='ls -ld .??*'  # List hidden entries only (dot-files and dot-dirs)
 # Use `d` to list recent directories (numbered), then `cd -N` to jump to one.
 # Example: `d` shows the list, `cd -2` goes to entry 2.
 # ---------------------------------------------------------------------------
+# zref: @zsh: Lists recent directories (numbered); then `cd -N` to jump to one
 alias d='dirs -v | head -10'
-
-# ---------------------------------------------------------------------------
-# Networking
-# ---------------------------------------------------------------------------
-alias whats-my-ip="curl -s checkip.dyndns.org | grep -Eo '[0-9\.]+'"
 
 # ---------------------------------------------------------------------------
 # Terminal
 # ---------------------------------------------------------------------------
-alias stty-sane='stty sane'  # Reset terminal line discipline if it becomes garbled
+alias stty-sane='stty sane'  # zref: @zsh: Reset terminal line discipline if it becomes garbled
 
 # ---------------------------------------------------------------------------
 # nocorrect — suppress CORRECT spell-checking for specific commands
@@ -73,14 +69,3 @@ alias stty-sane='stty sane'  # Reset terminal line discipline if it becomes garb
 # alias mv='nocorrect mv -i'
 # alias rm='nocorrect rm -i'
 
-# ---------------------------------------------------------------------------
-# Architecture switching (macOS / Apple Silicon only)
-#
-# On M-series Macs, Rosetta 2 allows running Intel binaries under emulation.
-#   mzsh: start a native arm64 zsh (Homebrew /opt/homebrew, etc.)
-#   izsh: start an x86_64 zsh via Rosetta (for Intel-only tools)
-# ---------------------------------------------------------------------------
-if [[ "$(uname -s)" == "Darwin" ]]; then
-    alias mzsh="arch -arm64 zsh"
-    alias izsh="arch -x86_64 zsh"
-fi

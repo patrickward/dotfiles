@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Compare two .env files and show keys that differ between them
+# zref: @utils: Compare two .env files and show keys that differ between them
 
 if [ -z "$1" ] || [ -z "$2" ]; then
     echo "Usage: envcheck <file1> <file2>"

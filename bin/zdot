@@ -1,8 +1,7 @@
 #!/usr/bin/env zsh
-# bin/zdot
+# zref: @utils: Dotfiles management script.
 #
-# Dotfiles management script. Named "zdot" to avoid collision with the
-# Graphviz `dot` binary that lives in PATH on many systems.
+# Named "zdot" to avoid collision with the Graphviz `dot` binary that lives in PATH on many systems.
 #
 # Usage:
 #   zdot setup [--dry-run] [topic]   Create symlinks and run setup scripts

@@ -1,4 +1,4 @@
-# Show directory sizes in the current directory, sorted by size
+# zref: @utils: Show directory sizes in the current directory, sorted by size
 disk-here() {
     du -sh */ 2>/dev/null | sort -h
 }

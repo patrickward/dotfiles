@@ -1,5 +1,5 @@
 #!/bin/sh
-# Pull and show a log of what changed. When invoked as git-reup, pulls with --rebase.
+# zref: @git: Pull and show a log of what changed. When invoked as git-reup, pulls with --rebase.
 
 set -e
 

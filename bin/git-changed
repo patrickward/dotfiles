@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Show files changed since the branch diverged from origin (default: main)
+# zref: @git: Show files changed since the branch diverged from origin (default: main)
 #
 # Usage: git-changed [base-branch]
 

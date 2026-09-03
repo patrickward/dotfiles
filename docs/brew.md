@@ -1,4 +1,5 @@
 # Local Dev Infrastructure
+<!-- zref: Local Dev Infrastructure using Homebrew --> 
 
 This `topics/homebrew` directory manages the Homebrew package set and post-install wiring for the full local development stack. The stack is:
 

@@ -1,4 +1,4 @@
-# Reload all custom zsh functions from $DOTFILES/zsh/functions/
+# zref: @utils: Reload all custom zsh functions from $DOTFILES/zsh/functions/
 zsh-refresh() {
     local funcs=("$DOTFILES"/zsh/functions/^_*(N.))
     if (( ${#funcs} == 0 )); then

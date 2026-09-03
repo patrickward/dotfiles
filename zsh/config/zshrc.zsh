@@ -30,10 +30,10 @@ source "$DOTFILES/zsh/config/aliases.zsh"
 # ---------------------------------------------------------------------------
 source "$DOTFILES/zsh/config/completion.zsh"
 
-fpath=("$DOTFILES/zsh/functions" $fpath)
+fpath=($DOTFILES/zsh/functions $DOTFILES/zsh/functions/*(/N) $fpath)
 
 # Autoload custom functions (skip completions, which start with _)
-autoload -Uz $DOTFILES/zsh/functions/^_*(N.:t)
+autoload -Uz $DOTFILES/zsh/functions/**/*(N.:t)
 
 autoload -Uz compinit
 local comp_files=(${ZDOTDIR:-$HOME}/.zcompdump(Nm-20))
@@ -125,6 +125,6 @@ fi
 # Only shown for login shells (not every new tmux pane, etc.)
 # ---------------------------------------------------------------------------
 if [[ -o login ]]; then
-    echo "💡 Type 'quickref' to see custom commands and aliases"
+    echo "💡 Type 'zref' to see custom commands and aliases"
 fi
 

@@ -1,0 +1,6 @@
+# zref.manifest
+# This provides a list of files to be annotated that can't or won't be annotated
+# by zref, such as vendored scripts or binaries.
+#
+# file|topic|description
+bin/git-filter-repo|git|Rewrite git history to remove files or large blobs

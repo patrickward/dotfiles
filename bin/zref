@@ -1,0 +1,325 @@
+#!/usr/bin/env zsh
+# zref: @utils: Quick reference for all functions, aliases, and scripts in this dotfiles repo
+#
+# Explicit-tag quick reference for dotfiles: functions, aliases, bin
+# scripts, and docs. Only files with a `# zref:` tag show up — nothing
+# is inferred from comments alone, so you decide what's worth surfacing.
+#
+# For vendored/third-party files you don't want to touch (e.g. a
+# downloaded git-filter-repo), add a line to zref.manifest instead of
+# tagging the file. Manifest entries are only used as a fallback for
+# bin/ and zsh/functions/ files that have zero tags of their own.
+#
+# Tag formats (name/kind inferred from the same line, or the next
+# non-comment line, so you usually only write a description):
+#   alias gs='git status'          # zref: Short git status
+#   gclean() { ... }                # zref: Prune merged branches
+#   # zref: Prune merged branches   <- leading tag also works
+#   gclean() { ... }
+#
+# Override only when inference isn't enough:
+#   # zref: <name>: <description>
+#   # zref: @<topic>: <description>
+#   # zref: <name>@<topic>: <description>
+#   # zref: alias <name>: <description>
+#   <!-- zref: <description> -->             docs/*.md
+#
+# zref.manifest (repo root), one line per exception:
+#   relative/path/to/file|topic|description
+#
+# Usage:
+#   zref commands | functions | topics | aliases | bin | docs | all
+#   zref <topic>          Everything tagged with <topic>
+#   zref <text>           Search everything for "<text>"
+#
+# Options:
+#   -v, --verbose        Show source file:line
+#   -f, --filter TEXT    Filter names/descriptions
+#   -e, --edit NAME      Open the exact-name match in $EDITOR
+
+cd "$(dirname "$0")/.." || exit 1
+export DOTFILES
+DOTFILES="$(pwd -P)"
+source "$DOTFILES/lib/utils.sh"   # gives us $fg[...] / $reset_color via `colors`
+
+typeset -g ZREF_SELF="${0:A}"
+
+ALIAS_RE='^[[:space:]]*alias[[:space:]]+([A-Za-z0-9_.:-]+)='
+FUNC_RE='^[[:space:]]*(function[[:space:]]+)?([A-Za-z_][A-Za-z0-9_-]*)[[:space:]]*\(\)'
+FUNC_RE2='^[[:space:]]*function[[:space:]]+([A-Za-z_][A-Za-z0-9_-]*)[[:space:]]*\{?[[:space:]]*$'
+
+# _zref_infer CODE_LINE -> prints "kind\tname" if CODE_LINE declares an
+# alias or function, otherwise prints nothing.
+_zref_infer() {
+    local code="$1"
+    if [[ "$code" =~ $ALIAS_RE ]]; then
+        printf 'alias\t%s\n' "${match[1]}"
+    elif [[ "$code" =~ $FUNC_RE ]]; then
+        printf 'function\t%s\n' "${match[2]}"
+    elif [[ "$code" =~ $FUNC_RE2 ]]; then
+        printf 'function\t%s\n' "${match[1]}"
+    fi
+}
+
+# _zref_extract FILE DEFAULT_KIND DEFAULT_TOPIC
+# Emits: kind \t name \t topic \t description \t file \t line
+_zref_extract() {
+    local file="$1" default_kind="$2" default_topic="$3"
+    local -a lines; lines=("${(@f)$(<"$file")}")
+    local n=${#lines[@]} i
+
+    for (( i = 1; i <= n; i++ )); do
+        local line="${lines[i]}"
+        [[ "$line" =~ '#[[:space:]]*zref:' ]] || continue
+
+        local code_part="${line%%#*}"
+        local tag_text="${line#*zref:}"
+        tag_text="${tag_text## }"
+
+        local kind="$default_kind"
+        if [[ "$tag_text" == "alias "* ]]; then
+            kind="alias"
+            tag_text="${tag_text#alias }"; tag_text="${tag_text## }"
+        fi
+
+        local name="" topic="" desc rest="${tag_text%%: *}"
+        if [[ "$tag_text" == *": "* && -n "$rest" && "$rest" != *[!A-Za-z0-9_@-]* ]]; then
+            name="$rest"; desc="${tag_text#*: }"
+        else
+            desc="$tag_text"
+        fi
+        if [[ "$name" == *@* ]]; then
+            topic="${name#*@}"; name="${name%@*}"
+        fi
+
+        if [[ -z "$name" ]]; then
+            local inferred=""
+            if [[ -n "${code_part// }" ]]; then
+                inferred="$(_zref_infer "$code_part")"
+            else
+                local j=$(( i + 1 ))
+                while (( j <= n && j <= i + 5 )); do
+                    local next="${lines[j]}"
+                    if [[ -z "${next// }" || "$next" == \#* ]]; then
+                        (( j++ )); continue
+                    fi
+                    inferred="$(_zref_infer "$next")"
+                    break
+                done
+            fi
+            if [[ -n "$inferred" ]]; then
+                local inf_kind="${inferred%%$'\t'*}" inf_name="${inferred#*$'\t'}"
+                name="$inf_name"
+                [[ "$default_kind" == "function" ]] && kind="$inf_kind"
+            fi
+        fi
+
+        [[ -z "$name" ]] && name="${file:t}"
+        [[ -z "$topic" ]] && topic="$default_topic"
+
+        printf '%s\t%s\t%s\t%s\t%s\t%s\n' "$kind" "$name" "$topic" "$desc" "$file" "$i"
+    done
+}
+
+_zref_extract_doc() {
+    local file="$1" desc
+    desc="$(grep -m1 -oE '<!--[[:space:]]*zref:.*-->' "$file" 2>/dev/null)"
+    desc="${desc#*zref:}"; desc="${desc%%-->*}"; desc="${desc## }"; desc="${desc%% }"
+    printf 'doc\t%s\t\t%s\t%s\t\n' "${file:t:r}" "${desc:-(no description)}" "$file"
+}
+
+# ---------------------------------------------------------------------------
+# Manifest: fallback for bin/ and zsh/functions/ files with zero tags
+# (vendored scripts you don't want to edit). Format:
+#   relative/path|topic|description
+# ---------------------------------------------------------------------------
+_zref_manifest_lookup() {
+    local rel="$1" manifest="$DOTFILES/zref.manifest"
+    [[ -f "$manifest" ]] || return
+    awk -F'|' -v k="$rel" '{gsub(/^ +| +$/,"",$1)} $1==k {gsub(/^ +| +$/,"",$2); gsub(/^ +| +$/,"",$3); print $2"\t"$3; exit}' "$manifest"
+}
+
+zref_functions() {
+    [[ -d "$DOTFILES/zsh/functions" ]] || return
+    local file rel entries hit
+    while IFS= read -r file; do
+        entries="$(_zref_extract "$file" function "")"
+        if [[ -z "$entries" ]]; then
+            rel="${file#$DOTFILES/}"
+            hit="$(_zref_manifest_lookup "$rel")"
+            [[ -n "$hit" ]] && printf 'function\t%s\t%s\t%s\t%s\t\n' "${file:t}" "${hit%%$'\t'*}" "${hit#*$'\t'}" "$file"
+            continue
+        fi
+        print -r -- "$entries"
+    done < <(find -L "$DOTFILES/zsh/functions" -maxdepth 1 -type f ! -name '_*' 2>/dev/null | sort)
+}
+
+zref_bin() {
+    [[ -d "$DOTFILES/bin" ]] || return
+    local file rel entries hit
+    local -A manifest_seen
+
+    while IFS= read -r file; do
+        [[ "${file:A}" == "$ZREF_SELF" ]] && continue
+        entries="$(_zref_extract "$file" bin "")"
+        if [[ -z "$entries" ]]; then
+            rel="${file#$DOTFILES/}"
+            hit="$(_zref_manifest_lookup "$rel")"
+            if [[ -n "$hit" ]]; then
+                manifest_seen[$rel]=1
+                printf 'bin\t%s\t%s\t%s\t%s\t\n' "${file:t}" "${hit%%$'\t'*}" "${hit#*$'\t'}" "$file"
+            fi
+            continue
+        fi
+        print -r -- "$entries"
+    done < <(find -L "$DOTFILES/bin" -maxdepth 1 -type f 2>/dev/null | sort)   # <-- -perm -u+x removed
+
+    # Catch manifest entries the scan above never saw (wrong depth, missing
+    # exec bit that -type f itself excludes on some FS, moved/renamed file).
+    [[ -f "$DOTFILES/zref.manifest" ]] || return
+    while IFS='|' read -r rel topic desc; do
+        rel="${rel## }"; rel="${rel%% }"           # trim stray spaces around |
+        [[ -z "$rel" || "$rel" == \#* || "$rel" != bin/* ]] && continue
+        (( ${+manifest_seen[$rel]} )) && continue
+        printf 'bin\t%s\t%s\t%s\t%s\t\n' "${rel:t}" "${topic## }" "${desc## }" "$DOTFILES/$rel"
+    done < "$DOTFILES/zref.manifest"
+}
+
+
+zref_topics() {
+    [[ -d "$DOTFILES/topics" ]] || return
+    local file topic
+    while IFS= read -r file; do
+        topic="${file#$DOTFILES/topics/}"; topic="${topic%%/*}"
+        _zref_extract "$file" function "$topic"
+    done < <(find -L "$DOTFILES/topics" -maxdepth 3 -type f -name '*.zsh' \
+              -not -path '*/plugged/*' 2>/dev/null | sort)
+}
+
+zref_config() {
+    [[ -d "$DOTFILES/zsh/config" ]] || return
+    local file topic
+    while IFS= read -r file; do
+        topic="${file:t:r}"   # e.g. aliases.zsh -> "aliases"
+        _zref_extract "$file" function "$topic"
+    done < <(find -L "$DOTFILES/zsh/config" -maxdepth 1 -type f -name '*.zsh' 2>/dev/null | sort)
+}
+
+zref_docs() {
+    [[ -d "$DOTFILES/docs" ]] || return
+    while IFS= read -r file; do _zref_extract_doc "$file"; done \
+        < <(find -L "$DOTFILES/docs" -maxdepth 1 -type f -name '*.md' 2>/dev/null | sort)
+}
+
+zref_all() { zref_functions; zref_bin; zref_topics; zref_config; zref_docs; }
+
+_zref_filter() {
+    local f="$1"; [[ -z "$f" ]] && { cat; return }
+    awk -F'\t' -v f="$f" 'BEGIN{f=tolower(f)} tolower($2)~f || tolower($3)~f || tolower($4)~f'
+}
+
+_zref_print_group() {
+    local kind="$1" label="$2" color="$3" verbose="$4"
+    local rows; rows="$(awk -F'\t' -v k="$kind" '$1==k' | sort -t$'\t' -k3,3 -k2,2)"
+    [[ -z "$rows" ]] && return
+    printf "%s=== %s ===%s\n\n" "$fg[cyan]" "$label" "$reset_color"
+    while IFS=$'\t' read -r k name topic desc file line; do
+        local shown="$name"; [[ -n "$topic" ]] && shown="[$topic] $name"
+        printf "%s%-28s%s %s\n" "$color" "$shown" "$reset_color" "${desc:-(no description)}"
+        if (( verbose )); then
+            printf "  %s%s%s%s\n" "$fg_bold[black]" "$file" "${line:+:$line}" "$reset_color"
+        fi
+    done <<< "$rows"
+    echo ""
+}
+
+_zref_render() {
+    local v="$1" all; all="$(cat)"
+    [[ -z "$all" ]] && { echo "(no matches)"; return }
+    echo "$all" | _zref_print_group function "FUNCTIONS"          "$fg[green]"   "$v"
+    echo "$all" | _zref_print_group alias    "ALIASES"            "$fg[magenta]" "$v"
+    echo "$all" | _zref_print_group bin      "BIN SCRIPTS (bin/)" "$fg[yellow]"  "$v"
+    echo "$all" | _zref_print_group doc      "DOCS (docs/)"       "$fg[magenta]" "$v"
+}
+
+_zref_edit() {
+    local name="$1" hit file line
+    hit="$(zref_all | awk -F'\t' -v n="$name" '$2==n' | head -1)"
+    [[ -z "$hit" ]] && { fail "No entry named '$name'"; return 1 }
+    IFS=$'\t' read -r _ _ _ _ file line <<< "$hit"
+    local editor="${EDITOR:-vi}"
+    if [[ -n "$line" && "$editor" == *vim* ]]; then "$editor" "+$line" "$file"
+    else "$editor" "$file"; fi
+}
+
+usage() {
+    cat <<'EOF'
+zref — explicit-tag quick reference for dotfiles
+
+Usage:
+  zref commands         List all bin, topic, and zsh functions
+  zref config           List all config-related aliases, etc
+  zref aliases          List all aliases
+  zref bin              List all bin functions
+  zref functions        List all zsh/functions
+  zref topics           List all topic-specific functions
+  zref docs             List all docs
+  zref all              List everything
+  zref <topic>          Everything tagged with <topic>
+  zref <text>           Search everything for "<text>" as a fallback
+
+Options:
+  -v, --verbose        Show source file:line
+  -f, --filter TEXT    Filter names/descriptions
+  -e, --edit NAME      Open the exact-name match in $EDITOR
+
+Tag a definition to register it (name/kind inferred when possible):
+  alias gs='git status'   # zref: Short git status
+  gclean() { ... }        # zref: Prune merged branches
+
+Vendored files you won't edit: add a line to zref.manifest instead:
+  relative/path|topic|description
+EOF
+}
+
+section="menu"; verbose=0; filter=""; edit_name=""
+
+while [[ $# -gt 0 ]]; do
+    if [[ -z "$edit_name" && -d "$DOTFILES/topics/$1" ]]; then
+        section="topic:$1"; shift; continue
+    fi
+    case "$1" in
+        -v|--verbose) verbose=1; shift ;;
+        -f|--filter)  filter="$2"; [[ "$section" == "menu" ]] && section="all"; shift 2 ;;
+        -e|--edit)    edit_name="$2"; shift 2 ;;
+        commands|cmd|c)   section="commands"; shift ;;
+        config|conf)      section="config"; shift ;;
+        functions|func|f) section="functions"; shift ;;
+        topics|topic|t)   section="topics"; shift ;;
+        aliases|alias|a)  section="aliases"; shift ;;
+        bin|b)            section="bin"; shift ;;
+        docs|doc|d)       section="docs"; shift ;;
+        all)              section="all"; shift ;;
+        -h|--help|help)   usage; exit 0 ;;
+        *) filter="$1"; section="all"; shift ;;
+    esac
+done
+
+if [[ -n "$edit_name" ]]; then _zref_edit "$edit_name"; exit $?; fi
+
+case "$section" in
+    menu)     usage ;;
+    commands) { zref_functions; zref_topics; zref_config; zref_bin; } | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    config)    zref_config | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    functions) zref_functions | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    topics)    zref_topics    | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    aliases)   { zref_topics; zref_config } | awk -F'\t' '$1=="alias"' | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    bin)       zref_bin  | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    docs)      zref_docs | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    all)       zref_all  | _zref_filter "$filter" | _zref_render "$verbose" ;;
+    topic:*)
+        t="${section#topic:}"
+        printf "%s=== TOPIC: %s ===%s\n\n" "$fg[cyan]" "$t" "$reset_color"
+        { zref_functions; zref_bin; zref_topics; } | awk -F'\t' -v t="$t" '$3==t' | _zref_render "$verbose"
+        ;;
+esac

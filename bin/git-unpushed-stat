@@ -1,5 +1,5 @@
 #!/bin/sh
-# Show a diffstat of commits not yet pushed to origin
+# zref: @git: Show a diffstat of commits not yet pushed to origin
 branch=$(git rev-parse --abbrev-ref HEAD)
 count=$(git rev-list --count HEAD origin/"$branch"...HEAD)
 

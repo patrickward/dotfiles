@@ -1,4 +1,4 @@
-# Extract archived files and mount disk images
+# zref: @utils: Extract archived files and mount disk images
 extract() {
     if [[ ! -f "$1" ]]; then
         echo "'$1' is not a valid file"

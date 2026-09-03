@@ -1,4 +1,5 @@
 # Homebrew
+<!-- zref: Useful Homebrew commands for -->
 
 A few useful brew commands for comparing what's installed vs what's in the Brewfile.
 

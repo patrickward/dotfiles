@@ -1,5 +1,5 @@
 #!/bin/bash
-# Find processes matching a pattern
+# zref: @utils: Find processes matching a pattern
 #
 # Usage: find-pid <pattern>
 

@@ -1,4 +1,4 @@
-# List listening ports with process info. Optionally filter by port number.
+# zref: @utils: List listening ports with process info. Optionally filter by port number.
 port-list() {
     if [[ -n "$1" ]]; then
         sudo lsof -iTCP:"$1" -sTCP:LISTEN -n -P

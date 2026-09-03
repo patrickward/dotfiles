@@ -1,4 +1,5 @@
 # Caddy local development cheatsheet
+<!-- zref: Information on using Caddy on this computer -->
 
 This topic configures Caddy as the local HTTPS reverse proxy for `*.test` sites.
 

@@ -1,4 +1,5 @@
 # Shell helpers
+<!-- zref: Information on using shell helpers on this computer -->
 
 This repo has three places for shell helpers. Use the smallest thing that fits.
 

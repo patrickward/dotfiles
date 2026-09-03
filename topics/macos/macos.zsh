@@ -1,3 +1,14 @@
+# Show the current Finder window directory (macOS)
+pfd() {
+    [[ "$OSTYPE" != darwin* ]] && { echo "pfd is macOS only"; return 1; }
+
+    osascript 2>/dev/null <<EOF
+tell application "Finder"
+    return POSIX path of (target of first window as text)
+end tell
+EOF
+}
+
 # Show the current Finder selection (macOS)
 pfs() {
     [[ "$OSTYPE" != darwin* ]] && { echo "pfs is macOS only"; return 1; }

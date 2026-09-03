@@ -1,4 +1,5 @@
 # PHP
+<!-- zref: Information on using PHP on this computer -->
 
 This topic manages machine-level PHP runtime setup: global PHP extensions and
 tooling that Composer cannot install.

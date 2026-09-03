@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Show HTTP response timing breakdown for a URL
+# zref: @utils: Show HTTP response timing breakdown for a URL
 #
 # Usage: httptime <url>
 

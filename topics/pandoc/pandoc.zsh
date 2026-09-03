@@ -9,7 +9,7 @@ export PANDOC_TEMPLATES="$DOTFILES/topics/pandoc/templates"
 # ---------------------------------------------------------------------------
 # mkpdf <brand> <preset> <file.md> [output.pdf]
 # ---------------------------------------------------------------------------
-# Converts markdown to PDF via pandoc. Run `mkpdf` alone for usage.
+# zref: mkpdf: Converts markdown to PDF via pandoc. Run `mkpdf` alone for usage.
 # Brand and preset files are composed from $PANDOC_TEMPLATES/.
 #
 # For variables in the templates, see:
@@ -106,7 +106,7 @@ Examples:
 # ---------------------------------------------------------------------------
 # mkdocx [--open] [--template <file.docx>] <file.md> [output.docx]
 # ---------------------------------------------------------------------------
-# Converts markdown to DOCX via pandoc. Run `mkdocx` alone for usage.
+# zref: mkdocx: Converts markdown to DOCX via pandoc. Run `mkdocx` alone for usage.
 # With --open, opens the result in Apple Pages (or default DOCX handler).
 # With --template, uses a custom reference DOCX file.
 # If no --template is provided, uses reference.docx from $PANDOC_TEMPLATES if found,
@@ -212,7 +212,7 @@ mkdocx() {
 # ---------------------------------------------------------------------------
 # md2html [--open] [--template <file.html>] <file.md> [output.html]
 # ---------------------------------------------------------------------------
-# Converts markdown to standalone, self-contained HTML. Run `md2html` alone for usage.
+# zref: md2html: Converts markdown to standalone, self-contained HTML. Run `md2html` alone for usage.
 # With --open, opens the result in the default browser.
 # With --template, uses a custom HTML template.
 # Output defaults to <file>.html if not specified.
@@ -264,7 +264,7 @@ md2html() {
 # ---------------------------------------------------------------------------
 # html2md <file.html> [output.md]
 # ---------------------------------------------------------------------------
-# Converts HTML to markdown. Run `html2md` alone for usage.
+# zref: html2md: Converts HTML to markdown. Run `html2md` alone for usage.
 #
 # Examples:
 #   html2md document.html
@@ -287,7 +287,7 @@ html2md() {
 # ---------------------------------------------------------------------------
 # docx2md <file.docx> [output.md]
 # ---------------------------------------------------------------------------
-# Converts DOCX (Word) to markdown. Run `docx2md` alone for usage.
+# zref: docx2md: Converts DOCX (Word) to markdown. Run `docx2md` alone for usage.
 #
 # Examples:
 #   docx2md Report.docx

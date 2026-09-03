@@ -1,4 +1,4 @@
-# Show top memory consumers
+# zref: @utils: Show top memory consumers
 top-mem() {
     local count=${1:-15}
     echo "MEM%    RSS(MB)   PID     COMMAND"

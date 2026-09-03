@@ -1,4 +1,4 @@
-# Kill process listening on a given port
+# zref: @utils: Kill process listening on a given port
 port-kill() {
     if [[ -z "$1" ]]; then
         echo "Usage: port-kill <port>"

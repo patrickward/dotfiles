@@ -1,4 +1,4 @@
-# Show top CPU consumers
+# zref: @utils: Show top CPU consumers
 top-cpu() {
     local count=${1:-15}
     echo "CPU%    PID     COMMAND"
