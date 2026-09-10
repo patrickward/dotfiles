@@ -11,7 +11,13 @@ See [`GRAMMAR.md`](./GRAMMAR.md) — the verb/motion/text-object mental model, f
 See [`PLUGINS.md`](./PLUGINS.md) for a quick-reference on using each installed plugin (surround, commentary, 
 unimpaired, fugitive, fzf, tmux-runner).
 
-## Key bindings (leader = space)
+## Key Bindings
+
+### Leader
+
+**leader = space**
+
+### Key Bindings Map
 
 | Map                       | Action                                                                    |
 |---------------------------|---------------------------------------------------------------------------|

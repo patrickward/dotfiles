@@ -74,15 +74,15 @@ upstream before touching `.vimrc`.
 
 Requires both `fzf` (binary + vim API) and `fzf.vim` (commands) — see troubleshooting in README if commands error out.
 
-| Command          | Effect                                                    |
-|------------------|-----------------------------------------------------------|
-| `:Files`         | Fuzzy find files (`<leader>f`)                            |
-| `:Buffers`       | Open buffers with fzf                                     |
-| `:Changes`       | Open changes with fzf                                     |
-| `:GFiles [opts]` | Fuzzy find git-tracked files (git ls-files) (`<leader>g`) |
-| `:GFiles?`       | Git files (git status)                                    |
-| `:Rg {term}`     | ripgrep search, live-updating (`<leader>r`)               |
-| `:Buffers`       | fuzzy find open buffers (`<leader>b`)                     |
+| Command          | Leader      | Effect                                      |
+|------------------|-------------|---------------------------------------------|
+| `:Files`         | `<leader>f` | Fuzzy find files                            |
+| `:Buffers`       |             | Open buffers with fzf                       |
+| `:Changes`       |             | Open changes with fzf                       |
+| `:GFiles [opts]` | `<leader>g` | Fuzzy find git-tracked files (git ls-files) |
+| `:GFiles?`       |             | Git files (git status)                      |
+| `:Rg {term}`     | `<leader>r` | ripgrep search, live-updating               |
+| `:Buffers`       | `<leader>b` | fuzzy find open buffers                     |
 
 Inside any fzf window: `Tab` multi-select, `Ctrl-T` open in new tab,
 `Ctrl-X` open in horizontal split, `Ctrl-V` open in vertical split.
@@ -91,12 +91,12 @@ Inside any fzf window: `Tab` multi-select, `Ctrl-T` open in new tab,
 
 Requires running inside tmux. Workflow: open a runner pane once, then keep sending lines/commands to it .
 
-| Command                   | Effect                                                        |
-|---------------------------|---------------------------------------------------------------|
-| `:VtrOpenRunner`          | split a new tmux pane as the "runner" (`<leader>vr`)          |
-| `:VtrAttachToPane`        | attach an *existing* pane as runner instead                   |
-| `:VtrSendLinesToRunner`   | send current line / visual selection to runner (`<leader>vs`) |
-| `:VtrSendCommandToRunner` | prompt for an arbitrary shell command, send it                |
-| `:VtrKillRunner`          | close the runner pane                                         |
+| Command                   | Leader       | Effect                                                        |
+|---------------------------|--------------|---------------------------------------------------------------|
+| `:VtrOpenRunner`          | `<leader>vr` | split a new tmux pane as the "runner" (`<leader>vr`)          |
+| `:VtrAttachToPane`        |              | attach an *existing* pane as runner instead                   |
+| `:VtrSendLinesToRunner`   | `<leader>vs` | send current line / visual selection to runner (`<leader>vs`) |
+| `:VtrSendCommandToRunner` |              | prompt for an arbitrary shell command, send it                |
+| `:VtrKillRunner`          |              | close the runner pane                                         |
 
 If you see `VTR: No runner pane attached`, run `:VtrAttachToPane` .
