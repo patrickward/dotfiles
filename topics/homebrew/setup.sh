@@ -15,6 +15,16 @@ info "Installing Homebrew packages from Brewfile..."
 brew bundle --verbose --file="$DOTFILES/topics/homebrew/Brewfile"
 okay "Homebrew packages installed"
 
+LOCAL_BREWFILE="$DOTFILES/topics/homebrew/Brewfile.local"
+
+if [[ -f "$LOCAL_BREWFILE" ]]; then
+    info "Installing Homebrew packages from local Brewfile..."
+    brew bundle --verbose --file="$LOCAL_BREWFILE"
+    okay "Local Homebrew packages installed"
+else
+    okay "No local Brewfile found — skipping"
+fi
+
 # Post install
 # Safe to run repeatedly (idempotent throughout)
 

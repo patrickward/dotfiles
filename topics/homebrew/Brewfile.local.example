@@ -1,0 +1,14 @@
+# topics/homebrew/Brewfile.local.example
+#
+# Copy to:
+#   topics/homebrew/Brewfile.local
+#
+# Machine-specific Homebrew packages.
+# This file should be gitignored.
+
+# brew "overmind"
+# brew "contribsys/faktory/faktory"
+
+if OS.mac?
+  # cask "rectangle"
+end

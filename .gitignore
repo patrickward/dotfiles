@@ -21,6 +21,9 @@ __pycache__
 # Ignore plugins, they should be downloaded per box
 src/vim/plugged/
 
+# Ignore the local Brewfile
+topics/homebrew/Brewfile.local
+
 # Ignore temp
 tmp/
 todo.md
