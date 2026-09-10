@@ -2,6 +2,15 @@
 # zsh/functions/_zref — completion for bin/zref
 
 _zref() {
+    if (( CURRENT > 2 )) && [[ "${words[2]}" == docs || "${words[2]}" == doc || "${words[2]}" == d ]]; then
+        if [[ "$PREFIX" == -* ]]; then
+            compadd -Q -- -m --marked
+        else
+            _zref_docs
+        fi
+        return
+    fi
+
     local -a sections=(
         'commands:functions + topic entries + bin scripts'
         'config:aliases from zsh/config/*.zsh'
@@ -40,6 +49,29 @@ _zref_names() {
     local -a names
     names=("${(@f)$(command zref all 2>/dev/null | awk -F'\t' 'NF>1{print $2}' | sort -u)}")
     _describe -t zref-names 'entry' names
+}
+
+# Complete entry names when opening a doc
+_zref_docs() {
+    local -a docs
+    local f rel topic name
+
+    if [[ -n "$DOTFILES" && -d "$DOTFILES/docs" ]]; then
+        for f in "$DOTFILES"/docs/*.md(N); do
+            docs+=("${f:t:r}")
+        done
+    fi
+
+    if [[ -n "$DOTFILES" && -d "$DOTFILES/topics" ]]; then
+        for f in "$DOTFILES"/topics/*/*.md(N); do
+            rel="${f#$DOTFILES/topics/}"
+            topic="${rel%%/*}"
+            name="${f:t}"
+            docs+=("$topic/$name")
+        done
+    fi
+
+    compadd -Q -a docs
 }
 
 _zref "$@"

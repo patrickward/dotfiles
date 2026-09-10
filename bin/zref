@@ -121,13 +121,6 @@ _zref_extract() {
     done
 }
 
-_zref_extract_doc() {
-    local file="$1" desc
-    desc="$(grep -m1 -oE '<!--[[:space:]]*zref:.*-->' "$file" 2>/dev/null)"
-    desc="${desc#*zref:}"; desc="${desc%%-->*}"; desc="${desc## }"; desc="${desc%% }"
-    printf 'doc\t%s\t\t%s\t%s\t\n' "${file:t:r}" "${desc:-(no description)}" "$file"
-}
-
 # ---------------------------------------------------------------------------
 # Manifest: fallback for bin/ and zsh/functions/ files with zero tags
 # (vendored scripts you don't want to edit). Format:
@@ -205,10 +198,149 @@ zref_config() {
     done < <(find -L "$DOTFILES/zsh/config" -maxdepth 1 -type f -name '*.zsh' 2>/dev/null | sort)
 }
 
+_zref_extract_doc() {
+    local file="$1" rel name topic desc
+    rel="${file#$DOTFILES/}"
+
+    # Look for first zref doc tag inside markdown file (hide errors)
+    desc="$(grep -m1 -oE '<!--[[:space:]]*zref:.*-->' "$file" 2>/dev/null)"
+    # Strip everything up through zref:
+    desc="${desc#*zref:}";
+    # Strip closing html comment
+    desc="${desc%%-->*}";
+    # Trim one leading space if present
+    desc="${desc## }";
+    ## Trim one trailing space if present
+    desc="${desc%% }"
+
+    # Decide how doc should be named in the zref doc list
+    if [[ "$rel" == docs/* ]]; then
+        # :t = tail, like basename
+        # :r = root, remove extension
+        name="${file:t:r}"
+        topic="docs"
+    elif [[ "$rel" == topics/* ]]; then
+        # Pull out first directory under topics
+        topic="${rel#topics/}"
+        topic="${topic%%/*}"
+        # Use the path under topics as the doc name
+        name="${rel#topics/}"
+        name="${name%.md}"
+    else
+        # Fallback for any future docs source outside docs/ or topics/
+        # Use the filename without extension
+        name="${file:t:r}"
+        topic=""
+    fi
+
+
+    # Emit a zref row in the same tab-separated format used elsewhere by zref_render
+    # To reiterate, this function simply emits fields that are then consumed by zref_render
+    #
+    #   kind \t name \t topic \t description \t file \t line
+    #
+    # For docs, line is blank because opening a doc usually means opening
+    # the whole file rather than jumping to a tagged line.
+    #
+    # ${desc:-(no description)} means:
+    #   use desc if it is non-empty;
+    #   otherwise use "(no description)".
+    printf 'doc\t%s\t%s\t%s\t%s\t\n' "$name" "$topic" "${desc:-(no description)}" "$file"
+}
+
 zref_docs() {
-    [[ -d "$DOTFILES/docs" ]] || return
-    while IFS= read -r file; do _zref_extract_doc "$file"; done \
-        < <(find -L "$DOTFILES/docs" -maxdepth 1 -type f -name '*.md' 2>/dev/null | sort)
+  local file
+
+  # First, scan the central docs/ directory
+  # Assuming docs is a flat directory (not nested)
+  if [[ -d "$DOTFILES/docs" ]]; then
+      while IFS= read -r file; do
+          _zref_extract_doc "$file"
+      done < <(find -L "$DOTFILES/docs" -maxdepth 1 -type f -name '*.md' 2>/dev/null | sort)
+  fi
+
+  # Next, scan Markdown files under topics/
+  # This makes topic-local docs visible via `zref docs`
+  # Recursive, because there may be nested folders within a topics
+  if [[ -d "$DOTFILES/topics" ]]; then
+      while IFS= read -r file; do
+          _zref_extract_doc "$file"
+      done < <(find -L "$DOTFILES/topics" -mindepth 2 -maxdepth 2 -type f -name '*.md' \
+          -not -path '*/plugged/*' \
+          -not -path '*/node_modules/*' \
+          -not -path '*/vendor/*' \
+          2>/dev/null | sort)
+  fi
+}
+
+_zref_doc_path() {
+    # The name the user typed:
+    # zref docs <name>
+    local name="$1" hit
+
+    # If no doc name was provided, fail
+    [[ -z "$name" ]] && return 1
+
+    # Search the generated docs index for an exact name match.
+    #
+    # zref_docs emits tab-separated rows:
+    #   $1 = kind
+    #   $2 = name
+    #   $3 = topic
+    #   $4 = description
+    #   $5 = file path
+    #
+    # This allows:
+    #   zref docs shell
+    #
+    # And also tolerates:
+    #   zref docs shell.md
+    #
+    # because it checks:
+    #   $2 == n
+    # or:
+    #   $2 == n ".md"
+
+    # Matches either:
+    # - name only: README
+    # - name with .md: README.md
+    # - topic/name: vim/README
+    # - topic/name with .md: vim/README.md
+    hit="$(zref_docs | awk -F'\t' -v n="$name" '
+        $2 == n || $2 ".md" == n || $3 "/" $2 == n || $3 "/" $2 ".md" == n {
+            print $5
+            exit
+        }
+    ')"
+
+    # Only succeed if awk found a file and that file still exists.
+    [[ -n "$hit" && -f "$hit" ]] || return 1
+
+    # Print the resolved file path.
+    print -r -- "$hit"
+}
+
+_zref_open_doc() {
+    # The logical doc name from the command line.
+    local name="$1" marked="$2" file
+
+    # Resolve the logical name to an actual Markdown file.
+    #
+    # If no matching doc is found, print a friendly error and return failure.
+    file="$(_zref_doc_path "$name")" || { fail "No doc named '$name'"; return 1; }
+
+    # Prefer bat for nicer Markdown viewing if it is installed.
+    #
+    # --style=plain removes line numbers/grid decorations.
+    # --language=markdown makes sure bat highlights it as Markdown.
+    if (( marked )); then
+      open -a "Marked 2" "$file"
+    elif command -v bat &>/dev/null; then
+        bat --style=plain --language=markdown "$file"
+    else
+        # Fallback to less, which should be available almost everywhere.
+        less "$file"
+    fi
 }
 
 zref_all() { zref_functions; zref_bin; zref_topics; zref_config; zref_docs; }
@@ -264,6 +396,7 @@ Usage:
   zref functions        List all zsh/functions
   zref topics           List all topic-specific functions
   zref docs             List all docs
+  zref docs <file>      View a document in the terminal. Use -m to open in Marked2
   zref all              List everything
   zref <topic>          Everything tagged with <topic>
   zref <text>           Search everything for "<text>" as a fallback
@@ -282,30 +415,65 @@ Vendored files you won't edit: add a line to zref.manifest instead:
 EOF
 }
 
-section="menu"; verbose=0; filter=""; edit_name=""
+# Default command state before arguments
+section="menu"; verbose=0; filter=""; edit_name=""; doc_name=""; marked=0
 
 while [[ $# -gt 0 ]]; do
+    # IF the first argument matches a topic directory, treat it as a topic lookup
     if [[ -z "$edit_name" && -d "$DOTFILES/topics/$1" ]]; then
         section="topic:$1"; shift; continue
     fi
     case "$1" in
+        # Verbose mode -- show source info
         -v|--verbose) verbose=1; shift ;;
+        # Filter mode -- list ouput bye name/topic/description
         -f|--filter)  filter="$2"; [[ "$section" == "menu" ]] && section="all"; shift 2 ;;
+        # Open an exact-name in $EDITOR
         -e|--edit)    edit_name="$2"; shift 2 ;;
+        # Begin section aliases and change section mode
         commands|cmd|c)   section="commands"; shift ;;
         config|conf)      section="config"; shift ;;
         functions|func|f) section="functions"; shift ;;
         topics|topic|t)   section="topics"; shift ;;
         aliases|alias|a)  section="aliases"; shift ;;
         bin|b)            section="bin"; shift ;;
-        docs|doc|d)       section="docs"; shift ;;
+        docs|doc|d)
+            section="docs"
+            shift
+            # If another positional argument follows, treat it as the doc to open
+            # The "$1" != -* check keeps flags from accidentally becoming doc names.
+            # Note, this ensure that doc_name is only relevant when the docs|doc|d command is present
+            # if [[ $# -gt 0 && "$1" != -* ]]; then
+            #     doc_name="$1"
+            #     shift
+            # fi
+            while [[ $# -gt 0 ]]; do
+              case "$1" in
+                -m|--marked)
+                  marked=1
+                  shift
+                  ;;
+              -*)
+                  break
+                  ;;
+              *)
+                  doc_name="$1"
+                  shift
+                  ;;
+              esac
+            done
+            ;;
         all)              section="all"; shift ;;
         -h|--help|help)   usage; exit 0 ;;
+        # Fallback -- show all or search with filter
         *) filter="$1"; section="all"; shift ;;
     esac
 done
 
+# If -e was used, open with editor and exit
 if [[ -n "$edit_name" ]]; then _zref_edit "$edit_name"; exit $?; fi
+# If `zref docs <name>` was used, open document and exit
+if [[ -n "$doc_name" ]]; then _zref_open_doc "$doc_name" "$marked"; exit $?; fi
 
 case "$section" in
     menu)     usage ;;
