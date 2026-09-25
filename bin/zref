@@ -389,22 +389,23 @@ usage() {
 zref — explicit-tag quick reference for dotfiles
 
 Usage:
-  zref commands         List all bin, topic, and zsh functions
-  zref config           List all config-related aliases, etc
-  zref aliases          List all aliases
-  zref bin              List all bin functions
-  zref functions        List all zsh/functions
-  zref topics           List all topic-specific functions
-  zref docs             List all docs
-  zref docs <file>      View a document in the terminal. Use -m to open in Marked2
-  zref all              List everything
-  zref <topic>          Everything tagged with <topic>
-  zref <text>           Search everything for "<text>" as a fallback
+  zref commands|cmd|c         List all bin, topic, and zsh functions
+  zref config|conf            List all config-related aliases, etc
+  zref aliases|alias|a        List all aliases
+  zref bin|b                  List all bin functions
+  zref functions|func|f       List all zsh/functions
+  zref topics|topic|t         List all topic-specific functions
+  zref docs|doc|d <file>      List all docs.
+                                Or, View a document <file> in the terminal.
+                                Use -m to open in Marked2
+  zref all                    List everything
+  zref <topic>                Everything tagged with <topic>
+  zref <text>                 Search everything for "<text>" as a fallback
 
 Options:
-  -v, --verbose        Show source file:line
-  -f, --filter TEXT    Filter names/descriptions
-  -e, --edit NAME      Open the exact-name match in $EDITOR
+  -v, --verbose               Show source file:line
+  -f, --filter TEXT           Filter names/descriptions
+  -e, --edit NAME             Open the exact-name match in $EDITOR
 
 Tag a definition to register it (name/kind inferred when possible):
   alias gs='git status'   # zref: Short git status
