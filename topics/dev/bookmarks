@@ -1,51 +1,104 @@
-# ---- Go ---------------------------------------------------------------------
+# ---- 01-lang: Programming Languages -------------------------------------------------
+# Go
 go/docs          https://pkg.go.dev                         Go package documentation
 go/spec          https://go.dev/ref/spec                    Go language specification
 go/playground    https://go.dev/play                        Go playground
 
-# ---- Web / Frontend ---------------------------------------------------------
-mdn              https://developer.mozilla.org              MDN Web Docs
-caniuse          https://caniuse.com                        Browser compatibility
-w3c              https://www.w3.org/TR/                     W3C specifications
-webperf          https://web.dev                            Web performance (Google)
-
-# ---- JavaScript / TypeScript ------------------------------------------------
+# JavaScript / TypeScript
 js/mdn           https://developer.mozilla.org/en-US/docs/Web/JavaScript  JS reference (MDN)
 ts/docs          https://www.typescriptlang.org/docs/                     TypeScript documentation
 ts/playground    https://www.typescriptlang.org/play                      TypeScript playground
 node/docs        https://nodejs.org/en/docs                               Node.js documentation
 npm/registry     https://www.npmjs.com                                    npm registry
-npm/docs              https://docs.npmjs.com/                             npm documentation
+npm/docs         https://docs.npmjs.com/                             npm documentation
 deno/docs        https://docs.deno.com                                    Deno documentation
 
-# ---- Python -----------------------------------------------------------------
+# Python
 py/docs          https://docs.python.org/3/                 Python 3 documentation
 py/peps          https://peps.python.org                    Python Enhancement Proposals
 py/pypi          https://pypi.org                           Python package index
 
-# ---- Rust -------------------------------------------------------------------
+# Rust
 rust/docs        https://doc.rust-lang.org/book/            The Rust Book
 rust/std         https://doc.rust-lang.org/std/             Rust standard library
 rust/crates      https://crates.io                          Rust package registry
 
-# ---- Databases --------------------------------------------------------------
+# ---- 02-web: Web Development ---------------------------------------------------------
+mdn              https://developer.mozilla.org              MDN Web Docs
+caniuse          https://caniuse.com                        Browser compatibility
+w3c              https://www.w3.org/TR/                     W3C specifications
+webperf          https://web.dev                            Web performance (Google)
+
+# ---- 03-data: Databases & Data --------------------------------------------------------
 pg/docs          https://www.postgresql.org/docs/current/                 PostgreSQL current docs
 pg/explain       https://explain.depesz.com                               EXPLAIN plan visualizer
 redis/docs       https://redis.io/docs/latest/                            Redis documentation
 sqlite/docs      https://www.sqlite.org/docs.html                        SQLite documentation
 sql/zoo          https://sqlzoo.net                                       Interactive SQL reference
 
-# ---- Infra / DevOps ---------------------------------------------------------
+# ---- 04-infra: Infrastructure & DevOps -------------------------------------------------
 k8s/docs         https://kubernetes.io/docs/home/           Kubernetes documentation
 k8s/api          https://kubernetes.io/docs/reference/      Kubernetes API reference
 docker/docs      https://docs.docker.com                    Docker documentation
 podman/docs      https://podman.io/docs/                    Podman documentation
 terraform        https://registry.terraform.io              Terraform registry
 
-# ---- General Dev ------------------------------------------------------------
+# ---- 05-cloud: Cloud Providers ------------------------------------------------------
+aws/docs         https://docs.aws.amazon.com                             AWS documentation
+aws/icons        https://aws.amazon.com/architecture/icons/              AWS architecture icons
+gcp/docs         https://cloud.google.com/docs                           GCP documentation
+cf/docs          https://developers.cloudflare.com/docs                  Cloudflare documentation
+
+# ---- 06-ai: AI & Machine Learning ------------------------------------------------------
+hf               https://huggingface.co/docs                             HuggingFace documentation
+pytorch          https://pytorch.org/docs/stable/                        PyTorch documentation
+openai/api       https://platform.openai.com/docs                        OpenAI API reference
+anthropic/api    https://docs.anthropic.com                              Anthropic API reference
+tiktoken         https://github.com/openai/tiktoken                      Token counting reference
+
+# ---- 07-security: Security --------------------------------------------------------------
+owasp            https://owasp.org/www-project-top-ten/                  OWASP Top 10
+jwt              https://jwt.io                                           JWT debugger + spec
+ssl/test         https://www.ssllabs.com/ssltest/                        SSL Labs server test
+cve              https://cve.mitre.org                                   CVE database
+cipher           https://ciphersuite.info                                 TLS cipher suite reference
+
+# ---- 08-net: Networking & Protocols ---------------------------------------------------
+rfc              https://www.rfc-editor.org/rfc/                         RFC index
+http/2           https://http2.github.io                                 HTTP/2 spec
+http/3           https://quicwg.org                                      HTTP/3 / QUIC spec
+mdns             https://www.dns-sd.org                                  DNS-SD / mDNS reference
+tls              https://tls13.xargs.org                                 TLS 1.3 illustrated
+iana/ports       https://www.iana.org/assignments/service-names-port-numbers  Port number registry
+mimetypes        https://www.iana.org/assignments/media-types/           IANA MIME type registry
+
+# ---- 09-tools: General Development Tools ---------------------------------------------
 devdocs          https://devdocs.io                         Aggregated API docs (offline capable)
 tldr             https://tldr.inbrowser.app                 tldr pages (web)
 regex            https://regex101.com                       Regex tester
 json             https://jqlang.github.io/jq/manual/        jq manual
 semver           https://semver.org                         Semantic versioning spec
 http/status      https://httpstatuses.io                    HTTP status code reference
+
+# Git
+git/ref          https://git-scm.com/docs                                Git reference
+git/book         https://git-scm.com/book/en/v2                          Pro Git book (free)
+
+# Editors & Shell
+vim/docs         https://vimhelp.org                                      Vim help pages (web)
+tmux/wiki        https://github.com/tmux/tmux/wiki                       tmux wiki
+bash/ref         https://www.gnu.org/software/bash/manual/bash.html      Bash reference manual
+zsh/docs         https://zsh.sourceforge.io/Doc/                         Zsh documentation
+posix            https://pubs.opengroup.org/onlinepubs/9699919799/       POSIX specification
+crontab          https://crontab.guru                                     Cron expression editor
+shellcheck       https://www.shellcheck.net                               Shell script linter
+
+# Standards & References
+unicode          https://www.compart.com/en/unicode/                     Unicode character lookup
+
+# Utilities
+epoch            https://www.epochconverter.com                          Unix timestamp converter
+base64           https://www.base64decode.org                            Base64 encoder/decoder
+cidr             https://cidr.xyz                                        CIDR / subnet calculator
+difftool         https://diffnow.com                                     File diff tool
+excalidraw       https://excalidraw.com

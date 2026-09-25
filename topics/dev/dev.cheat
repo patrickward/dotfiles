@@ -6,6 +6,7 @@
   mdn <query> -o              Open top result in browser
   mdn <query> -n <count>      Show more results (default: 5)
   mdn <query> -n <count> -o   Show more results and open top in browser
+  mdn -h, mdn --help         Show help
   mdn "fetch api"
   mdn "css grid" -o
   mdn "web workers" -n 10
@@ -15,19 +16,40 @@
 
   cani <feature>              Open caniuse.com search in browser (default)
   cani <feature> -u           Print URL only, do not open browser (pipeable)
+  cani -h, cani --help       Show help
   cani "css grid"
   cani "webp"
   cani "container queries" -u
 
 ## goto — bookmarks
 
-  goto <tag>                Open bookmark in browser (single match opens directly)
-  goto <tag> -u             Print tag + URL only, do not open browser
-  goto                      List all bookmarks (no query = always lists)
+  goto                      List all bookmarks (sorted alphabetically)
+  goto -g                   List all bookmarks with section groups
+  goto <query>              Filter bookmarks by name/tag/description (sorted)
+  goto -g <query>           Filter bookmarks, preserving section groups
+  goto <query> -o           Open the matched URL in browser (first match)
+  goto -u                   Print tag + URL only, do not open browser
+  goto -c <category>        Filter by category (e.g., lang, 01-lang)
+  goto -c <category> -g     Filter by category with groups preserved
+  goto -a, goto --categories List all available categories
+  goto -h, goto --help      Show help
+
+  Categories (10 broad groups):
+    01-lang     Programming Languages (Go, JS/TS, Node, Python, Rust, etc.)
+    02-web      Web Development (MDN, caniuse, W3C, web.dev)
+    03-data     Databases & Data (PostgreSQL, Redis, SQLite, etc.)
+    04-infra    Infrastructure & DevOps (K8s, Docker, Podman, Terraform)
+    05-cloud    Cloud Providers (AWS, GCP, Cloudflare)
+    06-ai       AI & Machine Learning (HuggingFace, PyTorch, OpenAI, etc.)
+    07-security  Security (OWASP, JWT, SSL Labs, CVE, etc.)
+    08-net      Networking & Protocols (RFC, HTTP/2, HTTP/3, TLS, etc.)
+    09-tools    General Development Tools (Git, Vim, tmux, regex, jq, etc.)
+    10-work     Work & Local Development (local servers, projects, etc.)
 
   Bookmark files:
     topics/dev/bookmarks          Committed to dotfiles (shared)
     topics/dev/bookmarks.local    Gitignored (machine/work-specific)
+    topics/dev/bookmarks.pending  Staging area for new bookmarks
 
   Format: <tag>  <url>  <description>
   Tip: use specific tags (goto go/docs) to guarantee a single match
@@ -36,4 +58,5 @@
   MDN uses an undocumented but stable JSON search API — returns real summaries.
   caniuse has no per-feature CLI API — browser is the only real option.
   Browser opener: 'open' (macOS) or 'xdg-open' (Linux), detected automatically.
-  Flags for mdn can be combined in any order: mdn "css grid" -n 10 -o
+  Flags for mdn and goto can be combined in any order: mdn "css grid" -n 10 -o
+  Bookmarks are organized into 10 Johnny Decimal-style categories (01-10) for easy filtering.
