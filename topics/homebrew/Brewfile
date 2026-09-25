@@ -116,6 +116,7 @@ brew "ansible"      # Agentless IT automation — config management, provisionin
 brew "caddy"        # HTTP/2 server with automatic HTTPS — useful for local HTTPS dev proxy
 brew "dnsmasq"      # Lightweight DNS server — local *.test / *.localhost domain resolution
 brew "mailpit"      # Local SMTP server with web UI for catching outbound email in development
+brew "syncthing"    # Continuous file synchronization system program. Synchronizes files between two or more devices.
 # brew "pgrok"      # Open-source ngrok alternative — HTTP tunnels, no account required
 # brew "s3cmd"      # S3 CLI (alternative: aws-cli via mise or direct install)
 # brew "overmind"   # Procfile process manager with tmux integration
@@ -124,7 +125,6 @@ brew "mailpit"      # Local SMTP server with web UI for catching outbound email 
 # macOS-only: GUI apps (casks) and macOS-specific CLI
 # ---------------------------------------------------------------------------
 if OS.mac?
-
   # --- Terminals ---
   cask "ghostty"              # Fast, GPU-accelerated terminal with native macOS UI; requires macOS ≥ 13
 

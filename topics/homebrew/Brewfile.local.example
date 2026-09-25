@@ -6,9 +6,12 @@
 # Machine-specific Homebrew packages.
 # This file should be gitignored.
 
+# brew "d2"
 # brew "overmind"
-# brew "contribsys/faktory/faktory"
+# brew "contribsys/faktory/faktory", trusted: true
+# cask "inkscape"
 
 if OS.mac?
   # cask "rectangle"
 end
+
