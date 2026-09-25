@@ -1,0 +1,35 @@
+# Git Cheatsheet
+
+Use `cheat -r git` for full git cheatsheet. This is local sheet is a reminder for things like conventional commit messages.
+
+Use `zref git` to show a list of all custom commands and aliases related to the `git` topic.
+
+
+## Conventional Commit Messages
+
+Format: `<type>(<scope>)[!]: <description>`
+
+Types (common):
+- `feat` - new feature
+- `fix` - bug fix
+- `docs` - documentation
+- `style` - formatting (no code change)
+- `refactor` - code refactor
+- `perf` - performance improvement
+- `test` - tests
+- `chore` - build/tooling
+- `revert` - revert commit
+- `build` - build system
+
+Suffixes/Modifiers:
+- `!` after type/scope = breaking change
+- `(scope)` = optional scope
+- `BREAKING CHANGE:` in body = breaking change note
+
+Examples:
+- `feat: add user login`
+- `feat(api): add v2 endpoint`
+- `fix!: remove deprecated auth`
+- `feat: add new API
+
+BREAKING CHANGE: old API removed`
