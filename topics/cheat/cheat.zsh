@@ -140,6 +140,7 @@ cheat() {
   # 1. Check standard topic location
   local file="${CHEAT_DIR}/${topic}/${topic}.cheat"
   if [[ -f "$file" ]]; then
+    echo "** LOCAL **"
     _cheat_display_local "$file"
     return 0
   fi
@@ -152,13 +153,13 @@ cheat() {
   fi
 
   # 3. Try tealdeer (offline capable)
-  echo "No local cheatsheet. Trying tealdeer..."
+  echo "** Trying tealdeer... **"
   if command -v tldr &>/dev/null && tldr --quiet "$topic" 2>/dev/null; then
     return 0
   fi
 
   # 4. Fall back to remote
-  echo "No local cheatsheet for '${topic}' — trying cheat.sh..." >&2
+  echo "** Trying cheat.sh... **" >&2
   _cheat_display_remote "${base_url}/${topic}"
 }
 
