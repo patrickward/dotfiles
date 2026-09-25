@@ -1,0 +1,48 @@
+# Ghostty cheatsheet
+
+## Fixing `'xterm-ghostty': unknown terminal type` over SSH
+
+Original from: https://gist.github.com/nseba/9d96bca064ff1ae06cf21ae26e1bc7a2/
+
+When connecting to a remote host with [Ghostty](https://ghostty.org), commands like
+`clear`, `tmux`, or `less` may fail with:
+
+```
+'xterm-ghostty': unknown terminal type.
+```
+
+This happens because the remote host doesn't have Ghostty's `terminfo` entry. Here are
+three fixes, easiest first.
+
+### 1. Quick fix (per command)
+
+Override `TERM` for a single command:
+
+```sh
+TERM=xterm-256color clear
+```
+
+### 2. Set `TERM` for the SSH session
+
+In your local `~/.ssh/config`:
+
+```
+Host myserver
+    SetEnv TERM=xterm-256color
+```
+
+> Requires `AcceptEnv TERM` on the server (often the default). If it's not set, this
+> silently has no effect.
+
+### 3. Proper fix — install Ghostty's terminfo on the remote
+
+Export your local `xterm-ghostty` terminfo and install it into the remote user's
+`~/.terminfo`:
+
+```sh
+infocmp -x | ssh myserver -- tic -x -
+```
+
+This is the recommended option: it preserves Ghostty's full terminal capabilities
+instead of downgrading `TERM`. Options 1 and 2 are fine when you just need it working
+right now.
