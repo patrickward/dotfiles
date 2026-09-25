@@ -1,0 +1,34 @@
+# Syncthing
+
+## sync2proton 
+
+Mirrors Syncthing's ~/sync/ directory to Proton Drive's ~/Proton Drive/Backups/sync/ directory on a schedule.
+
+### How it works
+
+- Syncthing owns ~/sync/ and handles real-time device sync
+- This agent runs rsync hourly, mirroring ~/sync/ to ~/PROTON_DRIVE/Backups/sync/
+- Proton Drive versions each changed file automatically on receipt
+- vim artifacts and Syncthing internals are excluded from the mirror
+
+### Directory layout
+
+| Path                         | Role                                       gg                              |
+|------------------------------|--------------------------------------------------------------------------|
+| ~/sync/                      | Syncthing root — source of truth, do not edit files in the Proton mirror |
+| ~/PROTON_DRIVE/Backups/sync/ | rsync mirror — read-only backup target, managed by this agent            |
+
+### Prerequisites
+
+- Syncthing installed and ~/sync/ configured with desired subfolders. Handled in Brewfile.
+- Proton Drive desktop app installed with ~/Proton Drive/ mounted
+- rsync available at /usr/bin/rsync (macOS ships this)
+
+### Environment variables (set in ~/.localrc, not committed)
+
+| Variable             | Description                                                                            |
+|----------------------|----------------------------------------------------------------------------------------|
+| `SYNCTHING_ROOT`     | Absolute path to Syncthing watched root, e.g. `$HOME/sync`                             |
+| `PROTON_BACKUP_DEST` | Absolute path to Proton Drive backup target — find it via `ls ~/Library/CloudStorage/` |
+| `SSD_VOLUME`         | Absolute path to SSD volume, e.g. `/Volumes/SSD`                                       |
+| `SSD_BACKUP_DEST`    | Absolute path to SSD backup target, e.g. `/Volumes/SSD/Backups/sync`                   |

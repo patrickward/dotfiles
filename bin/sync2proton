@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# zref: @utils: Copy the syncthing managed files to proton drive and an local SSD volume
+
+set -euo pipefail
+
+SYNCTHING_ROOT="${SYNCTHING_ROOT:?ERROR: SYNCTHING_ROOT not set — add it to ~/.localrc}"
+PROTON_BACKUP_DEST="${PROTON_BACKUP_DEST:?ERROR: PROTON_BACKUP_DEST not set — add it to ~/.localrc}"
+SSD_VOLUME="${SSD_VOLUME:?ERROR: SSD_VOLUME not set — add it to ~/.localrc}"
+SSD_BACKUP_DEST="${SSD_BACKUP_DEST:?ERROR: SSD_BACKUP_DEST not set — add it to ~/.localrc}"
+
+# Ensure there is a trailing slash -- removes any existing and adds a slash
+SYNCTHING_ROOT="${SYNCTHING_ROOT%/}/"
+
+RSYNC_OPTS=(
+  -a
+  --delete
+  --exclude=.DS_Store
+  --exclude=.Spotlight-V100
+  --exclude=.Trashes
+  --exclude=.fseventsd
+  --exclude=.TemporaryItems
+  --exclude=.stfolder
+  --exclude=.stignore
+  --exclude=.stversions
+  --exclude='*.swp'
+  --exclude='*.swo'
+  --exclude='*.un~'
+  --exclude='.netrwhist'
+  --exclude='*/.obsidian/'
+  --exclude='*.bak'
+  --exclude='*.tmp'
+  --exclude='*.orig'
+  --exclude='node_modules/'
+  --exclude='.git/'
+  --exclude='__pycache__/'
+  --exclude='*.pyc'
+  --exclude='.env'
+  --exclude='*~'
+)
+
+echo "Syncing to Proton Drive..."
+rsync "${RSYNC_OPTS[@]}" "$SYNCTHING_ROOT" "$PROTON_BACKUP_DEST"
+echo "Done."
+
+if mount | grep -q "$SSD_VOLUME"; then
+  echo "SSD detected, syncing to $SSD_BACKUP_DEST..."
+  rsync "${RSYNC_OPTS[@]}" "$SYNCTHING_ROOT" "$SSD_BACKUP_DEST"
+  echo "Done."
+else
+  echo "SSD volume $SSD_VOLUME not mounted — skipping."
+fi
