@@ -1,4 +1,4 @@
-<!-- topics/vim/README.md -->
+<!-- zref: Explanation for how I've set up Vim --> 
 
 # Vim setup
 

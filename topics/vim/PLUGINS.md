@@ -1,4 +1,4 @@
-<!-- topics/vim/PLUGINS.md -->
+<!-- zref: Explanation for how some of the installed vim plugins work -->
 
 # Plugin basics
 

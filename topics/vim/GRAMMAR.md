@@ -1,3 +1,4 @@
+<!-- zref: Reminder/cheat sheet for how vim actually works --> 
 # Vim as a Language
 
 ## The mental shift
